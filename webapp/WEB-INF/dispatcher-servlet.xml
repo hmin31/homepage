@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"
+	default-autowire="byType">
+
+	<!-- Annotation기반 핸들러를 사용해서 URL을 매핑합니다. -->
+	<mvc:annotation-driven />
+	
+	
+	<mvc:default-servlet-handler />
+	
+	<context:component-scan base-package="com.frw, com.hist">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<context:annotation-config />
+
+	<!-- <aop:aspectj-autoproxy /> -->
+
+	<!-- 모든 웹요청에 공통적으로 적용하는 인터셉터. -->
+	<!-- 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*.do" />
+			<mvc:exclude-mapping path="/login.do"/>
+			<bean class="com.frw.utl.LoginCheckInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 -->
+
+	<!-- <aop:config>
+		<aop:pointcut id="txPointCut" expression="execution(* skt.tmall.air..svc.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice> -->
+
+	<!-- View Resolver... -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1" />
+	</bean>
+
+	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2" />
+		<property name="prefix" value="/WEB-INF/web/" />
+		<property name="suffix" value=".html" />
+	</bean>
+	
+	<!-- json messageAdapter configuration -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+<!-- 
+	<beans:bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.GsonHttpMessageConverter">
+	</beans:bean>
+ -->
+	
+	<!-- file handling -->
+	<!-- Multipart Resolaver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<!-- file download handling -->
+	<bean id="downloadViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order">
+			<value>0</value>
+		</property>
+	</bean>
+
+</beans>

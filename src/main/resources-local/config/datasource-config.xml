@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@168.126.80.57:1521:HISTMA" />
+		<property name="username" value="hfuser" />
+		<property name="password" value="hfuser_pw" />
+		<!-- <property name="maxTotal" value="2" />
+		<property name="maxIdle" value="2" />
+		<property name="maxWaitMillis" value="3000" /> -->
+	</bean> 
+	
+	<!-- 마이바티스(MyBatis) 쿼리 로그 출력 및 정렬하기 -->
+	<bean id="jndiDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />  
+                <property name="sqlPrefix" value="SQL         :  "/>
+            </bean>
+        </property>
+    </bean>
+	
+</beans>
