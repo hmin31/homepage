@@ -18,7 +18,7 @@
 	
 	<mvc:default-servlet-handler />
 	
-	<context:component-scan base-package="com.frw, kr.co.hist">
+	<context:component-scan base-package="com.frw, com.hist">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
@@ -27,7 +27,6 @@
 	<!-- <aop:aspectj-autoproxy /> -->
 
 	<!-- 모든 웹요청에 공통적으로 적용하는 인터셉터. -->
-	<!-- 
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/*.do" />
@@ -35,19 +34,7 @@
 			<bean class="com.frw.utl.LoginCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	 -->
-
-	<!-- <aop:config>
-		<aop:pointcut id="txPointCut" expression="execution(* skt.tmall.air..svc.*.*(..))"/>
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
-	</aop:config>
-
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" />
-		</tx:attributes>
-	</tx:advice> -->
-
+	
 	<!-- View Resolver... -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1" />

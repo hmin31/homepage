@@ -9,14 +9,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
 import com.frw.dao.User;
-import com.frw.exception.ControllerExceptionAdvice;
 import com.frw.exception.LoginExceptionImpl;
 import com.frw.exception.ControllerExceptionAdvice.ExceptionViewAddr;
 
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 
 	protected final Logger log = LoggerFactory.getLogger(LoginCheckInterceptor.class);
-
 	
 	/**
 	 * 
@@ -27,6 +25,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		if (WebUtils.getSessionAttribute(request, User.SES_USER) !=null ) {
 			log.debug("Session Check OK!!");
 			result = true;
+			
 		} else {
 			log.info(CommonMessage.ERRORMSG_LOGIN_ERROR);
 			request.getSession().invalidate();
