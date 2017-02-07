@@ -31,12 +31,12 @@ public class TestCtrImpl {
 	@Resource private JsonDataHandlerImpl jsonDataHandlerImpl;
 	
 	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
-	public ModelAndView getMngMenuView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
+	public ModelAndView getTestView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
 		return new ModelAndView("main/Test");
 	}
 	
 	@RequestMapping(value = "/test.do", method = RequestMethod.POST)
-	public void postMngMenu(@RequestBody(required=false) HashMap<String, Object> reqBodyMap, HttpServletRequest req, HttpServletResponse res, BindingResult bindingResult) throws Exception { 
+	public void postTest(@RequestBody(required=false) HashMap<String, Object> reqBodyMap, HttpServletRequest req, HttpServletResponse res, BindingResult bindingResult) throws Exception { 
 		
 		IListData listData = jsonDataHandlerImpl.convertToIListData(reqBodyMap, req);
 		Map<?, ?> paramMap = listData.getParameterMap();
