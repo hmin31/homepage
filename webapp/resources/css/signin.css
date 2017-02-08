@@ -1,0 +1,83 @@
+@charset "UTF-8";
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 249px;
+  padding: 0px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 7px;
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 7px;
+  /* border-top-left-radius: 0; */
+  /* border-top-right-radius: 0; */
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
+	.x-ng-cloak, .ng-hide {
+	display: none !important;
+}
+
+ng\:form {
+	display: block;
+}
+
+.ng-animate-block-transitions {
+	transition: 0s all !important;
+	-webkit-transition: 0s all !important;
+}
+
+.ng-hide-add-active, .ng-hide-remove {
+	display: block !important;
+}
+
+.tmall_air_body {
+	background-color: #e6e6e6;;
+}
+
+.btn-11st-join {
+	background: linear-gradient(#ef7453, #e45138);
+	border-color: #e45138;
+}
+
+.btn-11st-login {
+	background: linear-gradient(#8285e7, #585eea);
+	border-color: #585eea;
+}
+
+.form-control:focus {
+	border-color: #8285e7;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(102, 175, 233, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(87, 93, 233, 0.6);
+}

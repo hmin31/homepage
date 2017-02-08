@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Error</title>
+<style>
+body {
+}
+
+.error-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.error-actions {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.error-actions .btn {
+	margin-right: 10px;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>Error</h1>
+                    <!-- 
+                    <h2>404 Not Found</h2>
+                    <div class="error-actions"></div>
+                     -->
+                    <div class="error-details">시스템에서 요청을 처리할 수 없습니다.<br> 5초후 이전 화면으로 이동됩니다.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+function getContextPath() {
+	return window.location.pathname.substring(0, window.location.pathname
+			.indexOf("/", 2));
+}
+
+(function() {
+		setTimeout(function() {
+			history.go(-1);
+			return false;
+		}, 5000);
+	})();
+</script>
+</html>
