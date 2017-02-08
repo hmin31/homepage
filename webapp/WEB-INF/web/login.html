@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<head>
+<style type="text/css">
+@charset "UTF-8"; 
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
+	.x-ng-cloak, .ng-hide {
+	display: none !important;
+}
+
+ng\:form {
+	display: block;
+}
+
+.ng-animate-block-transitions {
+	transition: 0s all !important;
+	-webkit-transition: 0s all !important;
+}
+
+.ng-hide-add-active, .ng-hide-remove {
+	display: block !important;
+}
+</style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>HIST Back Office</title>
+
+<!-- Bootstrap core CSS -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="resources/css/signin.css" rel="stylesheet">
+
+<script src="resources/js/jquery-1.12.4.min.js"></script>
+<script src="resources/js/angular.min.js"></script>
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script type="text/javascript" src="resources/js/bootbox.min.js"></script>
+<script type="text/javascript" src="resources/js/common.js"></script>
+
+</head></head>
+
+<!-- jQuery library -->
+<script src="resources/js/jquery-1.12.4.min.js"></script>
+
+<!-- AngularJS library -->
+<script src="resources/js/angular.min.js"></script>
+
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+<!-- project bootbox js -->
+<script type="text/javascript" src="resources/js/bootbox.min.js"></script>
+
+<!-- project common js -->
+<script type="text/javascript" src="resources/js/common.js"></script>
+
+<body ng-app="app_login" ng-controller="ctr_login" class="tmall_air_body ng-scope" style="
+    /* background-color: #e6e6e6; */
+">
+
+	<!-- loading image -->
+	<div id="loading">
+		<div class="spinner">
+			<div class="spinner-container container1">
+				<div class="circle1"></div>
+				<div class="circle2"></div>
+				<div class="circle3"></div>
+				<div class="circle4"></div>
+			</div>
+			<div class="spinner-container container2">
+				<div class="circle1"></div>
+				<div class="circle2"></div>
+				<div class="circle3"></div>
+				<div class="circle4"></div>
+			</div>
+			<div class="spinner-container container3">
+				<div class="circle1"></div>
+				<div class="circle2"></div>
+				<div class="circle3"></div>
+				<div class="circle4"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		
+		<h2 style="margin: 150px 0 15px; text-align:center !important;">
+		
+		</h2>
+
+		<form class="form-signin ng-dirty ng-valid ng-valid-required" method="post" ng-submit="loginBtn()" style="height: 200px;">
+			<label for="inputUserId" class="sr-only">User ID</label> 
+			<input type="text" ng-model=inputUsrId class="form-control ng-dirty ng-valid ng-valid-required" 
+				placeholder="User ID" required="" autofocus=""> 
+			<input type="password" ng-model="inputUsrPwd" class="form-control ng-dirty ng-valid ng-valid-required" 
+			placeholder="Password" required="">
+			
+			<button class="btn btn-lg btn-primary btn-block btn-11st-login" type="submit" style=" line-height: 0.8; border-radius: 4px; border-color: #5f64ea;">
+				LOGIN
+			</button>
+			<button class="btn btn-lg btn-primary btn-block btn-11st-join" type="button" id="reqNewAcntBtn" style="line-height: 0.8; border-radius: 4px; border-color: #e75a3f;">
+				Request New Account
+			</button>
+		</form>
+
+		<h2 style="
+			color: #969696;
+			font-size: 8px;
+			line-height: 0px;
+			margin: 0px 0 30px;
+			/* font-weight: bold; */
+			text-align:center !important;
+			font-family: &quot;Myriad Pro&quot;;
+		">
+		</h2>
+
+	</div>
+	<!-- /container -->
+	
+	<script src="resources/js/cmm/login.js"></script>
+</body>
+</html>

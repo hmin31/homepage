@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="loginDao">
+
+	<select id="getIsUserIDAvail" resultType="String">
+		SELECT 'Y' FROM DUAL
+	</select>
+<!--	
+	<select id="getIsUserIDAvail" resultType="String">
+		SELECT CASE COUNT(*)
+		         WHEN 0
+		         THEN 'N'
+		         ELSE 'Y'
+		       END AS AVAIL_YN
+		 FROM TB_COM_CD200
+		 WHERE USR_ID = #{USR_ID}
+	</select>
+-->
+	
+	<select id="getIsUserHashedPassword" resultType="String">
+		SELECT USR_PWD
+		  FROM TB_COM_CD200
+		 WHERE USR_ID = #{USR_ID}
+	</select>
+	
+	<select id="getUserInfo" resultType="java.util.HashMap">
+		SELECT 	USR_ID,
+				AGT_CD,
+				GRP_AUTH_CD,
+				USR_NM,
+				DEPT_NM,
+				POSI_NM,
+				USR_STAT_CD
+		  FROM 	TB_COM_CD200
+		 WHERE 	USR_ID = #{USR_ID}
+	</select>
+	
+	<insert id="insertUserLoginLog">
+		INSERT INTO TB_COM_CD200_LOG
+		(
+			  LOG_NO
+			  ,USR_ID
+			  ,LOG_RESULT_CD
+			  ,CNCTS_IP
+			  ,REG_DTM
+		)
+		VALUES
+		(
+			SQ_COM_USER_LOG_01.NEXTVAL
+			,#{USR_ID}
+			,#{LOG_RESULT_CD}
+			,#{CNCTS_IP}
+			,TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+</mapper>

@@ -49,7 +49,7 @@
     <session-timeout>60</session-timeout>
   </session-config>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>/WEB-INF/web/login.html</welcome-file>
   </welcome-file-list>
   <security-constraint>
     <display-name>File Download Protection</display-name>
