@@ -84,44 +84,26 @@ public class LoginController {
 			throw new LoginExceptionImpl(CommonMessage.CODE_UNRESISTED_ID, CommonMessage.ERRORMSG_UNRESISTED_ID);
 		}
 		
-		/*	추후 수정
-		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String storedPassword = loginServiceImpl.getIsUserHashedPassword(paramDataMap);
 		
 		// Password 체크
-		if(!passwordEncoder.matches(password, storedPassword)) {
+		//if(!passwordEncoder.matches(password, storedPassword)) {
+		if(!storedPassword.equalsIgnoreCase(password)) {
 			// 로그인 실패 로그 삽입
 			//loginServiceImpl.userLoginHstData(req, userId, FAILED);
 			log.warn("LoginController throw LoginException, LoginException Message is {}", CommonMessage.ERRORMSG_INCORRECT_PASSWORD );
 			throw new LoginExceptionImpl(CommonMessage.CODE_INCORRECT_PASSWORD, CommonMessage.ERRORMSG_INCORRECT_PASSWORD);
 		}
-		*/
 		
-		
-		/*	추후 수정
 		List<?> resultList = loginServiceImpl.getUserInfo(paramDataMap);
 		Map<String, String> resultMap = (Map<String, String>)resultList.get(0);
 		
-		String agtCd = 		String.valueOf(resultMap.get("AGT_CD"));
-		String grpAuthCd = 	String.valueOf(resultMap.get("GRP_AUTH_CD"));
-		String usrNm = 		String.valueOf(resultMap.get("USR_NM"));
-		String deptNm = 	String.valueOf(resultMap.get("DEPT_NM"));
-		String posiNm = 	String.valueOf(resultMap.get("POSI_NM"));
-		*/
-		UserInfo user = new UserInfo();
-		/*
-		user.setUserId(userId);
-		user.setAgtCd(agtCd);
-		user.setGrpAuthCd(grpAuthCd);
-		user.setUsrNm(usrNm);
-		user.setDeptNm(deptNm);
-		user.setPosiNm(posiNm);
-		*/
+		String empNm = 	String.valueOf(resultMap.get("EMP_NM"));
 		
-		//임시
+		UserInfo user = new UserInfo();
 		user.setUserId(userId);
-		user.setUsrNm("테스트");
+		user.setUsrNm(empNm);
 		
 		SecurityHolder.setUserId(req, userId);
 		SecurityHolder.setUserInfo(req, user);

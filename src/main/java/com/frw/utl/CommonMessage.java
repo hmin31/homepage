@@ -19,7 +19,7 @@ public class CommonMessage {
 	public static final String ERRORMSG_LOGIN_ERROR = "로그인 되지 않았습니다."; 
 	
 	public static final int CODE_INCORRECT_PASSWORD = 640;
-	public static final String ERRORMSG_INCORRECT_PASSWORD = "패스워드가 틀립니다."; 
+	public static final String ERRORMSG_INCORRECT_PASSWORD = "잘못된 패스워드 입니다."; 
 	
 	public static final int CODE_UNRESISTED_ID = 640;
 	public static final String ERRORMSG_UNRESISTED_ID  = "등록되지 않은 ID 입니다."; 
