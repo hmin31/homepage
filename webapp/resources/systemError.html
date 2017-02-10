@@ -28,10 +28,6 @@ body {
             <div class="col-md-12">
                 <div class="error-template">
                     <h1>Error</h1>
-                    <!-- 
-                    <h2>404 Not Found</h2>
-                    <div class="error-actions"></div>
-                     -->
                     <div class="error-details">시스템에서 요청을 처리할 수 없습니다.<br> 5초후 이전 화면으로 이동됩니다.</div>
                 </div>
             </div>
@@ -40,8 +36,7 @@ body {
 </body>
 <script>
 function getContextPath() {
-	return window.location.pathname.substring(0, window.location.pathname
-			.indexOf("/", 2));
+	return window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 }
 
 (function() {
