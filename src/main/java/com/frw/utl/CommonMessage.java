@@ -12,7 +12,7 @@ public class CommonMessage {
 
 	// 알수 없는 오류
 	public static final int CODE_ERROR_UNDEFINED = -3;
-	public static final String ERRORMSG_UNDEFINED = "정상처리 되지 않았습니다. <br> 중복된 데이터 이거나 입력데이터에 문제가 있을 수 있습니다. <br> 문제가 지속되는 경우 관리자에게 연락하시기 바랍니다. "; // "UNDEFINED";
+	public static final String ERRORMSG_UNDEFINED = "정상처리 되지 않았습니다. <br> 중복된 데이터 이거나 입력데이터에 문제가 있을 수 있습니다. <br> 문제가 지속되는 경우 관리자에게 연락하시기 바랍니다. ";
 	
 	
 	public static final int CODE_LOGIN_ERROR = 640;
@@ -27,6 +27,4 @@ public class CommonMessage {
 	public static final String RESULT = "RESULT";
 	public static final String ERRORCODE = "ERRORCODE";
 	public static final String ERRORMSG = "ERRORMSG";
-	
-
 }
