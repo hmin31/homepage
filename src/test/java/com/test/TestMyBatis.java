@@ -1,29 +1,39 @@
 package com.test;
 
-import java.util.List;
-
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.hist.main.dao.TestDaoImpl;
+import com.frw.dto.IListData;
+import com.hist.main.svc.TestSvcImpl;
 
 import junit.framework.TestCase;
 
-@RunWith(SpringJUnit4ClassRunner.class) 
-@ContextConfiguration(locations={"file:config/*-config.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/config/*config.xml" })
 public class TestMyBatis extends TestCase {
-	
-	public void testCase() throws Exception{
-		//assertEquals(1, 1);
-		
+
+	@Test
+	@SuppressWarnings("resource")
+	public void testCase() throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("config/*-config.xml");
-		
-		TestDaoImpl testDaoImpl = (TestDaoImpl) context.getBean("testDaoImpl");
-		List returnList = testDaoImpl.getSelectTest(null);
-		
+
+		TestSvcImpl testSvcImpl = (TestSvcImpl) context.getBean("testSvcImpl");
+		IListData returnList = testSvcImpl.getSelectTest(null);
 		assertNotNull(returnList);
 	}
+
+	@Test
+	@SuppressWarnings("resource")
+	public void testCaseOfService() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("config/*-config.xml");
+		TestSvcImpl testSvcImpl = (TestSvcImpl) context.getBean("testSvcImpl");
+		
+		String inputStr = "AAA";
+		assertEquals(inputStr, testSvcImpl.getTextInConsole(inputStr));
+	}
+	
 }
