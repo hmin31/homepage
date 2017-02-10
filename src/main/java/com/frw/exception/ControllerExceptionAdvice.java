@@ -46,7 +46,7 @@ public class  ControllerExceptionAdvice {
 		return jObj;
 	}
 	
-	//SKT AIR BO 에서 request header 에 AJAX 인 경우 xmlhttprequest 를 넣어줌 으로 판별함
+	//BO 에서 request header 에 AJAX 인 경우 xmlhttprequest 를 넣어줌 으로 판별함
 	private boolean isAsync(HttpServletRequest req) {
 		boolean result = false;
 		String ajaxCheckStr = req.getHeader("X-Requested-With") != null ? req.getHeader("X-Requested-With").toLowerCase() : "";
@@ -61,17 +61,4 @@ public class  ControllerExceptionAdvice {
 		public static final String defaultAppErrorView = "/applicationError";
 		public static final String loginErrorView = "/loginError";	
 	}
-	
-//	public void getResultMap(Map map, int errorCode, String errorMsg){
-//		if(map == null) {
-//			map = new LinkedHashMap<String,Object>();
-//		} 
-//		map.put(CommonMessage.RESULT, "{" + CommonMessage.ERRORCODE + ":" + errorCode + ", " + CommonMessage.ERRORMSG + ":'" + errorMsg + "'}");
-//	}
-//	
-//	public JSONObject convertMapToJSONObject(Map<String,Object> map){
-//		JSONObject jObj = new JSONObject();
-//		jObj.putAll(map);
-//		return jObj;
-//	}
 }

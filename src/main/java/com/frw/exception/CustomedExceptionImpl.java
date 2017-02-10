@@ -27,39 +27,4 @@ public class CustomedExceptionImpl extends CommonRuntimeExceptionImpl {
 	public CustomedExceptionImpl() {
 		super();
 	}
-//
-//	public int getErrorCode() {
-//		return errorCode;
-//	}
-//
-//	public void setErrorCode(int errorCode) {
-//		this.errorCode = errorCode;
-//	}
-//
-//	public String getMessage() {
-//		return message;
-//	}
-//
-//	public void setMessage(String message) {
-//		this.message = message;
-//	}
-//
-//	public String getArg() {
-//		if (arg == null)
-//			return null;
-//		String msg = "";
-//		for (int i = 0; i < arg.length; i++)
-//			if (i == 0)
-//				msg = arg[i];
-//			else
-//				msg = msg + DELIMITER + arg[i];
-//
-//		return msg;
-//	}
-//
-//	public void setError(int code, String message) {
-//		this.errorCode = code;
-//		this.message = message;
-//	}
-
 }
