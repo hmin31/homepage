@@ -9,6 +9,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	var use_yn_source;
 	var readOnlyYn;
 	
+	var g_hsc;
+	
 
 	$scope.pageInitiation = function() {
 		$scope.page_cd = {};
@@ -97,7 +99,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	function setLowerMenuGrid(use_yn_source){
 		
 		var hsc_ins = document.getElementById('hst_upper_menu');
-		
+		g_hsc = hsc_ins;
 
 		//HandDataHelper용 Meta Data 설정 
 		var metaData = {};
@@ -260,9 +262,19 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		}
 		
 		//length, Menu 코드, 순서 자동 업데이트 필요
+		//var menuCd =
+		//test
+		var curRow = hshelper_lowerMenu.getCurRow();
+		var preRow = hshelper_lowerMenu.getPreRow();
+		
+		//hshelper_lowerMenu.getHsc().handsontable('alter', 'remove_row', Number(0));
+		
+		
+		
 		
 		var addRow = hshelper_lowerMenu.addData({HI_MENU_CD: hiMenuCd}, true);
 		hshelper_lowerMenu.selectCell(addRow, 2);
+		hshelper_lowerMenu.getLastRow();
 	}
 	
 	//하위 메뉴 목록 그리드 행 추가 

@@ -78,17 +78,31 @@
 					<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 						data-target="#menu-content"></i>
 					<div class="menu-list">
+					
 						<ul id="menu-content" class="menu-content collapse out">
 							<li data-toggle="collapse" data-target="#{{main_menu.MENU_CD}}"
-								class="collapsed active" ng-repeat="main_menu in main_menu_do">
+								class="collapsed active" ng-repeat="main_menu in seq10_menu">
 								<a href="#"> <i class="fa fa-plane" aria-hidden="true"></i>
-									{{main_menu.MENU_KOR_NM}} <span class="arrow"></span>
-							</a>
-								<ul class="sub-menu collapse" id="{{main_menu.MENU_CD}}">
-									<li
-										ng-repeat="item in sub_menu_do | filter: {UPPER_MENU_CD: main_menu.MENU_CD} "
-										ng-click="ChangeLocation('#/' + item.MENU_URL)"><a
-										href="#/{{item.MENU_URL}}">{{item.MENU_KOR_NM}}</a></li>
+									{{main_menu.MENU_KRN_NM}} <span class="arrow"></span>
+								</a>
+								<ul class="menu-content collapse out" id="{{main_menu.MENU_CD}}">
+									<li data-toggle="collapse" data-target="#{{item.MENU_CD}}" class="collapsed"
+										ng-repeat="item in seq20_menu | filter: {HI_MENU_CD: main_menu.MENU_CD} "
+										ng-click="ChangeLocation('#/' + item.MENU_URL)">
+										<a	href="##/{{item.MENU_URL}}"><i class="fa fa-plane" aria-hidden="true"></i>
+										{{item.MENU_KRN_NM}}<span class="arrow"></span>
+										</a>
+										
+										<ul class="sub-menu collapse" id="{{item.MENU_CD}}">
+											<li
+												ng-repeat="item2 in seq30_menu | filter: {HI_MENU_CD: item.MENU_CD} "
+												ng-click="ChangeLocation('#/' + item2.MENU_URL)"><a
+												href="#/{{item2.MENU_URL}}">{{item2.MENU_KRN_NM}}</a>
+												</li>
+											</ul>
+										
+										
+										</li>
 								</ul>
 							</li>
 						</ul>

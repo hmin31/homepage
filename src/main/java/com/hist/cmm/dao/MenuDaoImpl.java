@@ -14,7 +14,7 @@ import com.frw.dao.MybatisBizDaoImpl;
  * <B>@Author : </B>ckim<br/>
  * <B>Description</B>
  * <ul> 
- * <li>메뉴 DAO
+ * <li>硫�� DAO
  * </ul>
  */
 @Repository("menuDaoImpl")
@@ -24,65 +24,20 @@ public class MenuDaoImpl extends MybatisBizDaoImpl {
 		super("menuDao");
 	}
 	
-	/**
-	 * <B>@Method Name : getMenu</B>
-	 * <ul>
-	 * <li>Date : 2016. 12. 16.
-	 * <li>Developer : ckim
-	 * <li>Description: 사용중인 모든 메뉴 리스트를 가져온다.
-	 * </ul>
-	 * @param parameterMap
-	 * @return
-	 * @throws Exception
-	 */
-	public List<?> getMenu(Map<?, ?> parameterMap) throws Exception {
-		return queryForList(nameSpace + ".getMenu", parameterMap);
+
+	public List getMenuSeq10(Map<?, ?> parameterMap) throws Exception {
+		// TODO Auto-generated method stub
+		return queryForList(nameSpace + ".getMenuSeq10", parameterMap);
 	}
 	
-	/**
-	 * <B>@Method Name : getMenuLv2</B>
-	 * <ul>
-	 * <li>Date : 2016. 12. 16.
-	 * <li>Developer : ckim
-	 * <li>Description: 사용중인 하위 메뉴 리스트를 가져온다.
-	 * </ul>
-	 * @param parameterMap
-	 * @return
-	 * @throws Exception
-	 */
-	public List<?> getMenuLv2(Map<?, ?> parameterMap) throws Exception {
-		return queryForList(nameSpace + ".getMenuLv2", parameterMap);
+	public List getMenuSeq20(Map<?, ?> parameterMap) throws Exception {
+		// TODO Auto-generated method stub
+		return queryForList(nameSpace + ".getMenuSeq20", parameterMap);
 	}
 	
-	/**
-	 * <B>@Method Name : getMenuLv1</B>
-	 * <ul>
-	 * <li>Date : 2016. 12. 16.
-	 * <li>Developer : ckim
-	 * <li>Description: 사용중인 상위 메뉴 리스트를 가져온다.
-	 * </ul>
-	 * @param parameterMap
-	 * @return
-	 * @throws Exception
-	 */
-	public List<?> getMenuLv1(Map<?, ?> parameterMap) throws Exception {
-		return queryForList(nameSpace + ".getMenuLv1", parameterMap);
-	}
-	
-	/**
-	 * <B>History</B>
-	 * <ul>
-	 * <li>Date : 2016. 11. 28.
-	 * <li>Developer : hist
-	 * <li>메뉴에 할당된 권한을 가져온다
-	 * </ul>
-	 *  
-	 * @param parameterMap
-	 * @return
-	 * @throws Exception
-	 */
-	public String getMenuPermission(Map<?, ?> parameterMap)  {
-		return queryForStr(nameSpace + ".getMenuPermission", parameterMap);
+	public List getMenuSeq30(Map<?, ?> parameterMap) throws Exception {
+		// TODO Auto-generated method stub
+		return queryForList(nameSpace + ".getMenuSeq30", parameterMap);
 	}
 	
 }

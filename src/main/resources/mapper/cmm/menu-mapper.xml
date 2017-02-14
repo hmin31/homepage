@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="menuDao">
+	
+	<select id="getMenuSeq10" resultType="java.util.HashMap">
+		SELECT MENU_CD,
+		       MENU_KRN_NM,
+		       HI_MENU_CD,
+		       MENU_URL 
+		  FROM HIST_MENU
+		 WHERE MENU_SEQ = #{MENU_SEQ}
+		   AND USE_YN = 'Y'
+	  ORDER BY MENU_CD
+	  
+	  
+	</select>
+	
+	<select id="getMenuSeq20" resultType="java.util.HashMap">
+		SELECT MENU_CD,
+		       MENU_KRN_NM,
+		       HI_MENU_CD,
+		       MENU_URL 
+		  FROM HIST_MENU
+		 WHERE MENU_SEQ = #{MENU_SEQ}
+		   AND USE_YN = 'Y'
+	  ORDER BY MENU_CD
+	  
+	  
+	</select>
+	
+	<select id="getMenuSeq30" resultType="java.util.HashMap">
+		SELECT MENU_CD,
+		       MENU_KRN_NM,
+		       HI_MENU_CD,
+		       MENU_URL 
+		  FROM HIST_MENU
+		 WHERE MENU_SEQ = #{MENU_SEQ}
+		   AND USE_YN = 'Y'
+	  ORDER BY MENU_CD
+	  
+	  
+	</select>
+
+	<select id="getMenuLv1" resultType="java.util.HashMap">
+		SELECT DISTINCT A.UPPER_MENU_CD UPPER_MENU_CD,
+						B.MENU_CD MENU_CD,
+						B.MENU_KOR_NM MENU_KOR_NM,
+						B.MENU_URL MENU_URL
+      	FROM (
+      			SELECT Z.MENU_CD MENU_CD,
+				       Z.MENU_KOR_NM MENU_KOR_NM, 
+				       Z.UPPER_MENU_CD UPPER_MENU_CD,
+				       Z.MENU_URL MENU_URL
+				FROM TB_COM_CD200 X, TB_COM_CD310 Y, TB_COM_CD300 Z
+				WHERE X.GRP_AUTH_CD = Y.GRP_AUTH_CD
+				AND Z.MENU_CD = Y.MENU_CD
+				AND Z.USE_YN = 'Y'
+				AND Z.MENU_LEVEL = 2
+				AND X.USR_ID = #{USR_ID}
+			) A, 
+        	(
+        		SELECT MENU_CD,
+		       	MENU_KOR_NM,
+		       	UPPER_MENU_CD,
+		       	MENU_URL 
+		  		FROM SKPAIRUSER.TB_COM_CD300
+			 	WHERE MENU_LEVEL = '1'
+		   		AND USE_YN = 'Y'
+		   	) B
+      WHERE A.UPPER_MENU_CD = B.MENU_CD
+      ORDER BY A.UPPER_MENU_CD
+	</select>
+	
+	<select id="getMenuLv2" resultType="java.util.HashMap">
+		SELECT  
+		        Z.MENU_CD MENU_CD,
+		        Z.MENU_KOR_NM MENU_KOR_NM, 
+		        Z.UPPER_MENU_CD UPPER_MENU_CD,
+		        Z.MENU_URL MENU_URL
+		FROM TB_COM_CD200 X, TB_COM_CD310 Y, TB_COM_CD300 Z
+		WHERE X.GRP_AUTH_CD = Y.GRP_AUTH_CD
+		AND Z.MENU_CD = Y.MENU_CD
+		AND Z.USE_YN = 'Y'
+		AND Z.MENU_LEVEL = 2
+		AND X.USR_ID = #{USR_ID}
+	</select>
+	
+	<select id="getMenuPermission" resultType="string">
+		SELECT 	CASE WHEN COUNT(*) = 0 THEN 'N' ELSE 'Y' END AS RESULT
+		  FROM 	TB_COM_CD310 CD310
+		  		,TB_COM_CD200 CD200
+		  		,TB_COM_CD300 CD300
+		 WHERE 	CD310.GRP_AUTH_CD = CD200.GRP_AUTH_CD
+		   AND 	CD310.MENU_CD = CD300.MENU_CD
+		   AND 	CD200.USR_ID = #{USR_ID}
+		   AND  CD300.MENU_URL = #{MENU_URL}
+	</select>
+	
+</mapper>

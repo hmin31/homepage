@@ -20,7 +20,7 @@ import com.hist.cmm.dao.MenuDaoImpl;
  * <B>@Author : </B>ckim<br/>
  * <B>Description</B>
  * <ul> 
- * <li>메뉴 서비스
+ * <li>硫�� �����
  * </ul>
  */
 @Service("menuServiceImpl")
@@ -35,7 +35,7 @@ public class MenuServiceImpl extends BizServiceImpl {
 	 * <ul>
 	 * <li>Date : 2016. 12. 16.
 	 * <li>Developer : ckim
-	 * <li>Description: 메뉴 리스트를 가져옴
+	 * <li>Description: 硫�� 由ъ��몃� 媛����
 	 * </ul>
 	 * @param usrId
 	 * @return
@@ -49,7 +49,7 @@ public class MenuServiceImpl extends BizServiceImpl {
 		IListData resultListData = new ListDataImpl();
 		
 		paramMap.put("USR_ID", usrId);
-//		paramMap.put("MENU_LEVEL", "2");
+		paramMap.put("MENU_SEQ", "10");
 
 /*		List apiNmList = menuDaoImpl.getMenuLv2(paramMap);
 		resultListData.setDataList("sub_menu_do", apiNmList);
@@ -57,8 +57,20 @@ public class MenuServiceImpl extends BizServiceImpl {
 		List agtNmList = menuDaoImpl.getMenuLv1(paramMap);
 		resultListData.setDataList("main_menu_do", agtNmList);*/
 		log.debug("getMenuList...");
-		List allMenuList = menuDaoImpl.getMenu(paramMap);
-		resultListData.setDataList("all_main_menu", allMenuList);
+		
+		//Level 10
+		List seq10List = menuDaoImpl.getMenuSeq10(paramMap);
+		resultListData.setDataList("seq10_menu", seq10List);
+		
+		paramMap.replace("MENU_SEQ", "20");
+		//Level 20
+		List seq20List = menuDaoImpl.getMenuSeq20(paramMap);
+		resultListData.setDataList("seq20_menu", seq20List);
+
+		//Level 30
+		paramMap.replace("MENU_SEQ", "30");
+		List seq30List = menuDaoImpl.getMenuSeq30(paramMap);
+		resultListData.setDataList("seq30_menu", seq30List);
 		
 
 
