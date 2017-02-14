@@ -97,37 +97,11 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 	$scope.main_menu_do = [{"MENU_KOR_NM":"메인","UPPER_MENU_CD":"BOP02","MENU_CD":"BOP02"},
 							{"MENU_KOR_NM":"시스템관리","UPPER_MENU_CD":"BOP03","MENU_CD":"BOP03"},
 							{"MENU_KOR_NM":"콘텐츠관리","UPPER_MENU_CD":"BOP04","MENU_CD":"BOP04"}];
+	
 	$scope.sub_menu_do =  [{"MENU_KOR_NM":"메뉴관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenu.do","MENU_CD":"P0201"},
 							{"MENU_KOR_NM":"메뉴권한관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenuAuth.do","MENU_CD":"P0202"},
 							{"MENU_KOR_NM":"기초코드정보","UPPER_MENU_CD":"BOP03","MENU_URL":"basisCd.do","MENU_CD":"P0301"},
 							{"MENU_KOR_NM":"컨텐츠 관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngContents","MENU_CD":"P0401"}];
-	
-	$scope.getUsrInfo = function() {
-//		alert($scope.user_id);
-		var dataObj = {};
-		var paramDataObj = {};
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "getUsrInfo");
-		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-		
-		var afterSuccessFunc = function(returnData) {
-			exceptionHandler(returnData.RESULT, "사용자정보", "N");
-
-			$("#main-modal-content,#main-modal-background").toggleClass("active");
-			$("#main-modal-content,#main-modal-background").draggable();
-			$("input[name=inp_main_USR_PWD]").attr("readonly",true);//추후 암호리셋 기능 필요
-			
-			$scope.layer_input.EMP_NUM	= returnData.usrInfo[0].EMP_NUM;
-			$scope.layer_input.USR_ID 	= returnData.usrInfo[0].USR_ID;
-			$scope.layer_input.EMP_NM	= returnData.usrInfo[0].EMP_NM;
-			$scope.layer_input.USR_PWD 	= returnData.usrInfo[0].USR_PWD;
-
-		};
-		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
-	};
-	
-	$("#main-modal-background, #main-modal-close, #main-modal-close2").click(function () {
-		$("#main-modal-content,#main-modal-background").toggleClass("active");
-	});
 	
 	$document.ready(function() {
 		console.log("main document ready!");
