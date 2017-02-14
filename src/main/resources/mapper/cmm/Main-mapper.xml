@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mainDao">
+	
+	<select id="getUsrInfo" resultType="java.util.HashMap">
+		SELECT EMP_NUM,
+		       EMP_NM,
+		       EMP_ENG_NM,
+		       USR_ID,
+		       PSWD,
+		       FON_NUM,
+		       MBLFON_NUM,
+		       CTC_WRK_CTN
+		FROM   HIST_EMP
+		WHERE  EMP_NUM = 'admin'
+	</select>
+	
+	<update id="updateUsrInfo">
+		UPDATE 	HIST_EMP
+		SET	    <if test="EMP_NM != null and EMP_NM !=''">
+			    EMP_NM = #{EMP_NM}, 
+			    </if>
+				<if test="EMP_ENG_NM != null and EMP_ENG_NM !=''">
+				EMP_ENG_NM = #{EMP_ENG_NM},
+				</if>
+			    <if test="FON_NUM != null and FON_NUM !=''">
+			    FON_NUM = #{FON_NUM},
+			    </if>
+			    <if test="MBLFON_NUM != null and MBLFON_NUM !=''">
+			    MBLFON_NUM = #{MBLFON_NUM}, 
+			    </if>
+			    <if test="CTC_WRK_CTN != null and CTC_WRK_CTN !=''">
+			    CTC_WRK_CTN = #{CTC_WRK_CTN},
+			    </if>
+			    UPD_USR_ID = #{REG_USR_ID}, 
+			    UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		WHERE	EMP_NUM = #{EMP_NUM}
+	</update>
+</mapper>
