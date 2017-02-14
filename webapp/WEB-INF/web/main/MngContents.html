@@ -4,8 +4,7 @@
 			<div class="air-title">
 				<h4>백오피스 컨텐츠 관리</h4>
 				<div style="text-align: right !important;">
-					<button type="button" class="btn btn-default search-btn-11st"
-						ng-click="selectCdList()">
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="getContentsDtls()">
 						<i class="fa fa-search"></i> &nbsp;&nbsp;SEARCH
 					</button>
 				</div>
@@ -15,14 +14,14 @@
 				<div class="row search-row-11st">
 					<div class="col-md-3">
 						<span>메뉴명</span> 
-						<select ng-model="selectedMenuLevel1" class="btn form-air">
+						<select ng-model="selectedContentsMenuCd" class="btn form-air">
 							<option value="">선택</option>
-							<option ng-repeat="item in MENUL1" value="{{item.code}}">{{item.name}}</option>
+							<option ng-repeat="item in contentsMenu_do" value="{{item.CODE}}">{{item.NAME}}</option>
 						</select>
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 
 		<div class="container air-body">
@@ -33,29 +32,21 @@
 							<div class="col-md-6 left-grid-11st">
 								<h5>백오피스 컨텐츠</h5>
 							</div>
-							<div class="col-md-6" style="text-align: right !important;">
-								<button type="button"
-									class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st"
-									style="display: none;" ng-click="addCd()">
-									<i class="fa fa-plus"></i>
-								</button>
-								&nbsp;
+						</div>
+						<div class="row">
+							<div class="col-md-1 left-grid-11st">
+								<input class="btn btn-default" type="button" value="preview" style="width: 100%;"
+									ng-click="previewClick()" />
+							</div>
+							<div class="col-md-1 left-grid-11st">
+								<input class="btn btn-default" type="button" value="save" style="width: 100%;"
+									ng-click="mergeContentsDtls()" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 left-grid-11st">
-								<label>Title: &nbsp 
-									<input class="form-control" id="id_sel_title" name="sel_title" type="text"
-										ng-model="sel_title" style="width: 100%" />
-								</label>
-								<input class="btn btn-default" type="button" value="preview" ng-click="preview()" />
+								<div id="homepage_contents"></div>
 							</div>
-							<div class="col-md-12 left-grid-11st">
-								<label>Contents: &nbsp
-									<div id="summernote"></div>
-								</label>
-							</div>
-
 						</div>
 					</div>
 				</div>
@@ -66,7 +57,7 @@
 
 	<div id="modal-background"></div>
 	<div id="modal-content"
-		style="height: 360px; width: 575px !important; padding: 0px"
+		style="height: 400px; width: 800px !important; padding: 0px"
 		class="popup-bg-11st">
 		<div id="headerBar"
 			style="height: 10px; background: #586ce6; border-radius: 10px 10px 0px 0px; border: 2px solid #586ce6;"></div>
@@ -77,8 +68,7 @@
 			</button>
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">백오피스
-						메뉴상세</b>
+					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">Preview</b>
 				</h3>
 			</div>
 			<p>
@@ -90,13 +80,9 @@
 				<div class="col-md-12" style="padding-right: 10px;"></div>
 
 				<div style="height: 25px; clear: both;"></div>
-				<div style="text-align: center">
-					<button type="button"
-						class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st"
-						style="display: none;" ng-click="saveCd()">저장</button>
-					<button type="button"
-						class="btn-f21-basic btn-1 btn-xs popup-btn-11st" id="modal-close">취소</button>
-				</div>
+
+				<p ng-bind-html="renderHtml(thisCanBeusedInsideNgBindHtml)"></p>
+
 			</div>
 		</div>
 

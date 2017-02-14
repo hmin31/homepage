@@ -49,8 +49,17 @@ public class MngContentsCtrImpl {
 		IListData resultListData = new ListDataImpl();
 
 		String svc_id = (String) paramMap.get("SVC_ID");
-		if ("getSelectTest".equals(svc_id)) {
-			resultListData = mngContentsSvcImpl.getSelectTest(paramMap);
+		if ("getContentsMenu".equals(svc_id)) {
+			resultListData = mngContentsSvcImpl.getContentsMenu(paramMap);
+		} else if ("getContentsDtls".equals(svc_id)) {
+			resultListData = mngContentsSvcImpl.getContentsDtls(paramMap);
+		} else if ("insertContentsDtls".equals(svc_id)) {
+			mngContentsSvcImpl.insertContentsDtls(paramMap);
+		} else if ("updateContentsDtls".equals(svc_id)) {
+			mngContentsSvcImpl.updateContentsDtls(paramMap);
+		} else if ("mergeContentsDtls".equals(svc_id)) {
+			mngContentsSvcImpl.mergeContentsDtls(paramMap);
+			
 		}
 
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);
@@ -58,4 +67,6 @@ public class MngContentsCtrImpl {
 		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));
 	}
 
+	
+	
 }

@@ -18,18 +18,37 @@ public class MngContentsSvcImpl extends BizServiceImpl{
 	private MngContentsDaoImpl mngContentsDaoImpl;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IListData getSelectTest(Map paramMap) throws Exception {
+	public IListData getContentsMenu(Map paramMap) throws Exception {
 		
 		IListData resultListData = new ListDataImpl();
-		List<?> returnList = mngContentsDaoImpl.getSelectTest(paramMap);
-		resultListData.setDataList("returnList", (List<Map<String, Object>>) returnList);
+		List<?> returnList = mngContentsDaoImpl.getContentsMenu(paramMap);
+		resultListData.setDataList("contentsMenu_do", (List<Map<String, Object>>) returnList);
 		
 		return resultListData;
 	}
-
-	public String getTextInConsole(String inputStr) {
-		log.debug(">>>>> >>>>> >>>>> input text is " + inputStr);
-		return inputStr;
+	
+	public IListData getContentsDtls(Map<?, ?> paramMap) throws Exception {
+		
+		IListData resultListData = new ListDataImpl();
+		String contetnsDtls = mngContentsDaoImpl.getContentsDtls(paramMap);
+		resultListData.addVariable("contetnsDtls", contetnsDtls);
+		
+		return resultListData;
 	}
+	
+	public void insertContentsDtls(Map<?, ?> paramMap) throws Exception {
+		mngContentsDaoImpl.insertContentsDtls(paramMap);
+		
+	}
+	
+	public void updateContentsDtls(Map<?, ?> paramMap) throws Exception {
+		mngContentsDaoImpl.updateContentsDtls(paramMap);
+	}
+	
+	public void mergeContentsDtls(Map<?, ?> paramMap) throws Exception {
+		mngContentsDaoImpl.mergeContentsDtls(paramMap);
+		
+	}
+	
 
 }

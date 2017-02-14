@@ -2,9 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mngContents">
 
-	<select id="getSelectTest" resultType="java.util.HashMap">
-		SELECT MSG_CD, MSG_NM
-		FROM CM_MSG
+	<select id="getContentsMenu" resultType="java.util.HashMap">
+		SELECT	MENU_CD 		AS code
+				,MENU_KRN_NM 	AS name
+		FROM 	HIST_MENU 
+		WHERE  	MENU_CATE IS NULL
 	</select>
+
+	<select id="getContentsDtls" resultType="string">
+		SELECT	DBMS_LOB.substr(CTN_DTLS, dbms_lob.getlength(CTN_DTLS), 1) AS CTN_DTLS
+		FROM 	HIST_CTN 
+		WHERE  	MENU_CD = #{MENU_CD}
+	</select>
+	
+	<insert id="insertContentsDtls">
+		INSERT INTO HIST_CTN (
+        	MENU_CD
+        	,CTN_DTLS
+			,RGST_EMP_NUM
+			,RGST_DTIM
+        )
+        VALUES (
+	        #{MENU_CD, jdbcType=VARCHAR}
+			,#{CTN_DTLS, jdbcType=CLOB}
+			,'admin'
+			,sysdate
+        )
+	</insert>
+	
+	<update id="updateContentsDtls">
+		UPDATE HIST_CTN
+	        SET
+			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB}
+			,CORCT_EMP_NUM = #{RGST_EMP_NUM, jdbcType=VARCHAR}
+			,CORCT_DTIM = sysdate
+        WHERE MENU_CD = #{MENU_CD}
+	</update>	
+	
+	<update id="mergeContentsDtls">
+		MERGE INTO HIST_CTN A
+        USING DUAL ON (A.MENU_CD = #{MENU_CD, jdbcType=VARCHAR})
+        WHEN MATCHED THEN
+        	UPDATE 
+	        SET
+			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB}
+			,CORCT_EMP_NUM = 'admin'
+			,CORCT_DTIM = sysdate
+		WHEN NOT MATCHED THEN
+		INSERT (
+        	MENU_CD
+        	,CTN_DTLS
+			,RGST_EMP_NUM
+			,RGST_DTIM
+        )
+        VALUES (
+	        #{MENU_CD, jdbcType=VARCHAR}
+			,#{CTN_DTLS, jdbcType=CLOB}
+			,'admin'
+			,sysdate
+        )
+	</update>
 
 </mapper>

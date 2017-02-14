@@ -14,7 +14,24 @@ public class MngContentsDaoImpl extends MybatisBizDaoImpl {
 		super("mngContents");
 	}
 	
-	public List<?> getSelectTest(Map<?, ?> parameterMap) throws Exception {
-		return queryForList(nameSpace + ".getSelectTest", parameterMap);
+	public List<?> getContentsMenu(Map<?, ?> parameterMap) throws Exception {
+		return queryForList(nameSpace + ".getContentsMenu", parameterMap);
 	}
+	
+	public String getContentsDtls(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".getContentsDtls", parameterMap);
+	}
+	
+	public void insertContentsDtls(Map<?, ?> parameterMap) throws Exception {
+		insert(nameSpace + ".insertContentsDtls", parameterMap);
+	}
+	
+	public void updateContentsDtls(Map<?, ?> parameterMap) throws Exception {
+		update(nameSpace + ".updateContentsDtls", parameterMap);
+	}
+	
+	public void mergeContentsDtls(Map<?, ?> parameterMap) throws Exception {
+		update(nameSpace + ".mergeContentsDtls", parameterMap);
+	}
+	
 }
