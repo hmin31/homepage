@@ -4,65 +4,96 @@
 	<div class="container">
 		<div class="air-header">
 			<div class="air-title">
-				<h4>백오피스 메뉴 관리</h4>
+				<h4>Menu 등록</h4>
 				<div style="text-align: right !important;">
 					<button type="button" class="btn btn-default search-btn-11st" ng-click="selectCdList()">
 						<i class="fa fa-search"></i>
-						&nbsp;&nbsp;SEARCH
+						&nbsp;&nbsp;조회
+					</button>
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="saveLowerMenu()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;등록
 					</button>
 				</div>
 			</div>
 
-			<div class="air-search search-row-11st">
+			<!-- <div class="air-search search-row-11st">
 				<div class="row search-row-11st">
 				
 					<div class="col-md-2">
-						<span>상위 메뉴명</span> 
+						<span>메뉴 CD</span> 
 						<select ng-model="selectedMenuLevel1" class="btn form-air">
-							<option value="">선택</option>
+							<option value="">선택없음</option>
 							<option ng-repeat="item in MENUL1" value="{{item.code}}">{{item.name}}</option>
 						</select>
 					</div>
 					
 					<div class="col-md-1">
-						<span>사용여부</span> 
+						<span>메뉴 CD2</span> 
 						<select ng-model="selectedCmbUseYn" class="btn form-air">
-							<option value="">선택</option>
+							<option value="">선택없음</option>
 							<option ng-repeat="item in A07" value="{{item.code}}">{{item.name}}</option>
 						</select>
 					</div>
 					
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 		<div class="container air-body">
 			<div class="row">
-				<div class="col-md-12 left-grid-11st">
+				<div class="col-md-4 left-grid-11st">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-6 left-grid-11st">
-								<h5>백오피스 메뉴 리스트</h5>
+							<div class="col-md-4 left-grid-11st">
+								<h5>메뉴 전체 목록</h5>
 							</div>
-							<div class="col-md-6" style="text-align: right !important;">
-								Total Row: {{page_cd.totalItems || 0}}&nbsp;&nbsp;
-								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addCd()">
-								<i class="fa fa-plus"></i></button>
-<!-- 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" ng-click="delCd()">
-								<i class="fa fa-minus"></i></button> -->
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_masterCd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addMasterCd()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveMasterCd()"><i class="fa fa-floppy-o"></i></button>
 								&nbsp;
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 left-grid-11st">
-								<div id="hst_cd" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div id="hst_all_menu" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
 								<div style='text-align: center;'>
-									<pagination boundary-links="true" total-items="page_cd.totalItems"
-										ng-model="page_cd.currentPage" ng-change="selectCdList()"
-										items-per-page="page_cd.perPage" max-size="10"
-										class="pagination-sm" previous-text="&lsaquo;"
-										next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
-									</pagination>
+									<pagination boundary-links="true" total-items="page_masterCd.totalItems" ng-model="page_masterCd.currentPage" ng-change="selectMasterBasisCdList()" items-per-page="page_masterCd.perPage" max-size="max_size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"> </pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 top-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>하위 Menu 목록</h5>
+							</div>
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_detailCd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addLowerMenu()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="deleteLowerMenu()"><i class="fa fa-minus"></i></button>
+								&nbsp;
+							</div>
+							<!-- +/- 등록 -->
+							<!-- <div style="text-align: right !important;">
+								<button type="button" class="btn btn-default search-btn-11st" ng-click="addLowerMenu()">
+									<i class="fa fa-search"></i>
+									&nbsp;&nbsp;+
+								</button>
+								<button type="button" class="btn btn-default search-btn-11st" ng-click="deleteLowerMenu()">
+									<i class="fa fa-search"></i>
+									&nbsp;&nbsp;-
+								</button>
+							</div> -->
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_upper_menu" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style='text-align: center;'>
+									<pagination boundary-links="true" total-items="page_detailCd.totalItems" ng-model="page_detailCd.currentPage" ng-change="selectDetailBasisCdList()" items-per-page="page_detailCd.perPage" max-size="max_size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"> </pagination>
 								</div>
 							</div>
 						</div>
@@ -82,7 +113,7 @@
 			</button>
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">백오피스 메뉴상세</b>
+					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">諛깆��쇱� 硫�����</b>
 				</h3>
 			</div>
 			<p>
@@ -94,84 +125,84 @@
 				<div class="col-md-12" style="padding-right: 10px;">
 				
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 코드 *</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">硫�� 肄�� *</span> 
 						<input type="text" id="inp_MENU_CD" name="inp_MENU_CD"
 							class="form-control ng-pristine popup-grid-radius" 
-							ng-model="layer_input.MENU_CD" maxlength="5" placeholder="메뉴 코드">
+							ng-model="layer_input.MENU_CD" maxlength="5" placeholder="硫�� 肄��">
 					</div>
 					<div style="width: 1%; float: left;">&nbsp;</div>
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">상위 메뉴 *</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">��� 硫�� *</span> 
 						<!-- <input type="text" id="inp_UPPER_MENU_CD" name="inp_UPPER_MENU_CD"
 							class="form-control ng-pristine popup-grid-radius" 
-							ng-model="layer_input.UPPER_MENU_CD" maxlength="5" placeholder="상위 메뉴 코드"> -->
+							ng-model="layer_input.UPPER_MENU_CD" maxlength="5" placeholder="��� 硫�� 肄��"> -->
 						<select ng-model="layer_input.UPPER_MENU_CD" class="form-control ng-pristine popup-grid-radius cudAuthSelect">
-							<option value="">선택</option>
+							<option value="">���</option>
 							<option value="{{item.code}}" ng-repeat="item in MENUL1">{{item.name}}</option>
 						</select>
 					</div>
 
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">사용 여부 *</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">�ъ� �щ� *</span> 
 						<select ng-model="layer_input.USE_YN" class="form-control ng-pristine popup-grid-radius cudAuthSelect">
-							<option value="">선택</option>
+							<option value="">���</option>
 							<option value="{{item.code}}" ng-repeat="item in A07">{{item.name}}</option>
 						</select>
 					</div>
 					<div style="width: 1%; float: left;">&nbsp;</div>
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 레벨 *</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">硫�� ��꺼 *</span> 
 						<select ng-model="layer_input.MENU_LEVEL" class="form-control ng-pristine popup-grid-radius cudAuthSelect">
-							<option value="">선택</option>
+							<option value="">���</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 						</select>
 					</div>
 					
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 한글 명 *</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">硫�� ��� 紐�*</span> 
 						<input type="text" id="inp_MENU_KOR_NM" name="inp_MENU_KOR_NM"
 							class="form-control ng-pristine popup-grid-radius cudAuthInput" 
-							ng-model="layer_input.MENU_KOR_NM" maxlength="50" placeholder="메뉴 한글 명">
+							ng-model="layer_input.MENU_KOR_NM" maxlength="50" placeholder="硫�� ��� 紐�>
 					</div>
 					<div style="width: 1%; float: left;">&nbsp;</div>
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 영문 명</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">硫�� ��Ц 紐�/span> 
 						<input type="text" id="inp_MENU_ENG_NM" name="inp_MENU_ENG_NM"
 							class="form-control ng-pristine popup-grid-radius cudAuthInput" 
-							ng-model="layer_input.MENU_ENG_NM" maxlength="50" placeholder="메뉴 영문 명">
+							ng-model="layer_input.MENU_ENG_NM" maxlength="50" placeholder="硫�� ��Ц 紐�>
 					</div>
 					
 					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 URL</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">硫�� URL</span> 
 						<input type="text" id="inp_MENU_URL" name="inp_MENU_URL"
 							class="form-control ng-pristine popup-grid-radius cudAuthInput" 
-							ng-model="layer_input.MENU_URL" maxlength="500" placeholder="메뉴 URL">
+							ng-model="layer_input.MENU_URL" maxlength="500" placeholder="硫�� URL">
 					</div>
 					
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">등록 사용자 ID</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">�깅� �ъ���ID</span> 
 						<input type="text" id="inp_REG_USR_ID" name="inp_REG_USR_ID"
 							class="form-control ng-pristine popup-grid-radius"
 							ng-model="layer_input.REG_USR_ID" readonly>
 					</div>
 					<div style="width: 1%; float: left;">&nbsp;</div>
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">등록 일시</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">�깅� �쇱�</span> 
 						<input type="text" id="inp_REG_DTM" name="inp_REG_DTM"
 							class="form-control ng-pristine popup-grid-radius"
 							ng-model="layer_input.REG_DTM" readonly>
 					</div>
 					
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">수정 사용자 ID</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">��� �ъ���ID</span> 
 						<input type="text" id="inp_UPD_USR_ID" name="inp_UPD_USR_ID"
 							class="form-control ng-pristine popup-grid-radius"
 							ng-model="layer_input.UPD_USR_ID" readonly>
 					</div>
 					<div style="width: 1%; float: left;">&nbsp;</div>
 					<div class="input-group input-group-sm" style="float: left; width: 49%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">수정 일시</span> 
+						<span class="input-group-addon modalInputLabel_md popup-grid-11st">��� �쇱�</span> 
 						<input type="text" id="inp_UPD_DTM" name="inp_UPD_DTM"
 							class="form-control ng-pristine popup-grid-radius"
 							ng-model="layer_input.UPD_DTM" readonly>
@@ -180,8 +211,8 @@
 				
 				<div style="height: 25px; clear: both;"></div>
 				<div style="text-align: center">
-					<button type="button" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" style="display:none;" ng-click="saveCd()">저장</button>
-					<button type="button" class="btn-f21-basic btn-1 btn-xs popup-btn-11st" id="modal-close">취소</button>
+					<button type="button" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" style="display:none;" ng-click="saveCd()">���</button>
+					<button type="button" class="btn-f21-basic btn-1 btn-xs popup-btn-11st" id="modal-close">痍⑥�</button>
 				</div>
 			</div>
 		</div>
