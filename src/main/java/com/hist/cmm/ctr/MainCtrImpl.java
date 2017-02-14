@@ -19,12 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.frw.dto.IListData;
 import com.frw.dto.ListDataImpl;
 import com.frw.utl.JsonDataHandlerImpl;
+import com.hist.cmm.svc.MainSvcImpl;
 
 /**
  * <B>@Package : </B>skt.tmall.air.bof.cmm.ctr<br/>
  * <B>@TypeName : </B>MainCtrImpl<br/>
- * <B>@Date : </B>2016. 12. 15.<br/>
- * <B>@Author : </B>ckim<br/>
+ * <B>@Date : </B>2017. 02. 09<br/>
+ * <B>@Author : </B>hist<br/>
  * <B>Description</B>
  * <ul> 
  * <li>메인 화면 컨트롤러
@@ -36,12 +37,13 @@ public class MainCtrImpl {
 	private final Logger log = LoggerFactory.getLogger(MainCtrImpl.class);
 	
 	@Resource private JsonDataHandlerImpl jsonDataHandlerImpl;
+	@Resource private MainSvcImpl mainSvcImpl;
 	
 	/**
 	 * <B>@Method Name : getMainView</B>
 	 * <ul>
-	 * <li>Date : 2016. 12. 15.
-	 * <li>Developer : ckim
+	 * <li>Date : 2017. 02. 09
+	 * <li>Developer : hist
 	 * <li>Description: 메인화면 호출
 	 * </ul>
 	 * @param modelMap
@@ -57,8 +59,8 @@ public class MainCtrImpl {
 	/**
 	 * <B>@Method Name : postMain</B>
 	 * <ul>
-	 * <li>Date : 2016. 12. 15.
-	 * <li>Developer : ckim
+	 * <li>Date : 2017. 02. 09
+	 * <li>Developer : hist
 	 * <li>Description: 메인화면 SVC_ID로 RU를 구분하여 동작
 	 * </ul>
 	 * @param reqBodyMap
@@ -77,16 +79,19 @@ public class MainCtrImpl {
 
 		String svc_id = (String) paramMap.get("SVC_ID");
 		
-		/*
-		if ("getMenu".equals(svc_id)) {
-			resultListData = menuServiceImpl.getMenuList(listData.getParameter("REG_USR_ID"));
+		
+		if ("getSession".equals(svc_id)) {
 			resultListData.addVariable("USER_ID", listData.getParameter("REG_USR_ID"));
 			resultListData.addVariable("USER_NM", listData.getParameter("SES_USR_NM"));
 			log.debug(">>>>> >>>>> >>>>> USER_ID: " + resultListData.getVariableMap().get("USER_ID"));
-		} else if("getFileList".equals(svc_id)) {
+			
+		} else if("getUsrInfo".equals(svc_id)) {
+			resultListData = mainSvcImpl.getUsrInfo(paramMap);
+		}
+		
+		/*
+		else if("getFileList".equals(svc_id)) {
 			resultListData = commonServiceImpl.getFileList(paramMap);
-		} else if("getUsrAcnt".equals(svc_id)) {
-			resultListData = reqAcntServiceImpl.getUsrAcnt(paramMap);
 		} else if("updateUsrAcnt".equals(svc_id)) {
 //			resultListData.addVariable("USR_ID", reqAcntServiceImpl.updateUsrAcnt(listData));
 			reqAcntServiceImpl.updateUsrAcnt(paramMap);
