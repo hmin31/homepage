@@ -9,8 +9,8 @@
 		WHERE  	MENU_CATE IS NULL
 	</select>
 
-	<select id="getContentsDtls" resultType="string">
-		SELECT	CTN_DTLS
+	<select id="getContentsDtls" resultType="string" >
+		SELECT	NVL(CTN_DTLS, EMPTY_CLOB()) AS CTN_DTLS
 		FROM 	HIST_CTN 
 		WHERE  	MENU_CD = #{MENU_CD}
 	</select>
@@ -25,7 +25,7 @@
         VALUES (
 	        #{MENU_CD, jdbcType=VARCHAR}
 			,#{CTN_DTLS, jdbcType=CLOB}
-			,'admin'
+			,#{SES_USR_NM}
 			,sysdate
         )
 	</insert>
@@ -46,7 +46,7 @@
         	UPDATE 
 	        SET
 			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB, javaType=String}
-			,CORCT_EMP_NUM = 'admin'
+			,CORCT_EMP_NUM = #{SES_USR_NM}
 			,CORCT_DTIM = sysdate
 		WHEN NOT MATCHED THEN
 		INSERT (
@@ -58,7 +58,7 @@
         VALUES (
 	        #{MENU_CD, jdbcType=VARCHAR}
 			,#{CTN_DTLS, jdbcType=CLOB}
-			,'admin'
+			,#{SES_USR_NM}
 			,sysdate
         )
 	</update>
