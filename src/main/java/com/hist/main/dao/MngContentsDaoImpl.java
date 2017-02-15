@@ -34,4 +34,8 @@ public class MngContentsDaoImpl extends MybatisBizDaoImpl {
 		update(nameSpace + ".mergeContentsDtls", parameterMap);
 	}
 	
+	public String getIsMenuCdInsertable(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".getIsMenuCdInsertable", parameterMap);
+	}
+	
 }

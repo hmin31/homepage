@@ -10,7 +10,7 @@
 	</select>
 
 	<select id="getContentsDtls" resultType="string">
-		SELECT	DBMS_LOB.substr(CTN_DTLS, dbms_lob.getlength(CTN_DTLS), 1) AS CTN_DTLS
+		SELECT	CTN_DTLS
 		FROM 	HIST_CTN 
 		WHERE  	MENU_CD = #{MENU_CD}
 	</select>
@@ -39,13 +39,13 @@
         WHERE MENU_CD = #{MENU_CD}
 	</update>	
 	
-	<update id="mergeContentsDtls">
+	<update id="mergeContentsDtls" parameterType="java.util.HashMap">
 		MERGE INTO HIST_CTN A
         USING DUAL ON (A.MENU_CD = #{MENU_CD, jdbcType=VARCHAR})
         WHEN MATCHED THEN
         	UPDATE 
 	        SET
-			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB}
+			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB, javaType=String}
 			,CORCT_EMP_NUM = 'admin'
 			,CORCT_DTIM = sysdate
 		WHEN NOT MATCHED THEN
@@ -62,5 +62,16 @@
 			,sysdate
         )
 	</update>
+	
+	<select id="getIsMenuCdInsertable" resultType="string">
+		SELECT
+		       CASE COUNT(*)
+		         WHEN 0
+		         THEN 'N'
+		         ELSE 'Y'
+		       END AS AVAIL_YN
+		  FROM HIST_CTN
+		 WHERE MENU_CD = #{MENU_CD}
+	</select>
 
 </mapper>
