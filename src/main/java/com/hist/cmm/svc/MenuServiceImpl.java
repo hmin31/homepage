@@ -62,7 +62,6 @@ public class MenuServiceImpl extends BizServiceImpl {
 		List seq10List = menuDaoImpl.getMenuSeq10(paramMap);
 		resultListData.setDataList("seq10_menu", seq10List);
 		
-		
 		paramMap.put("MENU_SEQ", "20");
 		//Level 20
 		List seq20List = menuDaoImpl.getMenuSeq20(paramMap);
@@ -80,3 +79,4 @@ public class MenuServiceImpl extends BizServiceImpl {
 	}
 	
 }
+>>>>>>> 40009c42339fe876d3688705b9b28a52ba3e112f

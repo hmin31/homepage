@@ -21,11 +21,7 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 		var dataObj = {};
 		var paramDataObj = {};
 		
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectCdList");
-		
-		addDataObj(jQuery, paramDataObj, "searchGrpAuthCd", $scope.selectedGrpAuthCd);
-		addDataObj(jQuery, paramDataObj, "searchMenuCd", $scope.selectedMenuLevel1);
-		addDataObj(jQuery, paramDataObj, "searchEnableWriteYn", $scope.selectedCmbEnableWriteYn);	
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectList");
 		
 		addDataObj(jQuery, paramDataObj, "CD_PER_PAGE", $scope.page_cd.perPage);
 		addDataObj(jQuery, paramDataObj, "CD_CUR_PAGE", $scope.page_cd.currentPage);
@@ -39,7 +35,6 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 			hshelper_cd.init();
 			hshelper_cd.setData(gridData);
 			$scope.page_cd.totalItems = returnData.VARIABLE_MAP.cdCnt;
-
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
