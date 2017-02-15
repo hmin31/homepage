@@ -7,9 +7,33 @@
 	<!-- 전체 메뉴 리스트 보여주기 -->
 	<select id="getMenuList" resultType="java.util.HashMap">
 
+<!-- 	20170214 - JJW 이전꺼	
 		SELECT LPAD(' ', (level-1)*2, '.') || MENU_KRN_NM AS MENU_TREE, MENU_SEQ, MENU_CD FROM HIST_MENU
 		START WITH HI_MENU_CD IS NULL
-		CONNECT BY HI_MENU_CD = PRIOR MENU_CD
+		CONNECT BY HI_MENU_CD = PRIOR MENU_CD -->
+		
+		<!-- 20170215 - JJW - 임과장님 쿼리  -->
+        SELECT C.MENU_CD,
+             C.MENU_ENG_NM,
+             C.MENU_KRN_NM,
+             C.MENU_URL,
+             LPAD(' ', (level-1)*2, '_') || C.MENU_KRN_NM AS MENU_TREE,
+             DECODE (C.USE_YN,  'Y', 1,  'N', 0) AS USE_YN,
+             C.MENU_SEQ,
+             NVL (C.HI_MENU_CD, '-') AS HI_MENU_CD,
+             LEVEL - 1 AS MENU_LVL,
+             DECODE (CONNECT_BY_ISLEAF, 0, 'N', 'Y') AS IS_LEAF,
+             CONNECT_BY_ROOT C.MENU_CD AS ROOT_MENU_CD,
+             SUBSTR (SYS_CONNECT_BY_PATH (C.MENU_KRN_NM, ' > '), 4) AS MENU_PATH,
+             SYS_CONNECT_BY_PATH (LPAD (C.MENU_SEQ, 3, 0), '|') AS MENU_SEQ_GRD,
+             C.SYS_CTGRZ_CD
+        FROM HIST_MENU C
+		WHERE C.SYS_CTGRZ_CD = '0001'
+		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
+		LEVEL BETWEEN 0 AND 2
+		START WITH HI_MENU_CD IS NULL
+		ORDER SIBLINGS BY C.MENU_SEQ ASC
+				
 		
 	</select> 
 	
@@ -148,6 +172,8 @@
 				CORCT_DTIM = SYSDATE,
 		</if>
 		DLT_YN = #{DLT_YN}
+		
+		WHERE	MENU_CD = #{MENU_CD}
 	</update>
 
 
