@@ -123,7 +123,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/basisCd.do', {
 		templateUrl : 'basisCd.do',
 		controller: 'ctr_basisCd'
-	}).when('/mngContents.do', {
+	}).when('/mngContents', {
 		templateUrl : 'mngContents.do',
 		controller: 'ctr_mngContents'
 	})
