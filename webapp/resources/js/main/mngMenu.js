@@ -9,7 +9,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	var use_yn_source;
 	var readOnlyYn;
 	
-	var g_hsc;
+	var user_id;
 	
 
 	$scope.pageInitiation = function() {
@@ -29,17 +29,17 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= readOnlyYn;
-		metaData.colHeaders 		= ["순번", "메뉴", "코드", "사용"];
-		metaData.colWidths 			= [40, 200, 80, 80];
+		metaData.colHeaders 		= ["순번", "메뉴"];
+		metaData.colWidths 			= [40, 100];
 		metaData.columns 			= [
 			   						   {data: "MENU_SEQ", type: "textCenter", readOnly: true},
-		                 			   {data: "MENU_TREE", type: "text"}, 
-		                 			   {data: "MENU_CD", type: "text"},
+		                 			   {data: "MENU_TREE", type: "text"} 
+		                 			   /*{data: "MENU_CD", type: "text"},
 		                 			   {data: "USE_YN", type: 'autocompleteCenter',
 	                 				    source: use_yn_source,
 	                 				    strinct: false,
 	                 				    filter: false,
-	                 				    readOnly: false}
+	                 				    readOnly: false}*/
 		                 			   ];
 		//코드 Hidden 추후
 		metaData.heightVal			= 513;
@@ -105,14 +105,13 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		var metaData = {};
 		metaData.readonlyBool 		= false;
 		metaData.colHeaders 		= ["순번",	"Menu 코드",	"Menu 영문명",	"Menu 한글명",	"URL",
-		                    		   "순서",	"사용여부",	"상위 코드",		"카테고리",		"삭제유무",
-		                    		   "등록자"];
+		                    		   "순서",	"사용여부",	"상위 코드",		"카테고리",		"등록자"];
 		metaData.colWidths 			= [40,		80,		80,		80,		80, 
-		                   			   100,		80,		80,		80,		80,
-		                   			   80]; 
+		                   			   100,		80,		80,		80,		80
+		                   			  ]; 
 		metaData.columns 			= [
 		                 			   {data: "RNK",		type: "textCenter", readOnly: true},
-		                 			   {data: "MENU_CD", 	type: "textCenter", readOnly: true},
+		                 			   {data: "MENU_CD", 	type: "textCenter", readOnly: false},
 		                 			   {data: "MENU_ENG_NM",type: "text", 		readOnly: false},
 		                 			   {data: "MENU_KRN_NM",type: "text" , 		readOnly: false},
 		                 			   {data: "MENU_URL",	type: "text",		readOnly: false},
@@ -123,12 +122,11 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		                 				    filter: false,
 		                 				    readOnly: false},
 		                 			   {data: "HI_MENU_CD", type: "textCenter",	readOnly: true},
-		                 			   //test
 		                 			   {data: "SYS_CTGRZ_CD",	type: "text",	readOnly: false},
-		                 			   {data: "DLT_YN", 		type: "text",	readOnly: false},
 		                 			   {data: "RGST_EMP_NUM", 	type: "text",	readOnly: false}
 		                 			   ];
 		metaData.heightVal			= 490;
+		metaData.pkColumns			= ["MENU_CD"]; 
 		metaData.rowHeaders 		= false;
 	
 		
@@ -175,39 +173,18 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	
 
 	function setSelectedMenuList(returnData){
-
-		/*var MENUL1Arr = [];//MENU 콘텐츠 관리 타입  
-		var A07Arr = [];//A07 사용여부  
-		var B03Arr = [];//B03 사용여부  
-		
-		MENUL1Arr = makeObjToJsonArr(returnData.MENUL1, MENUL1Arr);
-		A07Arr = makeObjToJsonArr(returnData.A07, A07Arr);
-		B03Arr = makeObjToJsonArr(returnData.B03, B03Arr);
-		
-		$scope.MENUL1 = MENUL1Arr;
-		$scope.A07 = A07Arr;
-//		$scope.B03 = B03Arr;
-		
-//		$scope.GRP_AUTH_CD = returnData.B03;
-		$scope.USE_YN = returnData.A07;
-		
-		//권한에 따른 입력 및 저장버튼 컨트롤
-		readOnlyYn = !(authHandling(returnData));*/
 		
 		setLowerMenuGrid("Y");
-		
 		var resultData = returnData.all_main_menu;
-		console.log("resultData : " + resultData);
+		user_id = returnData.VARIABLE_MAP.USER_ID;
 		//모든 메뉴..
 		setAllMenuGrid("Y");
+		
 		hshelper_masterCd.setData(resultData);
-		//하위 메뉴..
-		//hshelper_lowerMenu.setData(resultData);
 	};
 	
 	function setSelectedLowerMenuList(returnData){
 		var resultData = returnData.lower_menu;
-		console.log("setSelectedLowerMenuList resultData : " + resultData);
 		hshelper_lowerMenu.setData(resultData);
 	}
 	
@@ -245,14 +222,16 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 			return false;
 		}
 		
+		//상위 메뉴 코드 
 		var hiMenuCd = hshelper_masterCd.getHsGridData()[hshelper_masterCd.getCurRow() || 0].MENU_CD;
 		if (hiMenuCd == undefined) {
 			bootbox.alert(msg);
 			return false;
 		}
-
-/*		if (hshelper_masterCd.getHsGridData()[hshelper_masterCd.getCurRow()].ROW_STATUS == 'I') {
-			bootbox.alert("마스터코드를 먼저 저장해 주십시오.");
+		//상위 메뉴 레벨
+/*		var hiMenuSeq = hshelper_masterCd.getHsGridData()[hshelper_masterCd.getCurRow() || 0].MENU_SEQ;
+		if (hiMenuSeq == 30) {
+			bootbox.alert("하위 메뉴를 생성할 수 없습니다");
 			return false;
 		}*/
 		
@@ -261,20 +240,12 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 			return false;
 		}
 		
-		//length, Menu 코드, 순서 자동 업데이트 필요
-		//var menuCd =
-		//test
-		var curRow = hshelper_lowerMenu.getCurRow();
-		var preRow = hshelper_lowerMenu.getPreRow();
+		//메뉴 레벨 체크 
+		//var addMenuSeq = hiMenuSeq + 10;
+		var addRow = hshelper_lowerMenu.addData(
+				{HI_MENU_CD: hiMenuCd, DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
 		
-		//hshelper_lowerMenu.getHsc().handsontable('alter', 'remove_row', Number(0));
-		
-		
-		
-		
-		var addRow = hshelper_lowerMenu.addData({HI_MENU_CD: hiMenuCd}, true);
-		hshelper_lowerMenu.selectCell(addRow, 2);
-		hshelper_lowerMenu.getLastRow();
+		hshelper_lowerMenu.selectCell(addRow, 1);
 	}
 	
 	//하위 메뉴 목록 그리드 행 추가 
@@ -319,14 +290,31 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		
 		console.log("change Data : " + hshelper_lowerMenu.getHsChgData());
-		//Validation - 나중에 체크 
 		
-		/*if(lengthCheck(dataObj.do_detailCd_chg, {MASTR_CD: 10, DETAIL_CD: 10, DETAIL_NM1: 300, DETAIL_NM2: 300, REFER_CD1: 20, REFER_CD2: 20, SORT_ORDR: 3}, 
-												["마스터코드", "상세코드", "상세코드명1", "상세코드명2", "참조코드명1", "참조코드명2", "정렬순서"])) return;
-		if(mandantoryColumnCheck(dataObj.do_detailCd_chg, ["MASTR_CD", "DETAIL_CD", "DETAIL_NM1", "USE_YN"], ["마스터코드", "상세코드", "상세코드명1", "사용여부"])) return;
-		if(alphabetNumCheck(dataObj.do_detailCd_chg, ["MASTR_CD", "DETAIL_CD"], ["마스터코드", "상세코드"])) return;
-		if(numCheck(dataObj.do_detailCd_chg, ["SORT_ORDR"], ["정렬순서"])) return;
-		*/
+		if(lengthCheck(dataObj.do_lowerMenu_chg, 
+				{MENU_CD: 9, HI_MENU_CD: 9, MENU_ENG_NM: 30, MENU_KRN_NM: 100, 
+				 MENU_URL: 500, MENU_SEQ: 3, USE_YN: 1, SYS_CTGRZ_CD: 4, RGST_EMP_NUM:8},
+				["메뉴코드", "상위메뉴코드", "영문명", "국문명", "메뉴URL", 
+				 "메뉴순서", "사용여부", "분류코드", "등록직원번호"])) {
+			return;
+		}
+		
+		if(mandantoryColumnCheck(dataObj.do_lowerMenu_chg,
+				["MENU_CD", "MENU_ENG_NM", "MENU_KRN_NM", "MENU_SEQ",
+				 "USE_YN", "SYS_CTGRZ_CD", "RGST_EMP_NUM"], 
+				["메뉴코드", "영문명", "국문명", "메뉴순서",
+				 "사용여부", "분류코드", "등록직원번호"])){
+			
+			//console.log("Validation Failed");
+		
+			return;
+		}
+		if(alphabetNumCheck(dataObj.do_lowerMenu_chg, 
+				["MENU_CD"], ["메뉴코드"])) return;
+		
+		if(numCheck(dataObj.do_lowerMenu_chg, 
+				["MENU_SEQ"], ["메뉴순서"])) return;
+		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "상세코드 저장", "N");
 			//저장후 재 조회를 어떤식으로 할것인가.. 

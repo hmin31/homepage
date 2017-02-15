@@ -96,20 +96,21 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "", "N");
 			
-			var main_menu_do = {"MENU_KRN_NM":"메인","HI_MENU_CD":"BOP02","MENU_CD":"BOP02"};
-			var sub_menu_do = {"MENU_KRN_NM":"메뉴관리","HI_MENU_CD":"BOP02","MENU_URL":"mngMenu.do","MENU_CD":"P0203"};
-			
+			//20170214 - JJW - 메뉴관리 항목이 DB에 없어서 우선 하드코딩..
+		/*	var main_menu_do = {"MENU_KRN_NM":"메인","HI_MENU_CD":"BOP02","MENU_CD":"BOP02"};
+			var sub_menu_do = [{"MENU_KRN_NM":"메뉴관리","HI_MENU_CD":"BOP02","MENU_URL":"mngMenu.do","MENU_CD":"P0203"},
+			                   {"MENU_KRN_NM":"메뉴컨텐츠","HI_MENU_CD":"BOP02","MENU_URL":"mngContents.do","MENU_CD":"P0204"}];
+		*/	
 			
 			$scope.seq10_menu = returnData.seq10_menu;
-			$scope.seq10_menu.unshift(main_menu_do);
+			//$scope.seq10_menu.unshift(main_menu_do);
 			$scope.seq20_menu = returnData.seq20_menu;
-			$scope.seq20_menu.unshift(sub_menu_do);
 			$scope.seq30_menu = returnData.seq30_menu;
 			
+			//console.log("user Id menu " + returnData.USER_);
 			
-			/*
 			$scope.user_id = returnData.VARIABLE_MAP.USER_ID;
-			$scope.user_nm = returnData.VARIABLE_MAP.USER_NM;*/
+			$scope.user_nm = returnData.VARIABLE_MAP.USER_NM;
 		};
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
@@ -134,6 +135,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/basisCd.do', {
 		templateUrl : 'basisCd.do',
 		controller: 'ctr_basisCd'
-	})
+	}).when('/mngContents.do', {
+		templateUrl : 'mngContents.do',
+		controller: 'ctr_mngContents'
+	}) 
 	
 } ]);

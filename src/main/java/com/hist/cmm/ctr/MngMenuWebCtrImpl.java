@@ -47,9 +47,10 @@ public class MngMenuWebCtrImpl {
 		IListData resultListData = new ListDataImpl();
 		
 		String svc_id = (String) paramMap.get("SVC_ID");
-		log.debug("mngMenu.do SVC_ID : " + svc_id);
+		
 		if ("getMenuList".equals(svc_id)) {
 			resultListData = mngMenuSvcImpl.getMenuList(paramMap);
+			resultListData.addVariable("USER_ID", listData.getParameter("REG_USR_ID"));
 		}else if("getLowerMenuList".equals(svc_id)){
 			//상위 메뉴 클릭시 하위메뉴를 가져온다..
 			resultListData = mngMenuSvcImpl.getLowerMenuList(paramMap);
@@ -61,19 +62,5 @@ public class MngMenuWebCtrImpl {
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);	
 		
 		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));
-			
-		/*
-		if ("selectCdList".equals(svc_id)) {
-			resultListData = mngMenuSvcImpl.getCdList(paramMap);
-		}  else if ("saveCd".equals(svc_id)) {
-			mngMenuSvcImpl.saveCd(listData);
-		}  else if ("delCd".equals(svc_id)) {
-			mngMenuSvcImpl.delCd(listData);
-		}  else if ("getSelectedCmbs".equals(svc_id)) {
-			resultListData = cdListServiceImpl.getSelectedCmbs(paramMap);
-		}
-		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);	
-		
-		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));*/
 	}
 }
