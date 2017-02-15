@@ -46,9 +46,15 @@ public class MngContentsSvcImpl extends BizServiceImpl{
 	}
 	
 	public void mergeContentsDtls(Map<?, ?> paramMap) throws Exception {
-		mngContentsDaoImpl.mergeContentsDtls(paramMap);
+		
+		// CLOB column이 1,000 을 넘을 때 insert의 경우 update로 인식 오류 merge into 사용하지 못함
+		if("N".equals(mngContentsDaoImpl.getIsMenuCdInsertable(paramMap))) {
+			mngContentsDaoImpl.insertContentsDtls(paramMap);
+		} else {
+			mngContentsDaoImpl.updateContentsDtls(paramMap);
+		}
+//		mngContentsDaoImpl.mergeContentsDtls(paramMap);
 		
 	}
-	
 
 }
