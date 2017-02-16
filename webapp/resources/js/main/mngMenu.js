@@ -33,7 +33,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		metaData.colWidths 			= [40, 100];
 		metaData.columns 			= [
 			   						   {data: "MENU_SEQ", type: "textCenter", readOnly: true},
-		                 			   {data: "MENU_TREE", type: "text"} 
+		                 			   {data: "MENU_TREE", type: "text"},
+		                 			  
 		                 			   /*{data: "MENU_CD", type: "text"},
 		                 			   {data: "USE_YN", type: 'autocompleteCenter',
 	                 				    source: use_yn_source,
@@ -54,14 +55,13 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 				//sort index
 				var selRow = row;		
 				
-				//var menuSeq = hsi.getHsGridData()[selRow].MENU_SEQ;
-				var menuSeq = hshelper_masterCd.getHsGridData()[selRow].MENU_SEQ;
+/*				var menuSeq = hshelper_masterCd.getHsGridData()[selRow].MENU_SEQ;
 				if(menuSeq == 30) {
 					
 					hshelper_lowerMenu.init();
 					hshelper_lowerMenu.setData();
 					return false;
-				}
+				}*/
 				
 				
 				if(hsi.sortIndex != undefined &&
@@ -104,8 +104,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		//HandDataHelper용 Meta Data 설정 
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["순번",	"Menu 코드",	"Menu 영문명",	"Menu 한글명",	"URL",
-		                    		   "순서",	"사용여부",	"상위 코드",		"카테고리",		"등록자"];
+		metaData.colHeaders 		= ["순번",	"Menu 코드*",	"Menu 영문명",	"Menu 한글명*",	"URL",
+		                    		   "순서*",	"사용여부*",	"상위 코드",		"카테고리*",		"등록자*"];
 		metaData.colWidths 			= [40,		80,		80,		80,		80, 
 		                   			   100,		80,		80,		80,		80
 		                   			  ]; 
@@ -116,7 +116,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		                 			   {data: "MENU_KRN_NM",type: "text" , 		readOnly: false},
 		                 			   {data: "MENU_URL",	type: "text",		readOnly: false},
 		                 			   {data: "MENU_SEQ",	type: "numeric",	readOnly: false},
-		                 			   {data: "USE_YN",		type: 'autocompleteCenter',
+		                 			   {data: "USE_YN",		type: 'dropdown',
 		                 				    source: use_yn_source,
 		                 				    strinct: false,
 		                 				    filter: false,
