@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="air-header">
 			<div class="air-title">
-				<h4>백오피스 메뉴 권한 관리</h4>
+				<h4>메뉴 권한 관리</h4>
 				<div style="text-align: right !important;">
 					<button type="button" class="btn btn-default search-btn-11st" ng-click="selectCdList()">
 						<i class="fa fa-search"></i>
@@ -12,7 +12,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="container air-body">
 			<div class="row">
 				<div class="col-md-12 left-grid-11st">
@@ -23,11 +23,14 @@
 							</div>
 							<div class="col-md-6" style="text-align: right !important;">
 								Total Row: {{page_cd.totalItems || 0}}&nbsp;&nbsp;
-								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addCd()">
+								<!-- button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addCd()" -->
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" ng-click="addCd()">
 								<i class="fa fa-plus"></i></button>
- 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" style="display:none;" ng-click="delCd()">
+ 								<!-- button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" style="display:none;" ng-click="delCd()" -->
+ 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" ng-click="delCd()">
 								<i class="fa fa-minus"></i></button>
-								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveCd()">
+								<!-- button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveCd()" -->
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" ng-click="saveCd()">
 								<i class="fa fa-floppy-o"></i></button>
 								&nbsp;
 							</div>

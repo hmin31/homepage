@@ -33,7 +33,7 @@ public class MngMenuWebCtrImpl {
 	@Resource private JsonDataHandlerImpl jsonDataHandlerImpl;
 	
 
-	@RequestMapping(value = "/mngMenu.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/bo/mngMenu.do", method = RequestMethod.GET)
 	public ModelAndView getMngMenuView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
 		return new ModelAndView("main/MngMenu");
 	}
@@ -52,10 +52,10 @@ public class MngMenuWebCtrImpl {
 			resultListData = mngMenuSvcImpl.getMenuList(paramMap);
 			resultListData.addVariable("USER_ID", listData.getParameter("REG_USR_ID"));
 		}else if("getLowerMenuList".equals(svc_id)){
-			//»óÀ§ ¸Þ´º Å¬¸¯½Ã ÇÏÀ§¸Þ´º¸¦ °¡Á®¿Â´Ù..
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½..
 			resultListData = mngMenuSvcImpl.getLowerMenuList(paramMap);
 		}else if("saveLowerMenu".equals(svc_id)){
-			//Ç×À§ ¸Þ´º¸¦ ÀúÀå ÇÑ´Ù..
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½..
 			mngMenuSvcImpl.saveLowerMenu(listData);
 		}
 		

@@ -41,7 +41,7 @@ obj_NgApp.controller('ctr_login', function($scope, $http, $document, $location, 
 		var afterSuccessFunc = function(returnData) {
 			if("0" == returnData.RESULT.ERRORCODE) {
 				// Attach date() for a disable browser cache
-				$window.location.href = getContextPath() + "/main.do?_=" + (new Date()).getTime();
+				$window.location.href = getContextPath() + "/bo/main.do?_=" + (new Date()).getTime();
 				
 			} else {
 				bootbox.alert(returnData.RESULT.ERRORMSG);

@@ -41,7 +41,7 @@ public class MngImagesCtrImpl {
 	@Resource
 	private MngImagesSvcImpl mngImagesSvcImpl;
 	
-	@RequestMapping(value = "/mngImages.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/bo/mngImages.do", method = RequestMethod.GET)
 	public ModelAndView getTestView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
 		log.debug(">>>>> get mngImages request");
 		return new ModelAndView("main/MngImages");

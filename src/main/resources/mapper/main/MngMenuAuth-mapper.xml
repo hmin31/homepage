@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mngMenuAuthDao">
+	
+	<select id="getMenuCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	TB_COM_CD300
+		<where>
+			<if test="searchMenuCd != null and searchMenuCd !=''">
+				<if test="searchMenuCd !='AIRBO'">
+					AND MENU_CD LIKE '%' || SUBSTR(upper(#{searchMenuCd}), 3, 3)  || '%'
+				</if>
+			</if>
+			<if test="searchUseYn != null and searchUseYn !=''">
+				AND USE_YN = upper(#{searchUseYn})
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMenuList" resultType="java.util.HashMap">
+        SELECT A.*
+		FROM
+		(SELECT	
+				MENU_CD, 
+			    MENU_KOR_NM, 
+			    MENU_ENG_NM,
+			    USE_YN,
+			    UPPER_MENU_CD,
+			    MENU_LEVEL,
+			    MENU_URL,
+			    REG_USR_ID,
+			    TO_CHAR(TO_DATE(REG_DTM, 'YYYYMMDDHH24MISS'), 'YYYY-MM-DD HH24:MI:SS') REG_DTM,
+			    UPD_USR_ID,
+			    TO_CHAR(TO_DATE(UPD_DTM, 'YYYYMMDDHH24MISS'), 'YYYY-MM-DD HH24:MI:SS') UPD_DTM,
+		        RANK() OVER (ORDER BY MENU_LEVEL, MENU_CD) RNK
+		FROM 	TB_COM_CD300 X
+		<where>
+			MENU_LEVEL > 0
+			<if test="searchMenuCd != null and searchMenuCd !=''">
+				<if test="searchMenuCd !='AIRBO'">
+					AND MENU_CD LIKE '%' || SUBSTR(upper(#{searchMenuCd}), 3, 3)  || '%'
+				</if>
+			</if>
+			<if test="searchUseYn != null and searchUseYn !=''">
+				AND USE_YN = upper(#{searchUseYn})
+			</if>
+		</where>) A
+		WHERE RNK BETWEEN (#{CD_CUR_PAGE} - 1) * #{CD_PER_PAGE} + 1 AND #{CD_CUR_PAGE} * #{CD_PER_PAGE}
+	</select>
+	
+	<select id="getMenuAuthCnt" resultType="String">
+		SELECT	COUNT(X.GRP_AUTH_CD) AS CNT
+		FROM 	TB_COM_CD310 X, TB_COM_CD300 Y
+		<where>
+			X.MENU_CD = Y.MENU_CD
+			<if test="searchGrpAuthCd != null and searchGrpAuthCd !=''">
+				AND X.GRP_AUTH_CD = upper(#{searchGrpAuthCd})
+			</if>
+			<if test="searchMenuCd != null and searchMenuCd !=''">
+				<if test="searchMenuCd !='AIRBO'">
+					AND X.MENU_CD LIKE '%' || SUBSTR(upper(#{searchMenuCd}), 3, 3)  || '%'
+				</if>
+			</if>
+			<if test="searchEnableWriteYn != null and searchEnableWriteYn !=''">
+				AND X.ENABLE_WRITE_YN = upper(#{searchEnableWriteYn})
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMenuAuthList" resultType="java.util.HashMap">
+        SELECT A.*
+		FROM
+		(SELECT	
+				X.GRP_AUTH_CD GRP_AUTH_CD,
+				X.MENU_CD MENU_CD, 
+			    Y.UPPER_MENU_CD UPPER_MENU_CD,
+			    X.ENABLE_WRITE_YN ENABLE_WRITE_YN,
+			    X.REG_USR_ID REG_USR_ID,
+			    TO_CHAR(TO_DATE(X.REG_DTM, 'YYYYMMDDHH24MISS'), 'YYYY-MM-DD HH24:MI:SS') REG_DTM,
+			    X.UPD_USR_ID UPD_USR_ID,
+			    TO_CHAR(TO_DATE(X.UPD_DTM, 'YYYYMMDDHH24MISS'), 'YYYY-MM-DD HH24:MI:SS') UPD_DTM,
+		        RANK() OVER (ORDER BY X.GRP_AUTH_CD, X.MENU_CD) RNK
+		FROM 	TB_COM_CD310 X, TB_COM_CD300 Y
+		<where>
+			X.MENU_CD = Y.MENU_CD
+			<if test="searchGrpAuthCd != null and searchGrpAuthCd !=''">
+				AND X.GRP_AUTH_CD = upper(#{searchGrpAuthCd})
+			</if>
+			<if test="searchMenuCd != null and searchMenuCd !=''">
+				<if test="searchMenuCd !='AIRBO'">
+					AND X.MENU_CD LIKE '%' || SUBSTR(upper(#{searchMenuCd}), 3, 3)  || '%'
+				</if>
+			</if>
+			<if test="searchEnableWriteYn != null and searchEnableWriteYn !=''">
+				AND X.ENABLE_WRITE_YN = upper(#{searchEnableWriteYn})
+			</if>
+		</where>) A
+		WHERE RNK BETWEEN (#{CD_CUR_PAGE} - 1) * #{CD_PER_PAGE} + 1 AND #{CD_CUR_PAGE} * #{CD_PER_PAGE}
+	</select>
+	
+	<select id="getMenuAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	TB_COM_CD300
+		WHERE 	MENU_CD = upper(#{MENU_CD})
+	</select>
+	
+	<select id="getMenuAuthAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(X.GRP_AUTH_CD) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	TB_COM_CD310 X, TB_COM_CD300 Y
+		WHERE 	X.MENU_CD = Y.MENU_CD
+		AND 	X.GRP_AUTH_CD = UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1))
+		AND 	X.MENU_CD = UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1))
+	</select>
+	
+	<insert id="insertMenu">
+		INSERT INTO TB_COM_CD300
+		(
+			MENU_CD,
+			MENU_KOR_NM,
+			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
+				MENU_ENG_NM,
+			</if>
+			USE_YN,
+			<if test="UPPER_MENU_CD != null and UPPER_MENU_CD !=''">
+				UPPER_MENU_CD,
+			</if>
+			<if test="MENU_LEVEL != null and MENU_LEVEL !=''">
+				MENU_LEVEL,
+			</if>
+			<if test="MENU_URL != null and MENU_URL !=''">
+				MENU_URL,
+			</if>
+			REG_USR_ID,
+			REG_DTM
+		)
+		VALUES
+		(
+			UPPER(#{MENU_CD}),
+			#{MENU_KOR_NM},
+			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
+				#{MENU_ENG_NM},
+			</if>
+			UPPER(#{USE_YN}),
+			<if test="UPPER_MENU_CD != null and UPPER_MENU_CD !=''">
+				UPPER(#{UPPER_MENU_CD}),
+			</if>
+			<if test="MENU_LEVEL != null and MENU_LEVEL !=''">
+				#{MENU_LEVEL, jdbcType=NUMERIC},
+			</if>
+			<if test="MENU_URL != null and MENU_URL !=''">
+				#{MENU_URL},
+			</if>
+			#{REG_USR_ID},
+			TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+
+	<insert id="insertMenuAuth">
+		INSERT INTO TB_COM_CD310
+		(
+			GRP_AUTH_CD,
+			MENU_CD,
+			ENABLE_WRITE_YN,
+			REG_USR_ID,
+			REG_DTM
+		)
+		VALUES
+		(
+			UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1)),
+			UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1)),
+			UPPER(SUBSTR(#{ENABLE_WRITE_YN}, 0, INSTR(#{ENABLE_WRITE_YN}, ':') - 1)),
+			#{REG_USR_ID},
+			TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		)
+	</insert>
+	
+	<update id="updateMenu">
+		UPDATE 	TB_COM_CD300
+		SET	    
+			MENU_KOR_NM = #{MENU_KOR_NM},
+			<if test="MENU_ENG_NM != null">
+				MENU_ENG_NM = #{MENU_ENG_NM},
+			</if>
+			USE_YN = UPPER(#{USE_YN}),
+			<if test="UPPER_MENU_CD != null">
+				UPPER_MENU_CD = UPPER(#{UPPER_MENU_CD}),
+			</if>
+			<if test="MENU_LEVEL != null">
+				MENU_LEVEL = #{MENU_LEVEL, jdbcType=NUMERIC},
+			</if>
+			<if test="MENU_URL != null">
+				MENU_URL = #{MENU_URL},
+			</if>
+			UPD_USR_ID = #{REG_USR_ID},
+			UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		WHERE	MENU_CD = #{MENU_CD}
+	</update>
+	
+	<update id="updateMenuAuth">
+		UPDATE 	TB_COM_CD310
+		SET	    
+			ENABLE_WRITE_YN = UPPER(SUBSTR(#{ENABLE_WRITE_YN}, 0, INSTR(#{ENABLE_WRITE_YN}, ':') - 1)),
+			UPD_USR_ID = #{REG_USR_ID},
+			UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		WHERE GRP_AUTH_CD = UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1))
+		AND MENU_CD = UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1))
+	</update>
+	
+	<delete id="delMenu">
+		DELETE FROM TB_COM_CD300
+		WHERE MENU_CD = #{MENU_CD}
+	</delete>
+	
+	<delete id="delMenuAuth">
+		DELETE FROM TB_COM_CD310
+		WHERE GRP_AUTH_CD = UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1))
+		AND MENU_CD = UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1))
+	</delete>
+	
+</mapper>

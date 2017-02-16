@@ -129,7 +129,7 @@ public class LoginController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping(value = "/logout.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/bo/logout.do", method = RequestMethod.POST)
 	public String logOut(Model model, HttpServletRequest req, HttpServletResponse res) {
 		String loginUrl = "login";
 		log.debug(">>>>> >>>>> >>>>> Log out before | USR_ID: [" + SecurityHolder.getUserId(req) + "]");

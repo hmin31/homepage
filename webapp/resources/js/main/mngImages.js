@@ -1,7 +1,7 @@
 app.controller('ctr_mngImages', ['$scope', '$http', '$document', '$window', '$q', '$sce',
 	function($scope, $http, $document, $window, $q, $sce) {
 
-	var ctrUrl = 'mngImages.do';
+	var ctrUrl = '/mngImages.do';
 	
 	var hshelper_image;
 	

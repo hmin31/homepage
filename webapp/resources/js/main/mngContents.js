@@ -1,7 +1,7 @@
 app.controller('ctr_mngContents', ['$scope', '$http', '$document', '$window', '$q', '$sce',
 	function($scope, $http, $document, $window, $q, $sce) {
 
-	var ctrUrl = 'mngContents.do';
+	var ctrUrl = '/mngContents.do';
 	
 	$scope.renderHtml = function(htmlCode) {
 		return $sce.trustAsHtml(htmlCode);

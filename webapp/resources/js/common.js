@@ -666,11 +666,11 @@ function logOutFunc($http) {
 	var logout_url = getContextPath() + '/logout.do';
 	$http.post(logout_url).success(function() {
 		window.setTimeout(function() {
-			location.href = getContextPath() + '/';
+			location.href = getContextPath();
 		}, 50);
 	}).error(function(data, status, headers, config) {
 		window.setTimeout(function() {
-			location.href = getContextPath() + "/";
+			location.href = getContextPath();
 		}, 50);
 		return status;
 	});

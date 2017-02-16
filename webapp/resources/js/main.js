@@ -71,7 +71,7 @@ app.directive('format', ['$filter', function ($filter) {
 
 app.controller('ctr_main', function($scope, $http, $document, $window, $location) {
 	
-	var ctrUrl = 'main.do';
+	var ctrUrl = '/main.do';
 	
 	$scope.ChangeLocation = function(url){
 	    window.location = url;
@@ -86,11 +86,12 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_CD":"BOP04"}];
 	
 	$scope.sub_menu_do =  [{"MENU_KOR_NM":"메뉴관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenu.do","MENU_CD":"P0201"},
-							{"MENU_KOR_NM":"메뉴권한관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenuAuth.do","MENU_CD":"P0202"},
+//							{"MENU_KOR_NM":"메뉴권한관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenuAuth.do","MENU_CD":"P0202"},
 							{"MENU_KOR_NM":"사용자정보","UPPER_MENU_CD":"BOP03","MENU_URL":"usrInfo.do","MENU_CD":"P0301"},
 							{"MENU_KOR_NM":"기초코드정보","UPPER_MENU_CD":"BOP03","MENU_URL":"basisCd.do","MENU_CD":"P0302"},
 							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngContents","MENU_CD":"P0401"},
-							{"MENU_KOR_NM":"이미지관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngImages","MENU_CD":"P0402"}
+							{"MENU_KOR_NM":"이미지관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngImages","MENU_CD":"P0402"},
+							{"MENU_KOR_NM":"게시판관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngNtce","MENU_CD":"P0403"}
 							];
 	
 	$scope.selectMenuList = function(mstCd) {
@@ -106,6 +107,10 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 		};
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
+	
+	$scope.logOutBtn = function() {
+		logOutFunc($http);
+	};
 	
 	$document.ready(function() {
 		console.log("main document ready!");
@@ -131,7 +136,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/mngImages', {
 		templateUrl : 'mngImages.do',
 		controller: 'ctr_mngImages'
-			
+	}).when('/mngNtce', {
+		templateUrl : 'mngNtce.do',
+		controller: 'ctr_mngNtce'
 	})
 	
 } ]);

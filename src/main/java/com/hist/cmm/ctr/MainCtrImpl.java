@@ -39,6 +39,11 @@ public class MainCtrImpl {
 	@Resource private MenuServiceImpl	menuServiceImpl;
 	@Resource private JsonDataHandlerImpl jsonDataHandlerImpl;
 	
+	@RequestMapping(value = "/bo")
+	public ModelAndView getBoMainView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
+		return new ModelAndView("login");
+	}
+	
 	/**
 	 * <B>@Method Name : getMainView</B>
 	 * <ul>
@@ -51,7 +56,7 @@ public class MainCtrImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/bo/main.do", method = RequestMethod.GET)
 	public ModelAndView getMainView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
 		return new ModelAndView("main");
 	}

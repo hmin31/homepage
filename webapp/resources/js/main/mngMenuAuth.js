@@ -1,5 +1,5 @@
 app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q) {
-	var ctrUrl = 'mngMenuAuth.do';
+	var ctrUrl = '/mngMenuAuth.do';
 
 	var hshelper_cd;
 	
@@ -21,7 +21,11 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 		var dataObj = {};
 		var paramDataObj = {};
 		
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectList");
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectCdList");
+		
+		addDataObj(jQuery, paramDataObj, "searchGrpAuthCd", $scope.selectedGrpAuthCd);
+		addDataObj(jQuery, paramDataObj, "searchMenuCd", $scope.selectedMenuLevel1);
+		addDataObj(jQuery, paramDataObj, "searchEnableWriteYn", $scope.selectedCmbEnableWriteYn);	
 		
 		addDataObj(jQuery, paramDataObj, "CD_PER_PAGE", $scope.page_cd.perPage);
 		addDataObj(jQuery, paramDataObj, "CD_CUR_PAGE", $scope.page_cd.currentPage);
@@ -35,6 +39,7 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 			hshelper_cd.init();
 			hshelper_cd.setData(gridData);
 			$scope.page_cd.totalItems = returnData.VARIABLE_MAP.cdCnt;
+
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
@@ -45,26 +50,19 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 		var hsc_ins = document.getElementById('hst_cd');
 		
 		var metaData = {};
-		metaData.readonlyBool 		= readOnlyYn;
-		metaData.colHeaders 		= ["", "No.",
-		                    		   "그룹 권한 *", "메뉴명 *", "상위 메뉴명", "데이터수정 가능 여부 *", 
-		                    		   "등록 사용자 ID", "등록 일시", "수정 사용자 ID", "수정 일시"];
-		metaData.colWidths 			= [42, 40,
-		                   			   150, 155, 150, 130,
-		                   			   140, 160, 140, 160]; 
-		metaData.columns 			= [
-		                 			   {data: "CHK", type: "checkbox", readOnly:false},
-		                 			   {data: "RNK", type: "textCenter", readOnly:true},
-		                 			   {data: "GRP_AUTH_CD", type: 'autocompleteCenter',
-			                 				source: grp_auth_cd_source,
-		                 				    strinct: false,
-		                 				    filter: true,
-		                 				    readOnly: false},
-		                 			   {data: "MENU_CD", type: 'autocomplete',
-			                 				source: menu_cd_source,
-		                 				    strinct: false,
-		                 				    filter: true,
-		                 				    readOnly: false},
+		metaData.readonlyBool 	= readOnlyYn;
+		metaData.colHeaders 	= ["", "No.",
+		                    		"권한 코드 *", "권한명 *", "읽기 권한 여부 *", "쓰기 권한 여부 *", "삭제 권한 여부 *", 
+		                    		"등록 직원번호", "등록 일시", "수정 직원번호", "수정 일시"];
+		metaData.colWidths 		= [42, 40,
+		                   			150, 155, 150, 130,
+		                   			140, 160, 140, 160]; 
+		metaData.columns 		= [
+		                 			{data: "CHK", type: "checkbox", readOnly:false},
+		                 			{data: "RNK", type: "textCenter", readOnly:true},
+		                 			{data: "RL_CD", type: "text"},
+		                 			{data: "RL_NM", type: "text"},
+		                 			
 	                 				   {data: "UPPER_MENU_CD", type: 'autocomplete',
 			                 				source: upper_menu_cd_source,
 		                 				    strinct: false,
@@ -263,12 +261,11 @@ app.controller('ctr_mngMenuAuth', function($scope, $http, $document, $window, $q
 	
 	$document.ready(function() {
 		
-		setCdGrid("Y");
-		//$scope.selectCdList();
-		
-		
-/*		$scope.pageInitiation();
+		//$scope.pageInitiation();
  		
-		$scope.getSelectedCmbs();*/
+		//$scope.getSelectedCmbs();
+		
+		readOnlyYn = "Y";
+		setCdGrid();
 	});
 });
