@@ -67,7 +67,7 @@ app.controller('ctr_mngImages', ['$scope', '$http', '$document', '$window', '$q'
 		metaData.rowHeaders 		= false;
 		
 		metaData.afterSelectionEndCallback = function(hsi, row, column, erow, ecolumn) {
-			$scope.img_url = 'imageDisplay.do?id=' + hsi.getData()[row][0];
+			$scope.img_url = '/imageDisplay.do?id=' + hsi.getData()[row][0];
 	    };
 		
 		hshelper_image = new HandsontableHelper(hsc_ins, metaData);
@@ -93,7 +93,7 @@ app.controller('ctr_mngImages', ['$scope', '$http', '$document', '$window', '$q'
 	}
 
 	$scope.fileUpload = function() {
-		var fileUploadUrl = "imageUpload.do";
+		var fileUploadUrl = "/imageUpload.do";
 
 		if ($scope.uploadFile != undefined && $scope.uploadFile != null) {
 			var formData = new FormData();
