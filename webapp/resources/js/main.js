@@ -86,11 +86,7 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_CD":"BOP04"}];
 	
 	$scope.sub_menu_do =  [{"MENU_KOR_NM":"메뉴관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenu.do","MENU_CD":"P0201"},
-//							{"MENU_KOR_NM":"메뉴권한관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenuAuth.do","MENU_CD":"P0202"},
-<<<<<<< HEAD
 							{"MENU_KOR_NM":"직원관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngEmp.do","MENU_CD":"P0203"},
-=======
->>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 							{"MENU_KOR_NM":"사용자정보","UPPER_MENU_CD":"BOP03","MENU_URL":"usrInfo.do","MENU_CD":"P0301"},
 							{"MENU_KOR_NM":"기초코드정보","UPPER_MENU_CD":"BOP03","MENU_URL":"basisCd.do","MENU_CD":"P0302"},
 							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngContents","MENU_CD":"P0401"},
