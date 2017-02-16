@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="mngEmpDao">
+	
+	<select id="getEmpList" resultType="java.util.HashMap">
+		SELECT 	  rownum AS NUM,
+				  EMP_NUM
+				, EMP_NM
+				, EMP_ENG_NM
+				, USR_ID
+				, PSWD
+				, JOB_RK_CD
+				, FON_NUM
+				, MBLFON_NUM
+				, FAX
+				, EM
+				, CTC_WRK_CTN
+				, DTY_STTS_CD
+				, DLT_CAU
+				, RGST_EMP_NUM
+		  FROM HIST_EMP
+		 WHERE 1=1
+		    AND DLT_YN = 'N'		   
+		<if test="EMP_NUM != null and EMP_NUM !=''">
+			AND EMP_NUM LIKE '%' || #{EMP_NUM} || '%'
+		</if>
+		<if test="EMP_NM != null and EMP_NM !=''">
+			AND EMP_NM LIKE '%' || #{EMP_NM} || '%'
+		</if>
+	  ORDER BY EMP_NUM
+	</select>
+	
+	
+	
+	
+</mapper>
