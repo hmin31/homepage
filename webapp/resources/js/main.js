@@ -89,7 +89,9 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 							{"MENU_KOR_NM":"메뉴권한관리","UPPER_MENU_CD":"BOP02","MENU_URL":"mngMenuAuth.do","MENU_CD":"P0202"},
 							{"MENU_KOR_NM":"사용자정보","UPPER_MENU_CD":"BOP03","MENU_URL":"usrInfo.do","MENU_CD":"P0301"},
 							{"MENU_KOR_NM":"기초코드정보","UPPER_MENU_CD":"BOP03","MENU_URL":"basisCd.do","MENU_CD":"P0302"},
-							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngContents","MENU_CD":"P0401"}];
+							{"MENU_KOR_NM":"컨텐츠관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngContents","MENU_CD":"P0401"},
+							{"MENU_KOR_NM":"이미지관리","UPPER_MENU_CD":"BOP04","MENU_URL":"mngImages","MENU_CD":"P0402"}
+							];
 	
 	$scope.selectMenuList = function(mstCd) {
 		var dataObj = {};
@@ -126,6 +128,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/mngContents', {
 		templateUrl : 'mngContents.do',
 		controller: 'ctr_mngContents'
+	}).when('/mngImages', {
+		templateUrl : 'mngImages.do',
+		controller: 'ctr_mngImages'
+			
 	})
 	
 } ]);
