@@ -1,7 +1,7 @@
 app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '$sce',
 	function($scope, $http, $document, $window, $q, $sce) {
 
-	var ctrUrl = 'mngEmp.do';
+	var ctrUrl = '/mngEmp.do';
 	
 	//메뉴 등록 페이지가 호출되었을 때, 최초 호출 된다.
 	$scope.getEmpList = function() {
