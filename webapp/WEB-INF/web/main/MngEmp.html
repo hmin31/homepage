@@ -1,0 +1,58 @@
+
+<div class="popup" ng-cloak>
+
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>직원 등록</h4>
+				<div style="text-align: right !important;">
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="getEmpList()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;조회
+					</button>
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="saveLowerMenu()">
+						<i class="fa fa-save"></i>
+						&nbsp;&nbsp;저장
+					</button>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-8 top-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>직원 목록</h5>
+							</div>
+<!-- 							<div class="col-md-8" style="text-align: right !important;"> -->
+<!-- 								Total Row: {{page_detailCd.totalItems || 0}}&nbsp;&nbsp; -->
+<!-- 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addLowerMenu()"><i class="fa fa-plus"></i></button> -->
+<!-- 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="deleteLowerMenu()"><i class="fa fa-minus"></i></button> -->
+<!-- 								&nbsp; -->
+<!-- 							</div> -->
+							<!-- +/- 등록 -->
+							<!-- <div style="text-align: right !important;">
+								<button type="button" class="btn btn-default search-btn-11st" ng-click="addLowerMenu()">
+									<i class="fa fa-search"></i>
+									&nbsp;&nbsp;+
+								</button>
+								<button type="button" class="btn btn-default search-btn-11st" ng-click="deleteLowerMenu()">
+									<i class="fa fa-search"></i>
+									&nbsp;&nbsp;-
+								</button>
+							</div> -->
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="all_emp" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
