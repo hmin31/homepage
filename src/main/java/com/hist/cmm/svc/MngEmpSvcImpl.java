@@ -71,39 +71,11 @@ public class MngEmpSvcImpl extends BizServiceImpl {
 		mngEmpDaoImpl.delEmp(paramMap);*/
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void saveEmp(IListData listData) throws Exception {
-		// TODO Auto-generated method stub
-		/*IListData resultListData = new ListDataImpl();
-		Map<?, ?> paramMap = listData.getParameterMap();
-		//mngEmpDaoImpl.getEmpCnt(paramMap);
-		List list = listData.getDataList("layer_input");
-		HashMap rowData = null;	
-		String rowStatus = "";
-		log.debug(">>>>>saveEmp is called.. listsize : " + list.size());
-		for (int i = 0, j = list.size(); i < j; i++) {
-			rowData = (HashMap) list.get(i);
-			log.debug("rowData : " + rowData);
-			rowStatus = String.valueOf(rowData.get("ROW_STATUS"));
-			rowData.put("REG_USR_ID", listData.getParameter("REG_USR_ID"));
-			
-			//Insert
-			if ("I".equals(rowStatus)) {
-				String avail_yn = mngEmpDaoImpl.getEmpAvail(rowData);
-				if ("N".equals(avail_yn)) {
-					throw new CustomedExceptionImpl(4, String.valueOf(rowData.get("MENU_CD")) + " (硫?? 肄??) 媛??대? 議댁??⑸??? ?????????????.");
-				}
-				mngEmpDaoImpl.insertEmp(rowData);
-
-			} else if ("U".equals(rowStatus)) {
-				mngEmpDaoImpl.updateEmp(rowData);	
-			}
-		}*/
-		
-		
 		
 		Map<?, ?> paramMap = listData.getParameterMap();
-		//mngEmpDaoImpl.getDetailCdCnt(paramMap);
-		List list = listData.getDataList("do_lowerEmp_chg");
+		List list = listData.getDataList("ds_emp");
 		HashMap rowData = null;	
 		String rowStatus = "";
 		
@@ -115,17 +87,9 @@ public class MngEmpSvcImpl extends BizServiceImpl {
 			rowStatus = String.valueOf(rowData.get("ROW_STATUS"));
 			rowData.put("REG_USR_ID", listData.getParameter("REG_USR_ID"));
 			
-			
-			
 			if ("I".equals(rowStatus)) {
-				/*String avail_yn = basisCdDaoImpl.getDetailCdAvail(rowData);
-				if ("N".equals(avail_yn)) {
-					throw new CustomedExceptionImpl(4, String.valueOf(rowData.get("MASTR_CD")) + " - " +
-							String.valueOf(rowData.get("DETAIL_CD")) + " ��� 肄��媛��대� 議댁��⑸��� �������������.");
-				}*/
 				log.debug("InsertEmp process");
 				mngEmpDaoImpl.insertEmp(rowData);
-				
 			} else if ("U".equals(rowStatus)) { 
 				log.debug("updateEmp process");
 				mngEmpDaoImpl.updateEmp(rowData);	
