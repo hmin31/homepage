@@ -45,8 +45,10 @@ public class FrontPageCtrImpl {
 		String svc_id = (String) paramMap.get("SVC_ID");
 		if ("getMenuList".equals(svc_id)) {
 			resultListData = frontPageSvcImpl.getMenuList(paramMap);
+		} else if ("getAllFrontPageContents".equals(svc_id)) {
+			resultListData = frontPageSvcImpl.getAllFrontPageContents(paramMap);
 		}
-
+		
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);
 
 		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));

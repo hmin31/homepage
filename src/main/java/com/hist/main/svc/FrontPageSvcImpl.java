@@ -1,6 +1,7 @@
 package com.hist.main.svc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.frw.dto.IListData;
 import com.frw.dto.ListDataImpl;
 import com.frw.svc.BizServiceImpl;
 import com.hist.main.dao.FrontPageDaoImpl;
+import com.hist.main.dao.MngContentsDaoImpl;
 
 @Service("frontPageSvcImpl")
 public class FrontPageSvcImpl extends BizServiceImpl {
@@ -18,6 +20,9 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 	@Autowired
 	private FrontPageDaoImpl frontPageDaoImpl;
 
+	@Autowired
+	private MngContentsDaoImpl mngContentsDaoImpl;
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IListData getMenuList(Map paramMap) throws Exception {
 
@@ -42,5 +47,21 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		
 		return resultListData;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public IListData getAllFrontPageContents(Map<?, ?> paramMap) throws Exception {
+
+		Map<String, Object> customedParamMap = new HashMap<String, Object>();
+		customedParamMap.putAll((Map<? extends String, ? extends Object>) paramMap);
+		customedParamMap.put("MENU_CD", "AL0000000");
+		
+		IListData resultListData = getMenuList(customedParamMap);
+		
+		String mainContents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("mainContents", mainContents);
+		
+		return resultListData;
+	}
+	
 
 }

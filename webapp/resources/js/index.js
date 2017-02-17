@@ -1,8 +1,13 @@
 var app = angular.module('app_index', []);
 
-app.controller('ctr_index', function($scope, $http, $document, $window, $location) {
+app.controller('ctr_index', ['$scope', '$http', '$document', '$window', '$q', '$sce',
+	function($scope, $http, $document, $window, $q, $sce) {
 	
 	var ctrUrl = '/frontPage.do';
+	
+	$scope.renderHtml = function(htmlCode) {
+		return $sce.trustAsHtml(htmlCode);
+	};
 
 	function addDataObj(jQuery, dataObj, keyNm, keyVal) {
 		eval("jQuery.extend(dataObj, {" + keyNm + ": keyVal})");
@@ -89,10 +94,25 @@ app.controller('ctr_index', function($scope, $http, $document, $window, $locatio
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 
 	}
+	
+	$scope.getAllFrontPageContents = function() {
+
+		var dataObj = {};
+		var paramDataObj = {};
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "getAllFrontPageContents");
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		var afterSuccessFunc = function(returnData) {
+			exceptionHandler(returnData.RESULT, "", "N");
+			$scope.hi_menu_cd_do = returnData.hi_menu_cd_do;
+			$scope.menu_cd_do = returnData.menu_cd_do;
+			$scope.mainContents = returnData.VARIABLE_MAP.mainContents || '';
+		};
+		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+
+	}
 
 	$document.ready(function() {
-		$scope.getMenuList();
-
+		$scope.getAllFrontPageContents();
 	});
 
-});
+}]);
