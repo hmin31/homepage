@@ -18,6 +18,10 @@ public class MngNtceDaoImpl extends MybatisBizDaoImpl {
 		return queryForList(nameSpace + ".getNtceMenu", parameterMap);
 	}
 	
+	public List<?> selectNtceList(Map<?, ?> parameterMap) throws Exception {
+		return queryForList(nameSpace + ".selectNtceList", parameterMap);
+	}
+	
 	public String getNtceDtls(Map<?, ?> parameterMap) throws Exception {
 		return queryForStr(nameSpace + ".getNtceDtls", parameterMap);
 	}

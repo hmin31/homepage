@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mngNtce">
-
+	
 	<select id="getNtceMenu" resultType="java.util.HashMap">
 		SELECT	MENU_CD 		AS code
 				,MENU_KRN_NM 	AS name
 		FROM 	HIST_MENU 
 		WHERE  	MENU_CATE IS NULL
 	</select>
-
+	
+	<select id="selectNtceList" resultType="java.util.HashMap">
+		SELECT	'1' AS NO, 
+				'제목' AS SUBJECT, 
+				'admin' AS RGST_EMP, 
+				TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') AS RGST_DTIM, 
+				'admin' AS CORCT_EMP, 
+				TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') AS CORCT_DTIM
+		FROM 	DUAL
+	</select>
+	
 	<select id="getNtceDtls" resultType="string" >
 		SELECT	NVL(CTN_DTLS, EMPTY_CLOB()) AS CTN_DTLS
 		FROM 	HIST_CTN 

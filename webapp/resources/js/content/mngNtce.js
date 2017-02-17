@@ -23,12 +23,11 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
 	
-	$scope.selectCdList = function() {
+	$scope.selectNtceList = function() {
 		var dataObj = {};
 		var paramDataObj = {};
 		
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectCdList");
-		
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectNtceList");
 		addDataObj(jQuery, paramDataObj, "searchMenuCd", $scope.selectedNtceMenuCd);
 		
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
@@ -36,85 +35,41 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "코드", "N");
 			
-			var gridData= cdToNmOfGridData(returnData.do_cd);//Cd를 Name형식으로 변환
 			hshelper_cd.init();
-			hshelper_cd.setData(gridData);
+			hshelper_cd.setData(returnData.ntce_do);
 			$scope.page_cd.totalItems = returnData.VARIABLE_MAP.cdCnt;
-
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	};
 	
-	function setCdGrid(use_yn_source, grp_auth_cd_source, upper_menu_cd_source, menu_cd_source){
+	function setCdGrid(){
 
 		var hsc_ins = document.getElementById('hst_ntce');
 		
 		var metaData = {};
-		metaData.readonlyBool 		= readOnlyYn;
-		metaData.colHeaders 		= ["", "No.",
-		                    		   "그룹 권한 *", "메뉴명 *", "상위 메뉴명", "데이터수정 가능 여부 *", 
-		                    		   "등록 사용자 ID", "등록 일시", "수정 사용자 ID", "수정 일시"];
-		metaData.colWidths 			= [42, 40,
-		                   			   150, 155, 150, 130,
-		                   			   140, 160, 140, 160]; 
-		metaData.columns 			= [
-		                 			   {data: "CHK", type: "checkbox", readOnly:false},
-		                 			   {data: "RNK", type: "textCenter", readOnly:true},
-		                 			   {data: "GRP_AUTH_CD", type: 'autocompleteCenter',
-			                 				source: grp_auth_cd_source,
-		                 				    strinct: false,
-		                 				    filter: true,
-		                 				    readOnly: false},
-		                 			   {data: "MENU_CD", type: 'autocomplete',
-			                 				source: menu_cd_source,
-		                 				    strinct: false,
-		                 				    filter: true,
-		                 				    readOnly: false},
-	                 				   {data: "UPPER_MENU_CD", type: 'autocomplete',
-			                 				source: upper_menu_cd_source,
-		                 				    strinct: false,
-		                 				    filter: false,
-		                 				    readOnly: true},
-		                 			   {data: "ENABLE_WRITE_YN", type: 'autocompleteCenter',
-				                 			source: use_yn_source,
-			                 				strinct: false,
-			                 				filter: false,
-			                 				readOnly: false},
-		                 			   {data: "REG_USR_ID", type: "textCenter", readOnly:true},
-		                 			   {data: "REG_DTM", type: "textCenter", readOnly:true},
-		                 			   {data: "UPD_USR_ID", type: "textCenter", readOnly:true},
-		                 			   {data: "UPD_DTM", type: "textCenter", readOnly:true}
-		                 			   ];
-		metaData.heightVal			= 516;
-		metaData.rowHeaders 		= false;
-		metaData.chkAllColumnYn 	= true;
-		metaData.pkColumns			= ["GRP_AUTH_CD", "MENU_CD"];
+		metaData.colHeaders 	= ["", "No.",
+		                    		"글번호", "제목", "등록자", "등록일시", "수정자", "수정일시"];
+		metaData.colWidths 		= [42, 40,
+		                   			60, 250, 100, 150, 100, 150]; 
+		metaData.columns 		= [
+		                 			{data: "CHK", type: "checkbox", readOnly:false},
+		                 			{data: "RNK", type: "textCenter", readOnly:true},
+		                 			{data: "NO", type: "textCenter", readOnly:true},
+		                 			{data: "SUBJECT", type: "text", readOnly:true},
+		                 			{data: "RGST_EMP", type: "textCenter", readOnly:true},
+		                 			{data: "RGST_DTIM", type: "textCenter", readOnly:true},
+		                 			{data: "CORCT_EMP", type: "textCenter", readOnly:true},
+		                 			{data: "CORCT_DTIM", type: "textCenter", readOnly:true}
+		                 		   ];
+		metaData.heightVal		= 516;
+		metaData.rowHeaders 	= false;
+		metaData.chkAllColumnYn = true;
 		
 		hshelper_cd = new HandsontableHelper(hsc_ins, metaData);
 		hshelper_cd.init();
 		hshelper_cd.setData();
 	};
-	
-	function uploadImage(image) {
-		var data = new FormData();
-		data.append("image", image);
-		$.ajax({
-			url : 'image upload url',
-			cache : false,
-			contentType : false,
-			processData : false,
-			data : data,
-			type : "post",
-			success : function(url) {
-				var image = $('<img>').attr('src', 'http://' + url);
-				$('#summernote').summernote("insertode", image[0]);
-			},
-			error : function(data) {
-				console.log(data);
-			}
-		});
-	}
 	
 	$scope.getNtceDtls = function() {
 		
@@ -172,7 +127,27 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		$scope.thisCanBeusedInsideNgBindHtml = htmlVar;
 		$scope.renderHtml($scope.thisCanBeusedInsideNgBindHtml);
 	}
-						
+	
+	function uploadImage(image) {
+		var data = new FormData();
+		data.append("image", image);
+		$.ajax({
+			url : 'image upload url',
+			cache : false,
+			contentType : false,
+			processData : false,
+			data : data,
+			type : "post",
+			success : function(url) {
+				var image = $('<img>').attr('src', 'http://' + url);
+				$('#summernote').summernote("insertode", image[0]);
+			},
+			error : function(data) {
+				console.log(data);
+			}
+		});
+	}
+	
 	$("#modal-background, #modal-close, #modal-close2").click(
 		function() {
 			$("#modal-content,#modal-background")
@@ -184,7 +159,7 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		
 		$scope.getNtceMenu();
 		
-		//setCdGrid();
+		setCdGrid();
 
 		$('#homepage_ntce').summernote({
 			height: ($(window).height() - 300),

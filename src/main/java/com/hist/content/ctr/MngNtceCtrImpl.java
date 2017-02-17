@@ -40,8 +40,8 @@ public class MngNtceCtrImpl {
 
 	@RequestMapping(value = "/mngNtce.do", method = RequestMethod.POST)
 	public void postTest(@RequestBody(required = false) HashMap<String, Object> reqBodyMap, HttpServletRequest req,
-			HttpServletResponse res, BindingResult bindingResult) throws Exception {
-
+							HttpServletResponse res, BindingResult bindingResult) throws Exception {
+		
 		log.debug(">>>>> post mngNtce request");
 		
 		IListData listData = jsonDataHandlerImpl.convertToIListData(reqBodyMap, req);
@@ -51,6 +51,10 @@ public class MngNtceCtrImpl {
 		String svc_id = (String) paramMap.get("SVC_ID");
 		if ("getNtceMenu".equals(svc_id)) {
 			resultListData = mngNtceSvcImpl.getNtceMenu(paramMap);
+			
+		} else if ("selectNtceList".equals(svc_id)) {
+			resultListData = mngNtceSvcImpl.selectNtceList(paramMap);
+			
 			
 		} else if ("getNtceDtls".equals(svc_id)) {
 			resultListData = mngNtceSvcImpl.getNtceDtls(paramMap);

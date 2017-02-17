@@ -19,16 +19,23 @@ public class MngNtceSvcImpl extends BizServiceImpl{
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IListData getNtceMenu(Map paramMap) throws Exception {
-		
 		IListData resultListData = new ListDataImpl();
-		List<?> returnList = mngNtceDaoImpl.getNtceMenu(paramMap);
-		resultListData.setDataList("ntceMenu_do", (List<Map<String, Object>>) returnList);
+		List  returnList = mngNtceDaoImpl.getNtceMenu(paramMap);
+		resultListData.setDataList("ntceMenu_do", returnList);
+		
+		return resultListData;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public IListData selectNtceList(Map paramMap) throws Exception {
+		IListData resultListData = new ListDataImpl();
+		List returnList = mngNtceDaoImpl.selectNtceList(paramMap);
+		resultListData.setDataList("ntce_do", returnList);
 		
 		return resultListData;
 	}
 	
 	public IListData getNtceDtls(Map<?, ?> paramMap) throws Exception {
-		
 		IListData resultListData = new ListDataImpl();
 		String ntceDtls = mngNtceDaoImpl.getNtceDtls(paramMap);
 		

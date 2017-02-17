@@ -5,7 +5,7 @@
 				<h4>게시판 관리</h4>
 				<div style="text-align: right !important;">
 					<button type="button" class="btn btn-default search-btn-11st"
-						ng-click="getNtceDtls()">
+						ng-click="selectNtceList()">
 						<i class="fa fa-search"></i> &nbsp;&nbsp;SEARCH
 					</button>
 				</div>
@@ -15,7 +15,7 @@
 				<div class="row search-row-11st">
 					<div class="col-md-3">
 						<span>메뉴명</span> <select ng-model="selectedNtceMenuCd"
-							class="btn form-air" ng-change="getNtceDtls()">
+							class="btn form-air">
 							<option value="">선택</option>
 							<option ng-repeat="item in ntceMenu_do" value="{{item.CODE}}">{{item.NAME}}</option>
 						</select>
@@ -32,6 +32,16 @@
 						<div class="row">
 							<div class="col-md-6 left-grid-11st">
 								<h5>게시판</h5>
+							</div>
+							<div class="col-md-6" style="text-align: right !important;">
+								Total Row: {{page_cd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addCd()">
+								<i class="fa fa-plus"></i></button>
+ 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" style="display:none;" ng-click="delCd()">
+								<i class="fa fa-minus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveCd()">
+								<i class="fa fa-floppy-o"></i></button>
+								&nbsp;
 							</div>
 						</div>
 						<div class="row">
