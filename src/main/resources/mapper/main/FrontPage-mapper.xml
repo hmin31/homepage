@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="frontPage">
+
+	<select id="getMenuList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT 	MENU.MENU_CD
+				,HI_MENU_CD
+				,MENU_KRN_NM
+				,MENU_URL
+		FROM 	HIST_MENU MENU
+		WHERE 	MENU.HI_MENU_CD IN
+		<foreach item="hi_menu_cd" index="index" collection="hi_menu_cds" open="(" close=")" separator=",">
+			#{hi_menu_cd}
+		</foreach>
+	</select>
+
+</mapper>
