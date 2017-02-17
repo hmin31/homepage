@@ -29,36 +29,37 @@
 
 <body ng-app="app_index" ng-controller="ctr_index" ng-cloak>
 
-	<!-- navbar -->
 	<div class="navbar-wrapper" style="height: 51px;"">
 		<div class="hist-affix affix" data-spy="affix" data-offset-top="79">
-			<div class="container topmenu">
-				<nav class="navbar navbar-inverse navbar-static-top navbar-hist">
-					<div class="container" style="background-color: rgba(0, 0, 0, .0001) !important;">
-						<div class="navbar-header">
-							<a class="navbar-brand" href="#"> <img src="/resources/image/ci1.png" width="120" height="20" style="margin-right: 15px;">
-							</a>
-						</div>
-						<div id="home-navbar" class="navbar-collapse collapse">
-							<ul class="nav navbar-nav">
-								<li class="dropdown" ng-repeat="hi_menu in hi_menu_cd_do">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
-										aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}">{{hi_menu.MENU_KRN_NM}}</a>
-									<ul class="dropdown-menu" style="background-color: #a3b4c0;">
-										<li ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} ">
-											<a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
 
-						</div>
+			<nav class="navbar navbar-default navbar-hist">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"><img src="/resources/image/ci1.png" width="120" height="20" style="margin-right: 15px;"></a>
 					</div>
-				</nav>
-			</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="active">
+							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}">{{hi_menu.MENU_KRN_NM}}</a>
+								<ul class="dropdown-menu" style="background-color: #a3b4c0;">
+									<li ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} "><a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a></li>
+								</ul></li>
+
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+
 		</div>
 	</div>
-
 
 	<!-- slide wrapper -->
 	<div id="view-main" class="view">
