@@ -1,0 +1,102 @@
+<div class="popup" ng-cloak>
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>백오피스 이미지 관리</h4>
+				<div style="text-align: right !important;">
+					<button type="button" class="btn btn-default search-btn-11st"
+						ng-click="getImageDtls()">
+						<i class="fa fa-search"></i> &nbsp;&nbsp;SEARCH
+					</button>
+				</div>
+			</div>
+
+			<div class="air-search search-row-11st">
+				<div class="row search-row-11st">
+					<div class="col-md-3">
+						<span>이미지명</span> 
+						<input class="form-air" type="text" ng-model="searched_imageNm" placeholder="image name"
+							ng-keyup="$event.keyCode == 13 ? getImageDtls() : null">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-12 left-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 left-grid-11st">
+								<h5>백오피스 이미지</h5>
+							</div>
+							<div class="col-md-6" style="text-align: right !important;">
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st"
+									ng-click="previewClick()">preview
+								</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_image" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<br/>
+
+		<div class="input-group input-group-sm"
+			style="float: left; width: 99%;">
+			<span class="input-group-addon modalInputLabel_md popup-grid-11st">파일첨부</span>
+			<form action="" method="post" enctype="multipart/form-data" id="fileTest">
+				<div class='form-group'>
+					<input type="file" name="upload_file" accept=".*" onchange="angular.element(this).scope().uploadFileChanged(this.files);"
+						class="" required="true" style="width: 349px; display: inline;">
+					<button type="button" class="btn-f21-basic btn-1 btn-xs" ng-click="fileUpload()"
+						style="margin-left: 8px; background-color: #e2e2e2; border-color: #f3f3f3; 
+						line-height: 1.3; padding: 4px 10px;">
+						파일 업로드</button>
+				</div>
+			</form>
+		</div>
+
+
+	</div>
+
+	<div id="modal-background"></div>
+	<div id="modal-content"
+		style="height: 400px; width: 800px !important; padding: 0px"
+		class="popup-bg-11st">
+		<div id="headerBar"
+			style="height: 10px; background: #586ce6; border-radius: 10px 10px 0px 0px; border: 2px solid #586ce6;"></div>
+		<div class="modal-header">
+			<button type="button" class="close" id="modal-close2"
+				aria-label="Close">
+				<span aria-hidden="true" class="exitBtn">&times;</span>
+			</button>
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">Preview</b>
+				</h3>
+			</div>
+			<p>
+			<p>
+		</div>
+		<div class="modal-body">
+			<div class="row" style="margin-bottom: 5px;">
+
+				<div class="col-md-12" style="padding-right: 10px;">
+					<img ng-src="{{img_url}}" style="max-width: 100%; height:280px">
+					<input class="form-air" type="text" ng-model="img_url" placeholder="url">
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>

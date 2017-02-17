@@ -30,6 +30,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/*.do" />
+			<mvc:exclude-mapping path="/imageDisplay.do"/>
 			<mvc:exclude-mapping path="/login.do"/>
 			<bean class="com.frw.utl.LoginCheckInterceptor" />
 		</mvc:interceptor>

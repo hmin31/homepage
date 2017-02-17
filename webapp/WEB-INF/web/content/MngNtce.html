@@ -1,0 +1,107 @@
+<div class="popup" ng-cloak>
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>게시판 관리</h4>
+				<div style="text-align: right !important;">
+					<button type="button" class="btn btn-default search-btn-11st"
+						ng-click="selectNtceList()">
+						<i class="fa fa-search"></i> &nbsp;&nbsp;SEARCH
+					</button>
+				</div>
+			</div>
+
+			<div class="air-search search-row-11st">
+				<div class="row search-row-11st">
+					<div class="col-md-3">
+						<span>메뉴명</span> <select ng-model="selectedNtceMenuCd"
+							class="btn form-air">
+							<option value="">선택</option>
+							<option ng-repeat="item in ntceMenu_do" value="{{item.CODE}}">{{item.NAME}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-12 left-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 left-grid-11st">
+								<h5>게시판</h5>
+							</div>
+							<div class="col-md-6" style="text-align: right !important;">
+								Total Row: {{page_cd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addCd()">
+								<i class="fa fa-plus"></i></button>
+ 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr" style="display:none;" ng-click="delCd()">
+								<i class="fa fa-minus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveCd()">
+								<i class="fa fa-floppy-o"></i></button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_ntce" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+							</div>
+						</div>
+						<!-- div class="row">
+							<div class="col-md-1 left-grid-11st">
+								<input class="btn btn-default" type="button" value="preview"
+									style="width: 100%;" ng-click="previewClick()" />
+							</div>
+							<div class="col-md-1 left-grid-11st">
+								<input class="btn btn-default" type="button" value="save"
+									style="width: 100%;" ng-click="mergeNtceDtls()" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="homepage_ntce"></div>
+							</div>
+						</div -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="modal-background"></div>
+	<div id="modal-content"
+		style="height: 400px; width: 800px !important; padding: 0px"
+		class="popup-bg-11st">
+		<div id="headerBar"
+			style="height: 10px; background: #586ce6; border-radius: 10px 10px 0px 0px; border: 2px solid #586ce6;"></div>
+		<div class="modal-header">
+			<button type="button" class="close" id="modal-close2"
+				aria-label="Close">
+				<span aria-hidden="true" class="exitBtn">&times;</span>
+			</button>
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">Preview</b>
+				</h3>
+			</div>
+			<p>
+			<p>
+		</div>
+		<div class="modal-body">
+			<div class="row" style="margin-bottom: 5px;">
+
+				<div class="col-md-12" style="padding-right: 10px;"></div>
+
+				<div style="height: 25px; clear: both;"></div>
+
+				<p ng-bind-html="renderHtml(thisCanBeusedInsideNgBindHtml)"></p>
+
+			</div>
+		</div>
+
+	</div>
+
+</div>

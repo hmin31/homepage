@@ -44,6 +44,7 @@
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>*.do</url-pattern>
+    <url-pattern>/bo</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>

@@ -1,6 +1,6 @@
 
 app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
-	var ctrUrl = 'mngMenu.do';
+	var ctrUrl = '/mngMenu.do';
 
 
 	//전체 메뉴와 전체 메뉴의 하위 메뉴 HSHelper 

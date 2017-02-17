@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mngImages">
+
+	<insert id="insertImages">
+		INSERT INTO HIST_IMAGE (
+        	IMAGE_ID
+        	,IMAGE_NM
+        	,IMAGE_EXT
+        	,IMAGE_SIZE
+        	,IMAGE_BLOB
+			,RGST_EMP_NUM
+			,RGST_DTIM
+        )
+        VALUES (
+	        #{IMAGE_ID, jdbcType=VARCHAR}
+			,#{IMAGE_NM, jdbcType=VARCHAR}
+			,#{IMAGE_EXT, jdbcType=VARCHAR}
+			,#{IMAGE_SIZE, jdbcType=VARCHAR}
+			,#{IMAGE_BLOB, jdbcType=BLOB}
+			,'admin'
+			,sysdate
+        )
+	</insert>
+	
+	<select id="getImageBlob" resultType="java.util.HashMap" >
+		SELECT	IMAGE_BLOB
+		FROM 	HIST_IMAGE 
+		WHERE	IMAGE_ID = #{IMAGE_ID}
+	</select>
+	
+	<select id="getImageList" resultType="java.util.HashMap" >
+		SELECT	IMAGE_ID
+	        	,IMAGE_NM
+	        	,IMAGE_EXT
+	        	,IMAGE_SIZE
+				,RGST_EMP_NUM
+				,TO_CHAR(RGST_DTIM, 'yyyy-mm-dd') AS RGST_DTIM
+		FROM 	HIST_IMAGE 
+		<where>
+			<if test="IMAGE_NM != null and IMAGE_NM !=''">
+				IMAGE_NM like '%' || #{IMAGE_NM} || '%'
+			</if>
+		</where>
+	</select>
+	
+	
+</mapper>

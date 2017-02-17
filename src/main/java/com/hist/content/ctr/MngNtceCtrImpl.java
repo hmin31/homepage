@@ -1,4 +1,4 @@
-package com.hist.main.ctr;
+package com.hist.content.ctr;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,54 +19,58 @@ import org.springframework.web.servlet.ModelAndView;
 import com.frw.dto.IListData;
 import com.frw.dto.ListDataImpl;
 import com.frw.utl.JsonDataHandlerImpl;
-import com.hist.main.svc.MngContentsSvcImpl;
+import com.hist.content.svc.MngNtceSvcImpl;
 
 @Controller
-public class MngContentsCtrImpl {
+public class MngNtceCtrImpl {
 
-	private final Logger log = LoggerFactory.getLogger(MngContentsCtrImpl.class);
+	private final Logger log = LoggerFactory.getLogger(MngNtceCtrImpl.class);
 
 	@Resource
-	private MngContentsSvcImpl mngContentsSvcImpl;
+	private MngNtceSvcImpl mngNtceSvcImpl;
 	
 	@Resource
 	private JsonDataHandlerImpl jsonDataHandlerImpl;
 
-	@RequestMapping(value = "/bo/mngContents.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/bo/mngNtce.do", method = RequestMethod.GET)
 	public ModelAndView getTestView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
-		log.debug(">>>>> get mngContents request");
-		return new ModelAndView("main/MngContents");
+		log.debug(">>>>> get mngNtce request");
+		return new ModelAndView("content/MngNtce");
 	}
 
-	@RequestMapping(value = "/mngContents.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/mngNtce.do", method = RequestMethod.POST)
 	public void postTest(@RequestBody(required = false) HashMap<String, Object> reqBodyMap, HttpServletRequest req,
-			HttpServletResponse res, BindingResult bindingResult) throws Exception {
-
-		log.debug(">>>>> post mngContents request");
+							HttpServletResponse res, BindingResult bindingResult) throws Exception {
+		
+		log.debug(">>>>> post mngNtce request");
 		
 		IListData listData = jsonDataHandlerImpl.convertToIListData(reqBodyMap, req);
 		Map<?, ?> paramMap = listData.getParameterMap();
 		IListData resultListData = new ListDataImpl();
-
+		
 		String svc_id = (String) paramMap.get("SVC_ID");
-		if ("getContentsMenu".equals(svc_id)) {
-			resultListData = mngContentsSvcImpl.getContentsMenu(paramMap);
-		} else if ("getContentsDtls".equals(svc_id)) {
-			resultListData = mngContentsSvcImpl.getContentsDtls(paramMap);
-		} else if ("insertContentsDtls".equals(svc_id)) {
-			mngContentsSvcImpl.insertContentsDtls(paramMap);
-		} else if ("updateContentsDtls".equals(svc_id)) {
-			mngContentsSvcImpl.updateContentsDtls(paramMap);
-		} else if ("mergeContentsDtls".equals(svc_id)) {
-			mngContentsSvcImpl.mergeContentsDtls(paramMap);
+		if ("getNtceMenu".equals(svc_id)) {
+			resultListData = mngNtceSvcImpl.getNtceMenu(paramMap);
 			
+		} else if ("selectNtceList".equals(svc_id)) {
+			resultListData = mngNtceSvcImpl.selectNtceList(paramMap);
+			
+			
+		} else if ("getNtceDtls".equals(svc_id)) {
+			resultListData = mngNtceSvcImpl.getNtceDtls(paramMap);
+			
+		} else if ("insertNtceDtls".equals(svc_id)) {
+			mngNtceSvcImpl.insertNtceDtls(paramMap);
+			
+		} else if ("updateNtceDtls".equals(svc_id)) {
+			mngNtceSvcImpl.updateNtceDtls(paramMap);
+			
+		} else if ("mergeNtceDtls".equals(svc_id)) {
+			mngNtceSvcImpl.mergeNtceDtls(paramMap);
 		}
-
+		
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);
-
+		
 		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));
 	}
-
-	
-	
 }
