@@ -32,6 +32,8 @@
 			<mvc:mapping path="/*.do" />
 			<mvc:exclude-mapping path="/imageDisplay.do"/>
 			<mvc:exclude-mapping path="/login.do"/>
+			<mvc:exclude-mapping path="/frontPage.do"/>
+			
 			<bean class="com.frw.utl.LoginCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
