@@ -105,7 +105,7 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
 		addDataObj(jQuery, dataObj, "ds_emp", hshelper_emp.getHsChgData());
 		
-		console.log("change Data : " + hshelper_emp.getHsChgData());
+		
 		
 		if(lengthCheck(dataObj.ds_emp, 
 				{
@@ -147,6 +147,8 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		}
 		if(alphabetNumCheck(dataObj.ds_emp, 
 				["USR_ID"], ["사용자ID"])) return;
+		
+		console.log("change Data=========" + hshelper_emp.getHsChgData());
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "직원정보 저장", "N");
