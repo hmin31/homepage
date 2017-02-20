@@ -15,6 +15,20 @@
 		WHERE  	MENU_CD = #{MENU_CD}
 	</select>
 	
+	<select id="getContentsDtlsHst" resultType="string" >
+		SELECT	NVL(CTN_DTLS, EMPTY_CLOB()) AS CTN_DTLS
+		FROM 	HIST_CTN_HST 
+		WHERE  	MENU_CD = #{MENU_CD}
+		AND		CTN_SEQ = #{CTN_SEQ}
+	</select>	
+	
+	<select id="getContentsDtlsHstList" resultType="java.util.HashMap">
+		SELECT	CTN_SEQ		AS CODE
+				,TO_CHAR(RGST_DTIM, 'yyyy-mm-dd HH:mi:ss') AS NAME
+		FROM 	HIST_CTN_HST 
+		WHERE  	MENU_CD = #{MENU_CD}
+	</select>
+	
 	<insert id="insertContentsDtls">
 		INSERT INTO HIST_CTN (
         	MENU_CD
@@ -24,6 +38,28 @@
         )
         VALUES (
 	        #{MENU_CD, jdbcType=VARCHAR}
+			,#{CTN_DTLS, jdbcType=CLOB}
+			,#{SES_USR_NM}
+			,sysdate
+        )
+	</insert>
+	
+	<insert id="insertContentsDtlsHst">
+		<selectKey keyProperty="CTN_SEQ" resultType="java.lang.String" order="BEFORE">
+			SELECT 	NVL(MAX(CTN_SEQ) + 1, 1) AS CTN_SEQ
+			FROM 	HIST_CTN_HST
+			WHERE 	MENU_CD = #{MENU_CD}
+		</selectKey>	
+		INSERT INTO HIST_CTN_HST (
+        	MENU_CD
+        	,CTN_SEQ
+        	,CTN_DTLS
+			,RGST_EMP_NUM
+			,RGST_DTIM
+        )
+        VALUES (
+	        #{MENU_CD, jdbcType=VARCHAR}
+	        ,#{CTN_SEQ}
 			,#{CTN_DTLS, jdbcType=CLOB}
 			,#{SES_USR_NM}
 			,sysdate

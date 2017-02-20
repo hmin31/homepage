@@ -14,6 +14,7 @@
 		
 		<!-- 20170215 - JJW - 임과장님 쿼리  -->
         SELECT C.MENU_CD,
+        	 C.MENU_CATE,
              C.MENU_ENG_NM,
              C.MENU_KRN_NM,
              C.MENU_URL,
@@ -29,6 +30,9 @@
              C.SYS_CTGRZ_CD
         FROM HIST_MENU C
 		WHERE C.SYS_CTGRZ_CD = '0001'
+		<if test="MENU_CATE != null and MENU_CATE !=''">
+		AND	 MENU_CATE = #{MENU_CATE}
+		</if>
 		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
 		LEVEL BETWEEN 0 AND 2
 		START WITH HI_MENU_CD IS NULL
@@ -41,6 +45,7 @@
 		
 		SELECT
 				MENU_CD, 
+				MENU_CATE,
                 HI_MENU_CD,
 			    MENU_KRN_NM, 
 			    MENU_ENG_NM,
@@ -59,6 +64,10 @@
 			<if test="MENU_CD != null and MENU_CD !=''">
 			
 				HI_MENU_CD = upper(#{MENU_CD})
+			</if>
+			<if test="MENU_CATE != null and MENU_CATE !=''">
+			
+				AND MENU_CATE = upper(#{MENU_CATE})
 			</if>
 		</where>
 	
@@ -89,6 +98,7 @@
 		INSERT INTO HIST_MENU
 		(
 			MENU_CD,
+			MENU_CATE,
 			HI_MENU_CD,
 			MENU_KRN_NM,
 			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
@@ -119,6 +129,7 @@
 		VALUES
 		(
 			UPPER(#{MENU_CD}),
+			#{MENU_CATE},
 			UPPER(#{HI_MENU_CD}),
 			#{MENU_KRN_NM},
 			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
@@ -174,6 +185,7 @@
 		DLT_YN = #{DLT_YN}
 		
 		WHERE	MENU_CD = #{MENU_CD}
+		AND		MENU_CATE = #{MENU_CATE}
 	</update>
 
 
@@ -182,6 +194,7 @@
 	<delete id="deleteLowerMenu">
 		DELETE FROM HIST_MENU
 		WHERE MENU_CD = #{MENU_CD}
+		AND		MENU_CATE = #{MENU_CATE}
 	</delete>
 
 

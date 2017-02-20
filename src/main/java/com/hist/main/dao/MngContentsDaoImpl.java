@@ -22,8 +22,20 @@ public class MngContentsDaoImpl extends MybatisBizDaoImpl {
 		return queryForStr(nameSpace + ".getContentsDtls", parameterMap);
 	}
 	
+	public List<?> getContentsDtlsHstList(Map<?, ?> parameterMap) throws Exception {
+		return queryForList(nameSpace + ".getContentsDtlsHstList", parameterMap);
+	}
+	
 	public void insertContentsDtls(Map<?, ?> parameterMap) throws Exception {
 		insert(nameSpace + ".insertContentsDtls", parameterMap);
+	}
+	
+	public String getContentsDtlsHst(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".getContentsDtlsHst", parameterMap);
+	}
+	
+	public void insertContentsDtlsHst(Map<?, ?> parameterMap) throws Exception {
+		insert(nameSpace + ".insertContentsDtlsHst", parameterMap);
 	}
 	
 	public void updateContentsDtls(Map<?, ?> parameterMap) throws Exception {
