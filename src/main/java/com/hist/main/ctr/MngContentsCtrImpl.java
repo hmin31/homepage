@@ -59,7 +59,8 @@ public class MngContentsCtrImpl {
 			mngContentsSvcImpl.updateContentsDtls(paramMap);
 		} else if ("mergeContentsDtls".equals(svc_id)) {
 			mngContentsSvcImpl.mergeContentsDtls(paramMap);
-			
+		} else if ("getContentsDtlsHst".equals(svc_id)) {
+			resultListData = mngContentsSvcImpl.getContentsDtlsHst(paramMap);
 		}
 
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);

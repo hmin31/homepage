@@ -27,10 +27,23 @@ public class MngContentsSvcImpl extends BizServiceImpl{
 		return resultListData;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public IListData getContentsDtls(Map<?, ?> paramMap) throws Exception {
 		
 		IListData resultListData = new ListDataImpl();
 		String contetnsDtls = mngContentsDaoImpl.getContentsDtls(paramMap);
+		resultListData.addVariable("contetnsDtls", contetnsDtls);
+		
+		List<?> returnList = mngContentsDaoImpl.getContentsDtlsHstList(paramMap);
+		resultListData.setDataList("contentsMenuHstList_do", (List<Map<String, Object>>) returnList);
+		
+		return resultListData;
+	}
+	
+	public IListData getContentsDtlsHst(Map<?, ?> paramMap) throws Exception {
+		
+		IListData resultListData = new ListDataImpl();
+		String contetnsDtls = mngContentsDaoImpl.getContentsDtlsHst(paramMap);
 		resultListData.addVariable("contetnsDtls", contetnsDtls);
 		
 		return resultListData;
@@ -38,11 +51,13 @@ public class MngContentsSvcImpl extends BizServiceImpl{
 	
 	public void insertContentsDtls(Map<?, ?> paramMap) throws Exception {
 		mngContentsDaoImpl.insertContentsDtls(paramMap);
+		mngContentsDaoImpl.insertContentsDtlsHst(paramMap);
 		
 	}
 	
 	public void updateContentsDtls(Map<?, ?> paramMap) throws Exception {
 		mngContentsDaoImpl.updateContentsDtls(paramMap);
+		mngContentsDaoImpl.insertContentsDtlsHst(paramMap);
 	}
 	
 	public void mergeContentsDtls(Map<?, ?> paramMap) throws Exception {
@@ -53,6 +68,7 @@ public class MngContentsSvcImpl extends BizServiceImpl{
 		} else {
 			mngContentsDaoImpl.updateContentsDtls(paramMap);
 		}
+		mngContentsDaoImpl.insertContentsDtlsHst(paramMap);
 //		mngContentsDaoImpl.mergeContentsDtls(paramMap);
 		
 	}
