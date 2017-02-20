@@ -338,9 +338,6 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	
 	$document.ready(function() {
 		
-		//setCdGrid("Y");
-		//$scope.selectCdList();
-		
 		$scope.pageInitiation();
  		 		
 		$scope.getSelectedMenuList();
