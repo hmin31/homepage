@@ -31,7 +31,71 @@
 	  ORDER BY EMP_NUM
 	</select>
 	
+	<insert id="insertImages">
+		INSERT INTO HIST_EMP (
+        	 EMP_NUM
+			,EMP_NM
+			,EMP_ENG_NM
+			,USR_ID
+			,PSWD
+			,JOB_RK_CD
+			,FON_NUM
+			,MBLFON_NUM
+			,FAX
+			,EM
+			,CTC_WRK_CTN
+			,DTY_STTS_CD
+			,DLT_CAU
+			,DLT_YN
+			,RGST_DTIM
+			,RGST_EMP_NUM
+        )
+        VALUES (
+	         #{EMP_NUM}
+			,#{EMP_NM}
+			,#{EMP_ENG_NM}
+			,#{USR_ID}
+			,#{PSWD}
+			,#{JOB_RK_CD}
+			,#{FON_NUM}
+			,#{MBLFON_NUM}
+			,#{FAX}
+			,#{EM}
+			,#{CTC_WRK_CTN}
+			,#{DTY_STTS_CD}
+			,#{DLT_CAU}
+			,'N'
+			,sysdate
+			,#{RGST_EMP_NUM}
+        )
+	</insert>
 	
-	
+	<update id="updateEmp">
+		UPDATE HIST_EMP
+		SET
+			 EMP_NUM     = #{EMP_NUM}
+			,EMP_NM      = #{EMP_NM}
+			,EMP_ENG_NM  = #{EMP_ENG_NM}
+			,USR_ID      = #{USR_ID}
+			,PSWD        = #{PSWD}
+			,JOB_RK_CD   = #{JOB_RK_CD}
+			,FON_NUM     = #{FON_NUM}
+			,MBLFON_NUM  = #{MBLFON_NUM}
+			,FAX         = #{FAX}
+			,EM          = #{EM}
+			,CTC_WRK_CTN = #{CTC_WRK_CTN}
+			,DTY_STTS_CD = #{DTY_STTS_CD}
+			,DLT_CAU     = #{DLT_CAU}
+			,DTY_STTS_CD = #{DTY_STTS_CD}
+			,DLT_CAU     = #{DLT_CAU}
+			,CORCT_DTIM  = sysdate
+			,CORCT_EMP_NUM = #{CORCT_EMP_NUM}
+		WHERE	EMP_NUM = #{EMP_NUM}
+	</update>
+
+	<delete id="deleteEmp">
+		DELETE FROM HIST_EMP
+		WHERE EMP_NUM = #{EMP_NUM}
+	</delete>
 	
 </mapper>
