@@ -67,7 +67,7 @@
 			</if>
 			<if test="MENU_CATE != null and MENU_CATE !=''">
 			
-				MENU_CATE = upper(#{MENU_CATE})
+				AND MENU_CATE = upper(#{MENU_CATE})
 			</if>
 		</where>
 	
