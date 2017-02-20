@@ -78,7 +78,7 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		var addRow = hshelper_emp.addData(
 				{DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
 		
-		hshelper_emp.selectCell(addRow, 1);
+		hshelper_emp.selectCell(addRow, 2);
 	}
 	
 	//행 삭제 
