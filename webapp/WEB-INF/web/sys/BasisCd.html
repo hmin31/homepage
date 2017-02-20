@@ -1,0 +1,81 @@
+<div class="popup" ng-cloak>
+<!-- 	<div ng-app="" ng-init="input_masterCd='';input_masterNm='';selectedCmbMasterUseYn=''"> -->
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>코드 등록</h4>
+				<div style="text-align: right !important;">
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="selectCdCtgrzList()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;SEARCH
+					</button>
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="saveBasisCd()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;등록
+					</button>
+				</div>
+			</div>
+			<div class="air-search search-row-11st">
+				<div class="row search-row-11st">
+					<div class="col-md-1">
+						<span>코드분류명</span>
+						<input id="input_masterCd" type="text" maxlength="10" class="form-air" placeholder="코드분류명" ng-keyup="$event.keyCode == 13 ? selectBasisCdList() : null" ng-model="input_CdCtgrz">
+					</div>
+				</div>
+<!-- 				<div class="row search-row-11st"> -->
+					
+<!-- 				</div> -->
+			</div>
+		</div>
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-4 left-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>코드분류</h5>
+							</div>
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_CdCtgrz.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addCdCtgrz()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="delCdCtgrz()"><i class="fa fa-minus"></i></button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_masterCd" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style='text-align: center;'>
+									<pagination boundary-links="true" total-items="page_masterCd.totalItems" ng-model="page_masterCd.currentPage" ng-change="selectMasterBasisCdList()" items-per-page="page_masterCd.perPage" max-size="max_size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"> </pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 top-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>코드</h5>
+							</div>
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_Cd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addCd()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="delCd()"><i class="fa fa-minus"></i></button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_detailCd" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style='text-align: center;'>
+									<pagination boundary-links="true" total-items="page_detailCd.totalItems" ng-model="page_detailCd.currentPage" ng-change="selectDetailBasisCdList()" items-per-page="page_detailCd.perPage" max-size="max_size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"> </pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

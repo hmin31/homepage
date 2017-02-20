@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="basisCdDao">
+
+	<!-- 코드 분류 조회  -->
+	<select id="getCdCtgrzList" resultType="java.util.HashMap">
+	
+		SELECT CD_CTGRZ,
+		        CTGRZ_KRN_NM,
+		        CTGRZ_ENG_NM,
+		        CTGRZ_KRN_ABRVN,
+		        CTGRZ_ENG_ABRVN,
+		        SEQ_USE_YN,
+	            RANK() OVER (ORDER BY CD_CTGRZ) RNK
+	    FROM HIST_CD_CTGRZ
+   		<where>
+			<if test="searchCdCtgrz != null and searchCdCtgrz !=''">
+				CD_CTGRZ LIKE '%' || upper(#{searchCdCtgrz}) || '%'
+			</if>
+		</where>
+		
+	</select>
+	
+	<!-- 코드분류 개수 조회 -->
+	<select id="getCdCtgrzCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	HIST_CD_CTGRZ
+   		<where>
+			<if test="searchCdCtgrz != null and searchCdCtgrz !=''">
+				CD_CTGRZ LIKE '%' || upper(#{searchCdCtgrz}) || '%'
+			</if>
+		</where>
+	</select>
+
+
+<!-- 코드 분류에 대한 코드 리스트를 가져온다.. -->
+	<select id="getCdList" resultType="java.util.HashMap">
+
+		SELECT	CD,
+				CD_CTGRZ,
+				CD_KRN_NM,
+				CD_ENG_NM,
+				CD_KRN_ABRVN,
+				CD_ENG_ABRVN,
+				CD_SEQ,
+				RMKS
+		        RANK() OVER (ORDER BY CD) RNK
+		FROM 	HIST_CD
+		<where>
+			<if test="searchCdCtgrz != null and searchCdCtgrz !=''">
+				 MASTR_CD = upper(#{searchMasterCd})
+			</if>
+		</where>) 
+	</select>
+	
+	<select id="getCdCnt" resultType="String">
+        SELECT	COUNT(*) AS CNT
+		FROM 	HIST_CD
+		<where>
+			<if test="searchDetailCd != null and searchDetailCd !=''">
+				DETAIL_CD LIKE UPPER(#{searchDetailCd}) || '%'
+			</if>
+			<if test="searchDetailNm != null and searchDetailNm !=''">
+				AND (DETAIL_NM1 LIKE '%' || #{searchDetailNm} || '%' OR DETAIL_NM2 LIKE '%' || #{searchDetailNm} || '%')
+			</if>
+<!-- 			<if test="searchReferCd != null and searchReferCd !=''"> -->
+<!-- 				AND (REFER_CD1 LIKE '%' || #{searchReferCd} || '%' OR REFER_CD2 LIKE '%' || #{searchReferCd} || '%') -->
+<!-- 			</if> -->
+			<if test="searchDetailCdUseYn != null and searchDetailCdUseYn !=''">
+				AND USE_YN = #{searchDetailCdUseYn}
+			</if>
+			<if test="searchMasterCd != null and searchMasterCd !=''">
+				AND MASTR_CD = upper(#{searchMasterCd})
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCdCtgrzAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	HIST_CD_CTGRZ
+		WHERE 	CD_CTGRZ = #{CD_CTGRZ}
+	</select>
+	
+	
+	<insert id="insertCdCtgrz">
+		INSERT INTO HIST_CD_CTGRZ
+		(
+			CD_CTGRZ,
+	        CTGRZ_KRN_NM,
+	        CTGRZ_ENG_NM,
+	        CTGRZ_KRN_ABRVN,
+	        CTGRZ_ENG_ABRVN,
+	        SEQ_USE_YN,
+	        DLT_YN,
+	        RGST_DTIM,
+	        CORCT_EMP_NUM,
+	        RGST_EMP_NUM,
+	        CORCT_DTIM
+		)
+		VALUES
+		(
+			#{CD_CTGRZ},
+			#{CTGRZ_KRN_NM},
+			#{CTGRZ_ENG_NM},
+			#{CTGRZ_KRN_ABRVN},
+			#{CTGRZ_ENG_ABRVN},
+			#{SEQ_USE_YN},
+			'N',
+			SYSDATE,
+			
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
+			</if>
+			
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
+			</if>
+			
+			SYSDATE
+		)
+		
+	</insert>
+	
+	<update id="updateMasterCdAvailYn">
+		UPDATE 	TB_COM_CD110
+		SET	    USE_YN   = SUBSTR(#{USE_YN}, 0, INSTR(#{USE_YN}, ':') - 1),		
+			    UPD_USR_ID = #{REG_USR_ID}, 
+			    UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		WHERE	MASTR_CD = #{MASTR_CD}
+	</update>
+	
+	<!-- 코드 키 값 체크  -->
+	<select id="getCdAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	HIST_CD
+		WHERE 	CD_CTGRZ = #{CD_CTGRZ}
+		AND		CD = #{CD}
+	</select>
+	
+	<update id="updateDetailCdAvailYn">
+		UPDATE 	TB_COM_CD111
+		SET	    
+				<if test="DETAIL_NM1 != null"> 
+					DETAIL_NM1 = #{DETAIL_NM1}, 
+				</if>
+				<if test="DETAIL_NM2 != null"> 
+					DETAIL_NM2 = #{DETAIL_NM2}, 
+				</if>
+<!-- 				<if test="REFER_CD1 != null">  -->
+<!-- 					REFER_CD1 = #{REFER_CD1},  -->
+<!-- 				</if> -->
+<!-- 				<if test="REFER_CD2 != null">  -->
+<!-- 					REFER_CD2 = #{REFER_CD2},  -->
+<!-- 				</if> -->
+				<if test="SORT_ORDR != null"> 
+					SORT_ORDR = #{SORT_ORDR}, 
+				</if>
+				USE_YN   = SUBSTR(#{USE_YN}, 0, INSTR(#{USE_YN}, ':') - 1),
+			    UPD_USR_ID = #{REG_USR_ID}, 
+			    UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+		WHERE	MASTR_CD = #{MASTR_CD}
+		AND		DETAIL_CD = #{DETAIL_CD}
+	</update>
+
+</mapper>

@@ -27,8 +27,8 @@ public class MngMenuSvcImpl extends BizServiceImpl {
 		List allMenuList = mngMenuDaoImpl.getMenuList(paramMap);
 		resultListData.setDataList("all_main_menu", allMenuList);
 		
-/*		String cdCnt = mngMenuDaoImpl.getMenuCnt(paramMap);
-		resultListData.addVariable("cdCnt", cdCnt);*/
+		String menuCnt = mngMenuDaoImpl.getMenuCnt(paramMap);
+		resultListData.addVariable("menuCnt", menuCnt);
 		
 		
 		return resultListData;
@@ -41,6 +41,9 @@ public class MngMenuSvcImpl extends BizServiceImpl {
 		
 		List lowerMenuList = mngMenuDaoImpl.getLowerMenuList(paramMap);
 		resultListData.setDataList("lower_menu", lowerMenuList);
+		
+		String lowerMenuCnt = mngMenuDaoImpl.getLowerMenuCnt(paramMap);
+		resultListData.addVariable("lowerMenuCnt", lowerMenuCnt);
 		
 		return resultListData;
 	}	

@@ -105,14 +105,15 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		//HandDataHelper용 Meta Data 설정 
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["순번",	"Menu 코드*",	"Menu 영문명",	"Menu 한글명*",	"URL",
-		                    		   "순서*",	"사용여부*",	"상위 코드",		"카테고리*",		"등록자*"];
-		metaData.colWidths 			= [40,		80,		80,		80,		80, 
+		metaData.colHeaders 		= ["순번",	"Menu 코드*",	"메뉴구분*",		"Menu 영문명",	"Menu 한글명*",	"URL",
+		                    		   "순서*",	"사용여부*",		"상위 코드",		"카테고리*",		"등록자*"];
+		metaData.colWidths 			= [40,		80,		80,		80,		80,		80, 
 		                   			   100,		80,		80,		80,		80
 		                   			  ]; 
 		metaData.columns 			= [
 		                 			   {data: "RNK",		type: "textCenter", readOnly: true},
 		                 			   {data: "MENU_CD", 	type: "textCenter", readOnly: false},
+		                 			   {data: "MENU_CATE",	type: "text",		readOnly: false},
 		                 			   {data: "MENU_ENG_NM",type: "text", 		readOnly: false},
 		                 			   {data: "MENU_KRN_NM",type: "text" , 		readOnly: false},
 		                 			   {data: "MENU_URL",	type: "text",		readOnly: false},
@@ -127,7 +128,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		                 			   {data: "RGST_EMP_NUM", 	type: "text",	readOnly: false}
 		                 			   ];
 		metaData.heightVal			= 490;
-		metaData.pkColumns			= ["MENU_CD"]; 
+		metaData.pkColumns			= ["MENU_CD", "MENU_CATE"]; 
 		metaData.rowHeaders 		= false;
 	
 		
@@ -159,6 +160,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		var dataObj = {};
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "getLowerMenuList");		//getLowerMenuList 서비스 호출 
+		addDataObj(jQuery, paramDataObj, "MENU_CATE", $scope.selectedMenuKnd);
 		//current_menu_cd를 파라미터로 넣자.. validation 체크 필요  
 		
 		addDataObj(jQuery, paramDataObj, "MENU_CD", current_menu_cd);
@@ -177,12 +179,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		setLowerMenuGrid("Y");
 		var resultData = returnData.all_main_menu;
-		//user_id
-		console.log("user Id : " + returnData.VARIABLE_MAP.USER_ID);
 		user_id = returnData.VARIABLE_MAP.USER_ID;
-		$scope.page_menu.totalItems = returnData.VARIABLE_MAP.menuCnt; 
-		
-		
+		$scope.page_menu.totalItems = returnData.VARIABLE_MAP.menuCnt; 	
 		//모든 메뉴..
 		setAllMenuGrid("Y");
 		
@@ -192,6 +190,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	function setSelectedLowerMenuList(returnData){
 		var resultData = returnData.lower_menu;
 		
+		//total item
 		$scope.page_lowerMenu.totalItems = returnData.VARIABLE_MAP.lowerMenuCnt; 
 		hshelper_lowerMenu.setData(resultData);
 	}
@@ -251,7 +250,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		//메뉴 레벨 체크 
 		//var addMenuSeq = hiMenuSeq + 10;
 		var addRow = hshelper_lowerMenu.addData(
-				{HI_MENU_CD: hiMenuCd, DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
+				{HI_MENU_CD: hiMenuCd, MENU_CATE: $scope.selectedMenuKnd, DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
 		
 		hshelper_lowerMenu.selectCell(addRow, 1);
 	}
@@ -301,17 +300,17 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		if(lengthCheck(dataObj.do_lowerMenu_chg, 
 				{MENU_CD: 9, HI_MENU_CD: 9, MENU_ENG_NM: 30, MENU_KRN_NM: 100, 
-				 MENU_URL: 500, MENU_SEQ: 3, USE_YN: 1, SYS_CTGRZ_CD: 4, RGST_EMP_NUM:8},
+				 MENU_URL: 500, MENU_SEQ: 3, USE_YN: 1, SYS_CTGRZ_CD: 4, RGST_EMP_NUM:8,	MENU_CATE:9},
 				["메뉴코드", "상위메뉴코드", "영문명", "국문명", "메뉴URL", 
-				 "메뉴순서", "사용여부", "분류코드", "등록직원번호"])) {
+				 "메뉴순서", "사용여부", "분류코드", "등록직원번호", "메뉴구분"])) {
 			return;
 		}
 		
 		if(mandantoryColumnCheck(dataObj.do_lowerMenu_chg,
 				["MENU_CD", "MENU_ENG_NM", "MENU_KRN_NM", "MENU_SEQ",
-				 "USE_YN", "SYS_CTGRZ_CD", "RGST_EMP_NUM"], 
+				 "USE_YN", "SYS_CTGRZ_CD", "RGST_EMP_NUM",	"MENU_CATE"], 
 				["메뉴코드", "영문명", "국문명", "메뉴순서",
-				 "사용여부", "분류코드", "등록직원번호"])){
+				 "사용여부", "분류코드", "등록직원번호", "메뉴구분"])){
 			
 			//console.log("Validation Failed");
 		
@@ -340,7 +339,14 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		$scope.pageInitiation();
  		 		
-		$scope.getSelectedMenuList();
+		$scope.menuKnd_do = [{CODE: 'F', NAME: '프론트'}, {CODE: 'B', NAME: '백오피스'}];
+		window.setTimeout(function() {
+			console.log(">>>>Set TimeOut<<<<");
+			$scope.selectedMenuKnd = 'B';
+			$scope.getSelectedMenuList();
+		}, 50);
+
+		//$scope.getSelectedMenuList();
 		
 	});
 });

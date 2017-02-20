@@ -15,7 +15,7 @@ import com.frw.dao.MybatisBizDaoImpl;
  * <B>@Author : </B>ckim<br/>
  * <B>Description</B>
  * <ul> 
- * <li>ë©?? ê´?¦¬ DAO
+ * <li>ï¿½?? ï¿½?ï¿½ï¿½ DAO
  * </ul>
  */
 @Repository("mngMenuDaoImpl")
@@ -25,35 +25,38 @@ public class MngMenuDaoImpl extends MybatisBizDaoImpl {
 		super("mngMenuDao");
 	}
 
+	//ìƒìœ„ ë©”ë‰´ì˜ ê°œìˆ˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 	public String getMenuCnt(Map<?, ?> parameterMap) throws Exception {
 		return queryForStr(nameSpace + ".getMenuCnt", parameterMap);
 	}
 	
-	public String getMenuAuthCnt(Map<?, ?> parameterMap) throws Exception {
-		return queryForStr(nameSpace + ".getMenuAuthCnt", parameterMap);
-	}
 	public List<?> getMenuList(Map<?, ?> parameterMap) throws Exception {
 		return queryForList(nameSpace + ".getMenuList", parameterMap);
 	}
 
-	//20170213 - JJW - ÇÏÀ§ ¸Ş´º¸¦ °¡Á®¿Â´Ù.
+	//20170213 - JJW - ï¿½ï¿½ï¿½ï¿½ ï¿½Ş´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	public List<?> getLowerMenuList(Map<?, ?> parameterMap) throws Exception{
 		// TODO Auto-generated method stub
 		return queryForList(nameSpace + ".getLowerMenuList", parameterMap);
 	}
-	//20170213 - JJW - ÇÏÀ§ ¸Ş´º ÀúÀåÇÑ´Ù.
+	//20170213 - JJW - ï¿½ï¿½ï¿½ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	public void insertLowerMenu(Map<?, ?> parameterMap) throws Exception{
 		// TODO Auto-generated method stub
 		insert(nameSpace + ".insertLowerMenu", parameterMap);
 	}
-	//20170213 - JJW - ÇÏÀ§ ¸Ş´º ¼öÁ¤ÇÑ´Ù.
+	//20170213 - JJW - ï¿½ï¿½ï¿½ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	public void updateLowerMenu(Map<?, ?> parameterMap) throws Exception {
 		update(nameSpace + ".updateLowerMenu", parameterMap);
 	}
-	//20170213 - JJW - ÇÏÀ§ ¸Ş´º »èÁ¦ÇÑ´Ù.
+	//20170213 - JJW - ï¿½ï¿½ï¿½ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	public void deleteLowerMenu(Map<?, ?> parameterMap) throws Exception{
 		// TODO Auto-generated method stub
 		delete(nameSpace + ".deleteLowerMenu", parameterMap);
+	}
+
+	
+	public String getLowerMenuCnt(Map<?, ?> paramMap) {
+		return queryForStr(nameSpace + ".getLowerMenuListCnt", paramMap);
 	}
 	
 }

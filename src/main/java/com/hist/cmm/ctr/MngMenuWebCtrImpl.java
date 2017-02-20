@@ -47,15 +47,15 @@ public class MngMenuWebCtrImpl {
 		IListData resultListData = new ListDataImpl();
 		
 		String svc_id = (String) paramMap.get("SVC_ID");
-		
+		log.debug(">>>>>>>>>>>>>>>mngMenu Post called..<<<<<<<<<<<<<");
 		if ("getMenuList".equals(svc_id)) {
 			resultListData = mngMenuSvcImpl.getMenuList(paramMap);
 			resultListData.addVariable("USER_ID", listData.getParameter("REG_USR_ID"));
 		}else if("getLowerMenuList".equals(svc_id)){
-			//���� �޴� Ŭ���� �����޴��� �����´�..
+			//상위 메뉴 선택시 하위 메뉴를 가져온다.
 			resultListData = mngMenuSvcImpl.getLowerMenuList(paramMap);
 		}else if("saveLowerMenu".equals(svc_id)){
-			//���� �޴��� ���� �Ѵ�..
+			//하위 메뉴 상태를 저장한다.
 			mngMenuSvcImpl.saveLowerMenu(listData);
 		}
 		
