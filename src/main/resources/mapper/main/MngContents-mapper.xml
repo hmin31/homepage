@@ -6,7 +6,7 @@
 		SELECT	MENU_CD 		AS code
 				,MENU_KRN_NM 	AS name
 		FROM 	HIST_MENU 
-		WHERE  	MENU_CATE IS NULL
+		WHERE  	MENU_CATE  = 'F'
 	</select>
 
 	<select id="getContentsDtls" resultType="string" >
