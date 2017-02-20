@@ -43,6 +43,13 @@
 								<input class="btn btn-default" type="button" value="save"
 									style="width: 100%;" ng-click="mergeContentsDtls()" />
 							</div>
+							<div class="col-md-3">
+								<select ng-model="selectedContentsMenuSeqCd"
+									class="btn form-air" ng-change="getContentsDtlsHst()">
+									<option value="">선택</option>
+									<option ng-repeat="item in contentsMenuHstList_do" value="{{item.CODE}}">{{item.NAME}}</option>
+								</select>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12 left-grid-11st">

@@ -31,7 +31,7 @@
 	  ORDER BY EMP_NUM
 	</select>
 	
-	<insert id="insertImages">
+	<insert id="insertEmp">
 		INSERT INTO HIST_EMP (
         	 EMP_NUM
 			,EMP_NM
@@ -86,16 +86,15 @@
 			,CTC_WRK_CTN = #{CTC_WRK_CTN}
 			,DTY_STTS_CD = #{DTY_STTS_CD}
 			,DLT_CAU     = #{DLT_CAU}
-			,DTY_STTS_CD = #{DTY_STTS_CD}
-			,DLT_CAU     = #{DLT_CAU}
 			,CORCT_DTIM  = sysdate
-			,CORCT_EMP_NUM = #{CORCT_EMP_NUM}
+			,CORCT_EMP_NUM = #{RGST_EMP_NUM}
 		WHERE	EMP_NUM = #{EMP_NUM}
 	</update>
 
-	<delete id="deleteEmp">
-		DELETE FROM HIST_EMP
+	<update id="deleteEmp">
+		UPDATE HIST_EMP
+		SET DLT_YN = 'Y'
 		WHERE EMP_NUM = #{EMP_NUM}
-	</delete>
+	</update>
 	
 </mapper>

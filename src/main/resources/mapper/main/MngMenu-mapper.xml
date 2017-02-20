@@ -14,6 +14,7 @@
 		
 		<!-- 20170215 - JJW - 임과장님 쿼리  -->
         SELECT C.MENU_CD,
+        	 C.MENU_CATE,
              C.MENU_ENG_NM,
              C.MENU_KRN_NM,
              C.MENU_URL,
@@ -28,12 +29,13 @@
              SYS_CONNECT_BY_PATH (LPAD (C.MENU_SEQ, 3, 0), '|') AS MENU_SEQ_GRD,
              C.SYS_CTGRZ_CD
         FROM HIST_MENU C
-		WHERE C.SYS_CTGRZ_CD = '0001'
+		WHERE 
+		<!-- C.SYS_CTGRZ_CD = '0001' -->
 		<if test="MENU_CATE != null and MENU_CATE !=''">
-			AND	 MENU_CATE = #{MENU_CATE}
+		MENU_CATE = #{MENU_CATE}
 		</if>
 		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
-		LEVEL BETWEEN 0 AND 2
+		LEVEL BETWEEN 0 AND 3
 		START WITH HI_MENU_CD IS NULL
 		ORDER SIBLINGS BY C.MENU_SEQ ASC
 				
@@ -43,9 +45,14 @@
 	<select id="getMenuCnt" resultType="String">
 		SELECT	COUNT(*) AS CNT
 				FROM 	HIST_MENU C
-				WHERE C.SYS_CTGRZ_CD = '0001'
+				
+				<where>
+						<if test="MENU_CATE != null and MENU_CATE !=''">
+							MENU_CATE = #{MENU_CATE}
+						</if>
+				</where>
 				CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
-				LEVEL BETWEEN 0 AND 2
+				LEVEL BETWEEN 0 AND 3
 				START WITH HI_MENU_CD IS NULL
 				ORDER SIBLINGS BY C.MENU_SEQ ASC
 	</select>
@@ -86,50 +93,51 @@
 	
 	<select id="getLowerMenuListCnt" resultType="String">
 		SELECT	COUNT(*) AS CNT
-				FROM 	HIST_MENU C
-				WHERE C.SYS_CTGRZ_CD = '0001'
-				CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
-				LEVEL BETWEEN 0 AND 2
-				START WITH HI_MENU_CD IS NULL
-				ORDER SIBLINGS BY C.MENU_SEQ ASC
+				FROM 	HIST_MENU 
+				
+		<where>
+			<if test="MENU_CD != null and MENU_CD !=''">
+			
+				HI_MENU_CD = upper(#{MENU_CD})
+			</if>
+			<if test="MENU_CATE != null and MENU_CATE !=''">
+			
+				AND MENU_CATE = upper(#{MENU_CATE})
+			</if>
+		</where>
 	</select>
 	
 	<insert id="insertLowerMenu">
 		INSERT INTO HIST_MENU
 		(
 			MENU_CD,
+			MENU_CATE,
 			HI_MENU_CD,
 			MENU_KRN_NM,
-			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
-				MENU_ENG_NM,
-			</if>
+			MENU_ENG_NM,
 			USE_YN,
-			<if test="SYS_CTGRZ_CD != null and SYS_CTGRZ_CD !=''">
-				SYS_CTGRZ_CD,
-			</if>
-			<if test="MENU_SEQ != null and MENU_SEQ !=''">
-				MENU_SEQ,
-			</if>
+			SYS_CTGRZ_CD,
+			MENU_SEQ,
 			<if test="MENU_URL != null and MENU_URL !=''">
 				MENU_URL,
 			</if>
-			<if test="DLT_YN != null and DLT_YN !=''">
-				DLT_YN,
-			</if>
-			<if test="RGST_EMP_NUM != null and RGST_EMP_NUM !=''">
+			DLT_YN,
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
 				RGST_EMP_NUM,
 			</if>
-			RGST_DTIM,
-			<if test="CORCT_EMP_NUM != null and CORCT_EMP_NUM !=''">
-				#{CORCT_EMP_NUM},
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				CORCT_EMP_NUM,
 			</if>
+			RGST_DTIM,
 			CORCT_DTIM
 		)
 		VALUES
 		(
 			UPPER(#{MENU_CD}),
+			#{MENU_CATE},
 			UPPER(#{HI_MENU_CD}),
 			#{MENU_KRN_NM},
+			
 			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
 				#{MENU_ENG_NM},
 			</if>
@@ -146,14 +154,14 @@
 			<if test="DLT_YN != null and DLT_YN !=''">
 				#{DLT_YN},
 			</if>
-			<if test="RGST_EMP_NUM != null and RGST_EMP_NUM !=''">
-				#{RGST_EMP_NUM},
-			</if>
-			SYSDATE,
-			<if test="CORCT_EMP_NUM != null and CORCT_EMP_NUM !=''">
-				#{CORCT_EMP_NUM},
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
 			</if>
 			
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
+			</if>
+			SYSDATE,
 			SYSDATE
 		)
 	</insert>
@@ -182,13 +190,15 @@
 		</if>
 		DLT_YN = #{DLT_YN}
 		
-		WHERE	MENU_CD = #{MENU_CD}
+		WHERE	MENU_CD = #{MENU_CD} 
+		AND MENU_CATE = #{MENU_CATE}
 	</update>
 
 
 	<delete id="deleteLowerMenu">
 		DELETE FROM HIST_MENU
 		WHERE MENU_CD = #{MENU_CD}
+		AND MENU_CATE = #{MENU_CATE}
 	</delete>
 
 

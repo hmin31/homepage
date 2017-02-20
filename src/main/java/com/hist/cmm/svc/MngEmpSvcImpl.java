@@ -75,7 +75,7 @@ public class MngEmpSvcImpl extends BizServiceImpl {
 	public void saveEmp(IListData listData) throws Exception {
 		
 		Map<?, ?> paramMap = listData.getParameterMap();
-		List list = listData.getDataList("ds_emp");
+		List list = listData.getDataList("do_emp_chg");
 		HashMap rowData = null;	
 		String rowStatus = "";
 		
@@ -85,11 +85,29 @@ public class MngEmpSvcImpl extends BizServiceImpl {
 			rowData = (HashMap) list.get(i);
 			log.debug(">>>>>row Data : " + list.get(i));
 			rowStatus = String.valueOf(rowData.get("ROW_STATUS"));
-			rowData.put("REG_USR_ID", listData.getParameter("REG_USR_ID"));
+			
+			rowData.put("EMP_ENG_NM", 	listData.getParameter("EMP_ENG_NM")==null?"":listData.getParameter("EMP_ENG_NM"));
+			rowData.put("PSWD", 		listData.getParameter("PSWD")==null?"":listData.getParameter("PSWD"));
+			rowData.put("JOB_RK_CD", 	listData.getParameter("JOB_RK_CD")==null?"":listData.getParameter("JOB_RK_CD"));
+			rowData.put("FON_NUM", 		listData.getParameter("FON_NUM")==null?"":listData.getParameter("FON_NUM"));
+			rowData.put("MBLFON_NUM", 	listData.getParameter("MBLFON_NUM")==null?"":listData.getParameter("MBLFON_NUM"));
+			rowData.put("FAX", 			listData.getParameter("FAX")==null?"":listData.getParameter("FAX"));
+			rowData.put("EM", 			listData.getParameter("EM")==null?"":listData.getParameter("EM"));
+			rowData.put("CTC_WRK_CTN", 	listData.getParameter("CTC_WRK_CTN")==null?"":listData.getParameter("CTC_WRK_CTN"));
+			rowData.put("DTY_STTS_CD", 	listData.getParameter("DTY_STTS_CD")==null?"":listData.getParameter("DTY_STTS_CD"));
+			rowData.put("DLT_CAU", 		listData.getParameter("DLT_CAU")==null?"":listData.getParameter("DLT_CAU"));
+			rowData.put("RGST_EMP_NUM", listData.getParameter("REG_USR_ID"));
+			
 			
 			if ("I".equals(rowStatus)) {
 				log.debug("InsertEmp process");
-				mngEmpDaoImpl.insertEmp(rowData);
+				try {
+					
+					mngEmpDaoImpl.insertEmp(rowData);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
 			} else if ("U".equals(rowStatus)) { 
 				log.debug("updateEmp process");
 				mngEmpDaoImpl.updateEmp(rowData);	

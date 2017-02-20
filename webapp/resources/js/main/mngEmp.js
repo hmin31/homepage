@@ -62,7 +62,7 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		
 		var afterSuccessFunc = function(returnData) {
 			
-			user_id = returnData.VARIABLE_MAP.USER_ID;
+			userId = returnData.VARIABLE_MAP.USER_ID;
 			
 			exceptionHandler(returnData.RESULT, "", "N");
 			hshelper_emp.setData(returnData.all_main_emp);
@@ -76,9 +76,9 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 
 		//메뉴 레벨 체크 
 		var addRow = hshelper_emp.addData(
-				{DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
+				{DLT_YN:'N', RGST_EMP_NUM:userId, USE_YN:'Y'}, true);
 		
-		hshelper_emp.selectCell(addRow, 2);
+		hshelper_emp.selectCell(addRow, 1);
 	}
 	
 	//행 삭제 
@@ -103,11 +103,9 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveEmp");
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-		addDataObj(jQuery, dataObj, "ds_emp", hshelper_emp.getHsChgData());
+		addDataObj(jQuery, dataObj, "do_emp_chg", hshelper_emp.getHsChgData());
 		
-		
-		
-		if(lengthCheck(dataObj.ds_emp, 
+		if(lengthCheck(dataObj.do_emp_chg, 
 				{
 				  EMP_NUM:8
 				 ,EMP_NM:30
@@ -137,7 +135,7 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 			return;
 		}
 		
-		if(mandantoryColumnCheck(dataObj.ds_emp,
+		if(mandantoryColumnCheck(dataObj.do_emp_chg,
 				["EMP_NUM", "USR_ID"], 
 				["직원번호", "사용자ID"])){
 			
@@ -145,10 +143,12 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		
 			return;
 		}
-		if(alphabetNumCheck(dataObj.ds_emp, 
+		
+		if(alphabetNumCheck(dataObj.do_emp_chg, 
 				["USR_ID"], ["사용자ID"])) return;
 		
 		console.log("change Data=========" + hshelper_emp.getHsChgData());
+		
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "직원정보 저장", "N");

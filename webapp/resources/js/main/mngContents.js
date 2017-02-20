@@ -42,6 +42,33 @@ app.controller('ctr_mngContents', ['$scope', '$http', '$document', '$window', '$
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
 	
+	$scope.getContentsDtlsHst = function() {
+		
+		if($scope.selectedContentsMenuCd != undefined) {
+			var dataObj = {};
+			var paramDataObj = {};
+			addDataObj(jQuery, paramDataObj, "SVC_ID", "getContentsDtlsHst");
+			addDataObj(jQuery, paramDataObj, "MENU_CD", $scope.selectedContentsMenuCd);
+			addDataObj(jQuery, paramDataObj, "CTN_SEQ", $scope.selectedContentsMenuSeqCd);
+			
+			addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+			
+			var afterSuccessFunc = function(returnData) {
+				exceptionHandler(returnData.RESULT, "contents menu", "N");
+				
+				$('#homepage_contents').summernote(
+						'code', returnData.VARIABLE_MAP.contetnsDtls || ''
+				);
+			};
+			
+			commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+			
+		} else {
+			bootbox.alert("메뉴를 선택해 주세요.");
+		}
+		
+	}
+	
 	$scope.getContentsDtls = function() {
 		
 		if($scope.selectedContentsMenuCd != undefined) {
@@ -59,6 +86,8 @@ app.controller('ctr_mngContents', ['$scope', '$http', '$document', '$window', '$
 				$('#homepage_contents').summernote(
 						'code', returnData.VARIABLE_MAP.contetnsDtls || ''
 				);
+				
+				$scope.contentsMenuHstList_do = returnData.contentsMenuHstList_do;
 			};
 			
 			commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
