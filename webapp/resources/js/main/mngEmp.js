@@ -24,8 +24,8 @@ app.controller('ctr_mngEmp', ['$scope', '$http', '$document', '$window', '$q', '
 		                    		   "담당업무",	"근무상태",	"삭제사유"
 		                    		   ];
 		metaData.colWidths 			= [40,		80,		80,		80,		80, 
-		                   			   100,		80,		80,		80,		80,
-		                   			   100,		80,		80
+		                   			   40,	   100,		120,	100,	200,
+		                   			   60,		60,		200
 		                   			  ]; 
 		metaData.columns 			= [
 		                 			   {data: "NUM",		type: "textCenter", readOnly: true},
