@@ -13,15 +13,22 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	
 
 	$scope.pageInitiation = function() {
-		$scope.page_cd = {};
-		$scope.page_cd.currentPage = 1;
-		$scope.page_cd.perPage = 20;
-		$scope.page_cd.totalItems = 0;
+		
+		//페이지 설정 
+		$scope.page_menu = {};
+		$scope.page_menu.currentPage = 1;
+		$scope.page_menu.perPage = 20;
+		$scope.page_menu.totalItems = 0;
+		
+		$scope.page_lowerMenu = {};
+		$scope.page_lowerMenu.currentPage = 1;
+		$scope.page_lowerMenu.perPage = 20;
+		$scope.page_lowerMenu.totalItems = 0;
 			
 	};
 	
 
-	//전체 메뉴 그리드 설정 - 추후 메뉴코드 Hidden처리 예정
+	//전체 메뉴 그리드 설정 
 	function setAllMenuGrid(use_yn_source){
 		var do_codeObj = {};
 
@@ -35,12 +42,6 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 			   						   {data: "MENU_SEQ", type: "textCenter", readOnly: true},
 		                 			   {data: "MENU_TREE", type: "text"},
 		                 			  
-		                 			   /*{data: "MENU_CD", type: "text"},
-		                 			   {data: "USE_YN", type: 'autocompleteCenter',
-	                 				    source: use_yn_source,
-	                 				    strinct: false,
-	                 				    filter: false,
-	                 				    readOnly: false}*/
 		                 			   ];
 		//코드 Hidden 추후
 		metaData.heightVal			= 513;
@@ -176,7 +177,12 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		setLowerMenuGrid("Y");
 		var resultData = returnData.all_main_menu;
+		//user_id
+		console.log("user Id : " + returnData.VARIABLE_MAP.USER_ID);
 		user_id = returnData.VARIABLE_MAP.USER_ID;
+		$scope.page_menu.totalItems = returnData.VARIABLE_MAP.menuCnt; 
+		
+		
 		//모든 메뉴..
 		setAllMenuGrid("Y");
 		
@@ -185,6 +191,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	
 	function setSelectedLowerMenuList(returnData){
 		var resultData = returnData.lower_menu;
+		
+		$scope.page_lowerMenu.totalItems = returnData.VARIABLE_MAP.lowerMenuCnt; 
 		hshelper_lowerMenu.setData(resultData);
 	}
 	

@@ -37,6 +37,18 @@
 		
 	</select> 
 	
+	<select id="getMenuCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+				FROM 	HIST_MENU C
+				WHERE C.SYS_CTGRZ_CD = '0001'
+				CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
+				LEVEL BETWEEN 0 AND 2
+				START WITH HI_MENU_CD IS NULL
+				ORDER SIBLINGS BY C.MENU_SEQ ASC
+	</select>
+	
+	
+	
 	<select id="getLowerMenuList" resultType="java.util.HashMap">
 		
 		SELECT
@@ -64,26 +76,15 @@
 	
 	</select>
 	
-<!-- 	<select id="getMenuList" resultType="java.util.HashMap">
-        SELECT	
-				MENU_CD, 
-                            HI_MENU_CD,
-			    MENU_KRN_NM, 
-			    MENU_ENG_NM,
-                            MENU_URL,
-                            MENU_SEQ,
-			    USE_YN,  
-                            SYS_CTGRZ_CD,
-                            DLT_YN,
-                            RGST_EMP_NUM,                            
-			    RGST_DTIM,
-			    CORCT_EMP_NUM,
-			    CORCT_DTIM,
-		        RANK() OVER (ORDER BY MENU_SEQ, MENU_CD) RNK
-		FROM 	HIST_MENU
-		
-	</select> -->
-	
+	<select id="getLowerMenuListCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+				FROM 	HIST_MENU C
+				WHERE C.SYS_CTGRZ_CD = '0001'
+				CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
+				LEVEL BETWEEN 0 AND 2
+				START WITH HI_MENU_CD IS NULL
+				ORDER SIBLINGS BY C.MENU_SEQ ASC
+	</select>
 	
 	<insert id="insertLowerMenu">
 		INSERT INTO HIST_MENU
@@ -177,75 +178,11 @@
 	</update>
 
 
-
-
 	<delete id="deleteLowerMenu">
 		DELETE FROM HIST_MENU
 		WHERE MENU_CD = #{MENU_CD}
 	</delete>
 
 
-
-	<insert id="insertMenuAuth">
-		INSERT INTO TB_COM_CD310
-		(
-			GRP_AUTH_CD,
-			MENU_CD,
-			ENABLE_WRITE_YN,
-			REG_USR_ID,
-			REG_DTM
-		)
-		VALUES
-		(
-			UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1)),
-			UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1)),
-			UPPER(SUBSTR(#{ENABLE_WRITE_YN}, 0, INSTR(#{ENABLE_WRITE_YN}, ':') - 1)),
-			#{REG_USR_ID},
-			TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
-		)
-	</insert>
-	
-	<update id="updateMenu">
-		UPDATE 	TB_COM_CD300
-		SET	    
-			MENU_KOR_NM = #{MENU_KOR_NM},
-			<if test="MENU_ENG_NM != null">
-				MENU_ENG_NM = #{MENU_ENG_NM},
-			</if>
-			USE_YN = UPPER(#{USE_YN}),
-			<if test="UPPER_MENU_CD != null">
-				UPPER_MENU_CD = UPPER(#{UPPER_MENU_CD}),
-			</if>
-			<if test="MENU_LEVEL != null">
-				MENU_LEVEL = #{MENU_LEVEL, jdbcType=NUMERIC},
-			</if>
-			<if test="MENU_URL != null">
-				MENU_URL = #{MENU_URL},
-			</if>
-			UPD_USR_ID = #{REG_USR_ID},
-			UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
-		WHERE	MENU_CD = #{MENU_CD}
-	</update>
-	
-	<update id="updateMenuAuth">
-		UPDATE 	TB_COM_CD310
-		SET	    
-			ENABLE_WRITE_YN = UPPER(SUBSTR(#{ENABLE_WRITE_YN}, 0, INSTR(#{ENABLE_WRITE_YN}, ':') - 1)),
-			UPD_USR_ID = #{REG_USR_ID},
-			UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
-		WHERE GRP_AUTH_CD = UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1))
-		AND MENU_CD = UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1))
-	</update>
-	
-	<delete id="delMenu">
-		DELETE FROM TB_COM_CD300
-		WHERE MENU_CD = #{MENU_CD}
-	</delete>
-	
-	<delete id="delMenuAuth">
-		DELETE FROM TB_COM_CD310
-		WHERE GRP_AUTH_CD = UPPER(SUBSTR(#{GRP_AUTH_CD}, 0, INSTR(#{GRP_AUTH_CD}, ':') - 1))
-		AND MENU_CD = UPPER(SUBSTR(#{MENU_CD}, 0, INSTR(#{MENU_CD}, ':') - 1))
-	</delete>
 	
 </mapper>

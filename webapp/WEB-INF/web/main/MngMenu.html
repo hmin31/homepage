@@ -49,7 +49,7 @@
 								<h5>메뉴 전체 목록</h5>
 							</div>
 							<div class="col-md-8" style="text-align: right !important;">
-								Total Row: {{page_masterCd.totalItems || 0}}&nbsp;&nbsp;
+								Total Row: {{page_menu.totalItems || 0}}&nbsp;&nbsp;
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addMasterCd()"><i class="fa fa-plus"></i></button>
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveMasterCd()"><i class="fa fa-floppy-o"></i></button>
 								&nbsp;
@@ -72,7 +72,7 @@
 								<h5>하위 Menu 목록</h5>
 							</div>
 							<div class="col-md-8" style="text-align: right !important;">
-								Total Row: {{page_detailCd.totalItems || 0}}&nbsp;&nbsp;
+								Total Row: {{page_lowerMenu.totalItems.totalItems || 0}}&nbsp;&nbsp;
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addLowerMenu()"><i class="fa fa-plus"></i></button>
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="deleteLowerMenu()"><i class="fa fa-minus"></i></button>
 								&nbsp;
