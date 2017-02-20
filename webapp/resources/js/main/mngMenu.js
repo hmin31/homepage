@@ -144,7 +144,9 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		var dataObj = {};
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "getMenuList");		//getMenuList 서비스 호출 
-		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);			//PARAM_MAP 추가
+		addDataObj(jQuery, paramDataObj, "MENU_CATE", $scope.selectedMenuKnd);
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);			
+		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "", "N");
 			setSelectedMenuList(returnData);
@@ -345,16 +347,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 			console.log(">>>>Set TimeOut<<<<");
 			$scope.selectedMenuKnd = 'B';
 			$scope.getSelectedMenuList();
-<<<<<<< HEAD
-		}, 50);
-=======
-		}, 100);
->>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 
-<<<<<<< HEAD
-		//$scope.getSelectedMenuList();
-=======
->>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
-		
+		}, 50);
+
 	});
 });
