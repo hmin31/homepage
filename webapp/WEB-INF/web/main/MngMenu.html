@@ -15,6 +15,18 @@
 						&nbsp;&nbsp;등록
 					</button>
 				</div>
+				
+				<div class="air-search search-row-11st">
+					<div class="row search-row-11st">
+						<div class="col-md-3">
+							<span>메뉴구분</span> <select ng-model="selectedMenuKnd"
+								class="btn form-air" >
+								<option ng-repeat="item in menuKnd_do" value="{{item.CODE}}">{{item.NAME}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 
 			<!-- <div class="air-search search-row-11st">
@@ -45,14 +57,8 @@
 				<div class="col-md-4 left-grid-11st">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-4 left-grid-11st">
+							<div class="col-md-12 left-grid-11st">
 								<h5>메뉴 전체 목록</h5>
-							</div>
-							<div class="col-md-8" style="text-align: right !important;">
-								Total Row: {{page_masterCd.totalItems || 0}}&nbsp;&nbsp;
-								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addMasterCd()"><i class="fa fa-plus"></i></button>
-								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveMasterCd()"><i class="fa fa-floppy-o"></i></button>
-								&nbsp;
 							</div>
 						</div>
 						<div class="row">

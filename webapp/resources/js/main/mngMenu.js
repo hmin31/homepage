@@ -142,6 +142,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		var dataObj = {};
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "getMenuList");		//getMenuList 서비스 호출 
+		addDataObj(jQuery, paramDataObj, "MENU_CATE", $scope.selectedMenuKnd);
+		
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);			//PARAM_MAP 추가
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "", "N");
@@ -158,6 +160,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		var dataObj = {};
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "getLowerMenuList");		//getLowerMenuList 서비스 호출 
+		addDataObj(jQuery, paramDataObj, "MENU_CATE", $scope.selectedMenuKnd);
 		//current_menu_cd를 파라미터로 넣자.. validation 체크 필요  
 		
 		addDataObj(jQuery, paramDataObj, "MENU_CD", current_menu_cd);
@@ -243,7 +246,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		//메뉴 레벨 체크 
 		//var addMenuSeq = hiMenuSeq + 10;
 		var addRow = hshelper_lowerMenu.addData(
-				{HI_MENU_CD: hiMenuCd, DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
+				{HI_MENU_CD: hiMenuCd, MENU_CATE: $scope.selectedMenuKnd, DLT_YN:'N', RGST_EMP_NUM:user_id, USE_YN:'Y'}, true);
 		
 		hshelper_lowerMenu.selectCell(addRow, 1);
 	}
@@ -335,6 +338,11 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		$scope.pageInitiation();
  		 		
+		$scope.menuKnd_do = [{CODE: 'F', NAME: '프론트'}, {CODE: 'B', NAME: '백오피스'}];
+		window.setTimeout(function() {
+			$scope.selectedMenuKnd = 'B';
+		}, 50);
+
 		$scope.getSelectedMenuList();
 		
 	});
