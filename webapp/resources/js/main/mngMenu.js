@@ -340,13 +340,21 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		$scope.pageInitiation();
  		 		
 		$scope.menuKnd_do = [{CODE: 'F', NAME: '프론트'}, {CODE: 'B', NAME: '백오피스'}];
+
 		window.setTimeout(function() {
 			console.log(">>>>Set TimeOut<<<<");
 			$scope.selectedMenuKnd = 'B';
 			$scope.getSelectedMenuList();
+<<<<<<< HEAD
 		}, 50);
+=======
+		}, 100);
+>>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 
+<<<<<<< HEAD
 		//$scope.getSelectedMenuList();
+=======
+>>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 		
 	});
 });

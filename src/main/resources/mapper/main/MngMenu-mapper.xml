@@ -29,13 +29,23 @@
              SYS_CONNECT_BY_PATH (LPAD (C.MENU_SEQ, 3, 0), '|') AS MENU_SEQ_GRD,
              C.SYS_CTGRZ_CD
         FROM HIST_MENU C
+<<<<<<< HEAD
 		WHERE 
 		<!-- C.SYS_CTGRZ_CD = '0001' -->
+=======
+		WHERE 1 = 1
+>>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 		<if test="MENU_CATE != null and MENU_CATE !=''">
 		MENU_CATE = #{MENU_CATE}
 		</if>
+<<<<<<< HEAD
 		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
 		LEVEL BETWEEN 0 AND 3
+=======
+		AND menu_cate = 'F'
+		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND AND menu_cate = 'F'
+		LEVEL BETWEEN 0 AND 2
+>>>>>>> branch 'master' of https://github.com/hmin31/homepage.git
 		START WITH HI_MENU_CD IS NULL
 		ORDER SIBLINGS BY C.MENU_SEQ ASC
 				
