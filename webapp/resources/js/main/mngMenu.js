@@ -339,11 +339,12 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		$scope.pageInitiation();
  		 		
 		$scope.menuKnd_do = [{CODE: 'F', NAME: '프론트'}, {CODE: 'B', NAME: '백오피스'}];
+
 		window.setTimeout(function() {
 			$scope.selectedMenuKnd = 'B';
-		}, 50);
+			$scope.getSelectedMenuList();
+		}, 100);
 
-		$scope.getSelectedMenuList();
 		
 	});
 });
