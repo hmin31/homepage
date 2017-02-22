@@ -260,7 +260,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 	//하위 메뉴 목록 그리드 행 추가 
 	$scope.deleteLowerMenu = function() {
 
-		var msg = "추가할 메뉴에 해당하는 상위 메뉴를 선택하지 않았습니다."
+		var msg = "삭제할 메뉴에 해당하는 상위 메뉴를 선택하지 않았습니다."
 			
 		//상위 메뉴를 선택했는지 여부 판단..
 		if (hshelper_masterCd.getCurRow() == undefined ) {
@@ -275,7 +275,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		}
 		
 		if (hshelper_lowerMenu == undefined) {
-			bootbox.alert("추가할 테이블이 없습니다.");
+			bootbox.alert("삭제할 테이블이 없습니다.");
 			return false;
 		}
 		

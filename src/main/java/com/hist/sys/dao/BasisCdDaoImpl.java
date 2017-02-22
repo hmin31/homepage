@@ -1,5 +1,6 @@
 package com.hist.sys.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -169,6 +170,11 @@ public class BasisCdDaoImpl extends MybatisBizDaoImpl {
 	 */
 	public void updateCd(Map<?, ?> parameterMap) throws Exception {
 		update(nameSpace + ".updateCd", parameterMap);
+	}
+
+	public void deleteCd(Map<?, ?> parameterMap) throws Exception {
+		// TODO Auto-generated method stub
+		delete(nameSpace + ".deleteCd", parameterMap);
 	}
 
 	

@@ -44,36 +44,20 @@
 				CD_KRN_ABRVN,
 				CD_ENG_ABRVN,
 				CD_SEQ,
-				RMKS
+				RMKS,
 		        RANK() OVER (ORDER BY CD) RNK
 		FROM 	HIST_CD
-		<where>
-			<if test="searchCdCtgrz != null and searchCdCtgrz !=''">
-				 MASTR_CD = upper(#{searchMasterCd})
-			</if>
-		</where>) 
+		WHERE
+			CD_CTGRZ = #{searchCdCtgrz}
+
 	</select>
 	
 	<select id="getCdCnt" resultType="String">
         SELECT	COUNT(*) AS CNT
 		FROM 	HIST_CD
-		<where>
-			<if test="searchDetailCd != null and searchDetailCd !=''">
-				DETAIL_CD LIKE UPPER(#{searchDetailCd}) || '%'
-			</if>
-			<if test="searchDetailNm != null and searchDetailNm !=''">
-				AND (DETAIL_NM1 LIKE '%' || #{searchDetailNm} || '%' OR DETAIL_NM2 LIKE '%' || #{searchDetailNm} || '%')
-			</if>
-<!-- 			<if test="searchReferCd != null and searchReferCd !=''"> -->
-<!-- 				AND (REFER_CD1 LIKE '%' || #{searchReferCd} || '%' OR REFER_CD2 LIKE '%' || #{searchReferCd} || '%') -->
-<!-- 			</if> -->
-			<if test="searchDetailCdUseYn != null and searchDetailCdUseYn !=''">
-				AND USE_YN = #{searchDetailCdUseYn}
-			</if>
-			<if test="searchMasterCd != null and searchMasterCd !=''">
-				AND MASTR_CD = upper(#{searchMasterCd})
-			</if>
-		</where>
+		WHERE
+			CD_CTGRZ = upper(#{searchCdCtgrz})
+		   		
 	</select>
 	
 	<select id="getCdCtgrzAvail" resultType="String">
@@ -124,13 +108,32 @@
 		
 	</insert>
 	
-	<update id="updateMasterCdAvailYn">
-		UPDATE 	TB_COM_CD110
-		SET	    USE_YN   = SUBSTR(#{USE_YN}, 0, INSTR(#{USE_YN}, ':') - 1),		
-			    UPD_USR_ID = #{REG_USR_ID}, 
-			    UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
-		WHERE	MASTR_CD = #{MASTR_CD}
+	<update id="updateCdCtgrz">
+	
+		UPDATE 	HIST_CD_CTGRZ
+		SET			    
+			CTGRZ_KRN_NM	=	#{CTGRZ_KRN_NM},
+	        CTGRZ_ENG_NM	=	#{CTGRZ_ENG_NM},
+	        CTGRZ_KRN_ABRVN =	#{CTGRZ_KRN_ABRVN},
+	        CTGRZ_ENG_ABRVN =	#{CTGRZ_ENG_ABRVN},
+	        SEQ_USE_YN		=	#{SEQ_USE_YN},
+   			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				CORCT_EMP_NUM	=	#{REG_USR_ID},
+			</if>
+			CORCT_DTIM		=	SYSDATE
+		WHERE
+			CD_CTGRZ		=	#{CD_CTGRZ}
 	</update>
+	
+	<delete id="deleteCdCtgrz">
+	
+<!-- 		DELETE FROM HIST_CD
+	
+		WHERE
+			CD				=	#{CD}	
+		AND
+			CD_CTGRZ		=	#{CD_CTGRZ} -->
+	</delete>
 	
 	<!-- 코드 키 값 체크  -->
 	<select id="getCdAvail" resultType="String">
@@ -142,29 +145,83 @@
 		AND		CD = #{CD}
 	</select>
 	
-	<update id="updateDetailCdAvailYn">
-		UPDATE 	TB_COM_CD111
-		SET	    
-				<if test="DETAIL_NM1 != null"> 
-					DETAIL_NM1 = #{DETAIL_NM1}, 
-				</if>
-				<if test="DETAIL_NM2 != null"> 
-					DETAIL_NM2 = #{DETAIL_NM2}, 
-				</if>
-<!-- 				<if test="REFER_CD1 != null">  -->
-<!-- 					REFER_CD1 = #{REFER_CD1},  -->
-<!-- 				</if> -->
-<!-- 				<if test="REFER_CD2 != null">  -->
-<!-- 					REFER_CD2 = #{REFER_CD2},  -->
-<!-- 				</if> -->
-				<if test="SORT_ORDR != null"> 
-					SORT_ORDR = #{SORT_ORDR}, 
-				</if>
-				USE_YN   = SUBSTR(#{USE_YN}, 0, INSTR(#{USE_YN}, ':') - 1),
-			    UPD_USR_ID = #{REG_USR_ID}, 
-			    UPD_DTM = TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
-		WHERE	MASTR_CD = #{MASTR_CD}
-		AND		DETAIL_CD = #{DETAIL_CD}
+	<insert id="insertCd">
+		INSERT INTO HIST_CD
+		(
+			CD,
+			CD_CTGRZ,
+	        CD_KRN_NM,
+	        CD_ENG_NM,
+	        CD_KRN_ABRVN,
+	        CD_ENG_ABRVN,
+   			<if test="CD_SEQ != null and CD_SEQ !=''">
+				CD_SEQ,
+			</if>
+			<if test="RMKS != null and RMKS !=''">
+				RMKS,
+			</if>
+	        DLT_YN,
+	        RGST_DTIM,
+	        CORCT_EMP_NUM,
+	        RGST_EMP_NUM,
+	        CORCT_DTIM
+		)
+		VALUES
+		(
+			#{CD},
+			#{CD_CTGRZ},
+			#{CD_KRN_NM},
+			#{CD_ENG_NM},
+			#{CD_KRN_ABRVN},
+			#{CD_ENG_ABRVN},
+			<if test="CD_SEQ != null and CD_SEQ !=''">
+				#{CD_SEQ},
+			</if>
+			<if test="RMKS != null and RMKS !=''">
+				#{RMKS},
+			</if>
+			'N',
+			SYSDATE,
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
+			</if>
+			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				#{REG_USR_ID},
+			</if>
+			SYSDATE
+		)
+		
+	</insert>
+	
+	<update id="updateCd">
+	
+		UPDATE 	HIST_CD
+		SET			    
+			CD_KRN_NM		=	#{CD_KRN_NM},
+	        CD_ENG_NM		=	#{CD_ENG_NM},
+	        CD_KRN_ABRVN	=	#{CD_KRN_ABRVN},
+	        CD_ENG_ABRVN 	=	#{CD_ENG_ABRVN},
+	        <if test="RMKS != null and RMKS !=''">
+				RMKS			=	#{RMKS},
+			</if>
+	        
+   			<if test="REG_USR_ID != null and REG_USR_ID !=''">
+				CORCT_EMP_NUM	=	#{REG_USR_ID},
+			</if>
+			CORCT_DTIM		=	SYSDATE
+		WHERE
+			CD				=	#{CD}	AND
+			CD_CTGRZ		=	#{CD_CTGRZ}
 	</update>
+
+	<delete id="deleteCd">
+	
+		DELETE FROM HIST_CD
+	
+		WHERE
+			CD				=	#{CD}	
+		AND
+			CD_CTGRZ		=	#{CD_CTGRZ}
+	</delete>
 
 </mapper>

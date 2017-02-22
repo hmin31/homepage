@@ -66,9 +66,9 @@ public class BasisCdSvcImpl extends BizServiceImpl {
 	public IListData getCdList(Map paramMap) throws Exception {
 		IListData resultListData = new ListDataImpl();
 		List returnList = basisCdDaoImpl.getCdList(paramMap);
-		resultListData.setDataList("do_detailCd", returnList);
+		resultListData.setDataList("do_cd", returnList);
 		String detailCnt = basisCdDaoImpl.getCdCnt(paramMap);
-		resultListData.addVariable("detailCnt", detailCnt);
+		resultListData.addVariable("cdCnt", detailCnt);
 		return resultListData;
 	}
 	
@@ -131,7 +131,7 @@ public class BasisCdSvcImpl extends BizServiceImpl {
 		
 //		IListData resultListData = new ListDataImpl();
 		Map<?, ?> paramMap = listData.getParameterMap();
-		basisCdDaoImpl.getCdCnt(paramMap);
+		//basisCdDaoImpl.getCdCnt(paramMap);
 		List list = listData.getDataList("do_cd_chg");
 		HashMap rowData = null;	
 		String rowStatus = "";
@@ -146,13 +146,15 @@ public class BasisCdSvcImpl extends BizServiceImpl {
 				//코드 Key 값 체크 
 				String avail_yn = basisCdDaoImpl.getCdAvail(rowData);
 				if ("N".equals(avail_yn)) {
-					throw new CustomedExceptionImpl(4, String.valueOf(rowData.get("MASTR_CD")) + " - " +
-							String.valueOf(rowData.get("DETAIL_CD")) + " 상세 코드가 이미 존재합니다. 저장할 수 없습니다.");
+					throw new CustomedExceptionImpl(4, String.valueOf(rowData.get("CD_CTGRZ")) + " - " +
+							String.valueOf(rowData.get("CD")) + " 코드가 이미 존재합니다. 저장할 수 없습니다.");
 				}
 				basisCdDaoImpl.insertCd(rowData);
 				
 			} else if ("U".equals(rowStatus)) { 
-				//basisCdDaoImpl.updateDetailCdAvailYn(rowData);
+				basisCdDaoImpl.updateCd(rowData);
+			} else if ("D".equals(rowStatus)) {
+				basisCdDaoImpl.deleteCd(rowData);
 			}
 		}
 		

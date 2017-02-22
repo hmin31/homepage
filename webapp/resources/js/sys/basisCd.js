@@ -10,6 +10,10 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 	
 	var current_mastr_cd;//For detail_cd pagenation
 	var readOnlyYn;
+	var currentGrid = {
+			"CD_CTGRZ" : false,
+			"CD" : false
+	}
 	
 	$scope.pageInitiation = function() {
 		//page code initiation
@@ -24,6 +28,10 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		$scope.page_Cd.currentPage = 1;
 		$scope.page_Cd.perPage = 20;
 		$scope.page_Cd.totalItems = 0;
+		
+		currentGrid.CD_CTGRZ = false;
+		currentGrid.CD = false;
+				
 	}
 	
 	//Search Button 클릭시
@@ -31,14 +39,10 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		$scope.page_CdCtgrz.currentPage = 1; 
 		$scope.page_Cd.currentPage = 1;
 		
-		console.log(">>>>>>>>>>>>>>>>>selectCdCtgrzList called");
 		var dataObj = {};
 		var paramDataObj = {};
 		
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "getCdCtgrzList");
-		
-		
-		
 		addDataObj(jQuery, paramDataObj, "searchCdCtgrz", $scope.input_CdCtgrz)
 		
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
@@ -47,20 +51,26 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 			exceptionHandler(returnData.RESULT, "마스터코드", "N");
 
 			var gridData = returnData.cdCtgrz_do;
-			
+			hshelper_CdCtgrz.init();
 			hshelper_CdCtgrz.setData(gridData);
 			
 			$scope.page_CdCtgrz.totalItems = returnData.VARIABLE_MAP.cdCtgrzCnt;
 			
+			//우선 검색되었을때, 코드분류의 개수에 상관없이 코드의 테이블리셋하자..
+			$scope.page_Cd.totalItems = 0;
+			hshelper_cd.init();
+			hshelper_cd.setData();
+			//hshelper_CdCtgrz.selectCell(-1, 0)
+			/*
 			if(returnData.VARIABLE_MAP.cdCtgrzCnt > 0){
 				console.log(">>>>>>>>CdCtgrzCnt > 0 <<<<<<<<<<");
 				hshelper_CdCtgrz.selectCell(0, 1);
 				
 			}else{
-			/*	$scope.page_Cd.totalItems = 0;
+				$scope.page_Cd.totalItems = 0;
 				hshelper_cd.init();
-				hshelper_cd.setData();*/
-			}
+				hshelper_cd.setData();
+			}*/
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
@@ -121,9 +131,8 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "마스터코드", "N");
 			
-			var gridData= cdToNmOfGridData(returnData.do_detailCd);//Cd를 Name형식으로 변환
-			hshelper_cd.setData(returnData.do_detailCd);
-			$scope.page_Cd.totalItems = returnData.VARIABLE_MAP.detailCnt;
+			hshelper_cd.setData(returnData.do_cd);
+			$scope.page_Cd.totalItems = returnData.VARIABLE_MAP.cdCnt;
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
@@ -137,8 +146,8 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["No.",		"코드분류*",		"한글명*",	"영문명", "한글약어",
-		                    		   "영문약어",	"사용여부*"];
+		metaData.colHeaders 		= ["No.",		"*코드분류",		"*한글명",	"*영문명", "*한글약어",
+		                    		   "*영문약어",	"*사용여부"];
 		metaData.colWidths 			= [40, 		80, 	80,		80,		80,
 		                   			   80,		80];
 		metaData.columns 			= [
@@ -175,8 +184,9 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 				
 				if(hshelper_CdCtgrz.getHsGridData()[selRow].ROW_STATUS != 'I') {
 					//코드 분류 값 클릭시 코드 값을 조회한다.
+					console.log(">>>>>CdCtgrz selected... selRow : " + selRow);
 					$scope.page_Cd.currentPage = 1;
-					current_cdCtgrz=hshelper_CdCtgrz.getHsGridData()[selRow].CD_CTGRZ;
+					current_cdCtgrz = hshelper_CdCtgrz.getHsGridData()[selRow].CD_CTGRZ;
 					$scope.selectCdList(current_cdCtgrz);
 				} else {
 					$scope.page_Cd.totalItems = 0;
@@ -184,6 +194,11 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 					hshelper_cd.setData();
 				}
 			}
+			
+		}
+		//cell selection process
+		metaData.afterOnCellMouseDownCallback = function(hsi, row, column, erow, ecolumn) {
+			setCurrentGrid("CD_CTGRZ");
 		}
 		
 		//테이블 생성 
@@ -200,30 +215,37 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 			$scope.selectDetailBasisCdList(current_mastr_cd);
 		}
 	}
-	//코드 그리드 셋팅 setCdGrid -> setCdGrid
+	
+	
+	//코드 그리드 셋팅 
 	function setCdGrid(use_yn_source){
 		var do_codeObj = {};
 		
 		var hsc_ins = document.getElementById('hst_detailCd');
 		
 		var metaData = {};
-		metaData.readonlyBool 		= readOnlyYn;
-		metaData.colHeaders 		= ["No.",	"코드", "한글명", "영문명", "한글약어", 
-		                    		   "영문약어", "비고"];
+		metaData.readonlyBool 		= false;
+		metaData.colHeaders 		= ["No.",	"*코드", "*한글명", "*영문명", "*한글약어", 
+		                    		   "*영문약어", "비고"];
 		metaData.colWidths 			= [40,	 80,	240,	240,	80,  
 		                   			   80,	 80];
 		metaData.columns 			= [
-			   						   {data: "RNK", type: "textCenter", readOnly: true},
-		                 			   {data: "CD", type: "textCenter", readOnly: true}, 
-		                 			   {data: "CD_KRN_NM", type: "textCenter", validator: /[a-zA-Z0-9]/g},
-		                 			   {data: "CD_ENG_NM", type: "text"},
-		                 			   {data: "CD_KRN_ABRVN", type: "text"},
-		                 			   {data: "CD_ENG_ABRVN", type: "text"},
-		                 			   {data: "RMK", type: "text"}
+			   						   {data: "RNK", 			type: "textCenter", 		readOnly: true},
+		                 			   {data: "CD", 			type: "textCenter",			readOnly: false}, 
+		                 			   {data: "CD_KRN_NM", 		type: "textCenter", 		readOnly: false},
+		                 			   {data: "CD_ENG_NM", 		type: "text",		   		readOnly: false},
+		                 			   {data: "CD_KRN_ABRVN", 	type: "text",	   			readOnly: false},
+		                 			   {data: "CD_ENG_ABRVN", 	type: "text",	   			readOnly: false},
+		                 			   {data: "RMKS", 			type: "text",				readOnly: false}
 		                 			   ];
 		metaData.pkColumns			= ["CD"];
 		metaData.heightVal			= 513;
 		metaData.rowHeaders 		= false;
+		
+		metaData.afterSelectionEndCallback = function(hsi, row, column, erow, ecolumn) {
+			
+			setCurrentGrid("CD");
+		}
 
 		hshelper_cd = new HandsontableHelper(hsc_ins, metaData);
 		hshelper_cd.init();
@@ -239,6 +261,7 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		var addRow = hshelper_CdCtgrz.addData({}, true);
 		hshelper_CdCtgrz.selectCell(addRow, 1);
+		setCurrentGrid("CD_CTGRZ");
 	}
 	
 	$scope.saveCdCtgrz = function() {
@@ -281,21 +304,21 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 	}
 		
 	$scope.addCd = function() {
-		var msg = "추가할 상세코드에 해당하는 마스터 코드가 없습니다."
+		var msg = "추가할 코드에 해당하는 코드분류가 없습니다."
 			
 		if (hshelper_CdCtgrz.getCurRow() == undefined ) {
 			bootbox.alert(msg);
 			return false;
 		}
 		
-		var mastrCd = hshelper_CdCtgrz.getHsGridData()[hshelper_CdCtgrz.getCurRow() || 0].MASTR_CD;
-		if (mastrCd == undefined) {
+		var cdCtgrz = hshelper_CdCtgrz.getHsGridData()[hshelper_CdCtgrz.getCurRow() || 0].CD_CTGRZ;
+		if (cdCtgrz == undefined) {
 			bootbox.alert(msg);
 			return false;
 		}
 
 		if (hshelper_CdCtgrz.getHsGridData()[hshelper_CdCtgrz.getCurRow()].ROW_STATUS == 'I') {
-			bootbox.alert("마스터코드를 먼저 저장해 주십시오.");
+			bootbox.alert("코드 분류를 먼저 저장해 주십시오.");
 			return false;
 		}
 		
@@ -304,32 +327,80 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 			return false;
 		}
 		
-		var addRow = hshelper_cd.addData({MASTR_CD: mastrCd}, true);
+		var addRow = hshelper_cd.addData({CD_CTGRZ: cdCtgrz}, true);
 		hshelper_cd.selectCell(addRow, 2);
+		
+		setCurrentGrid("CD");
 	}
 	
-	$scope.saveDetailCd = function() {
+	$scope.saveCd = function() {
+		var msg = "추가할 코드에 해당하는 코드분류가 없습니다."
 		var dataObj = {};
 		var paramDataObj = {};
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveDetailCd");
-		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-		addDataObj(jQuery, dataObj, "do_detailCd_chg", hshelper_cd.getHsChgData());
 		
-		if(lengthCheck(dataObj.do_detailCd_chg, {MASTR_CD: 10, DETAIL_CD: 10, DETAIL_NM1: 300, DETAIL_NM2: 300, /*REFER_CD1: 20, REFER_CD2: 20, */SORT_ORDR: 3}, 
-												["마스터코드", "상세코드", "상세코드명1", "상세코드명2", /*"참조코드명1", "참조코드명2",*/ "정렬순서"])) return;
-		if(mandantoryColumnCheck(dataObj.do_detailCd_chg, ["MASTR_CD", "DETAIL_CD", "DETAIL_NM1", "USE_YN"], ["마스터코드", "상세코드", "상세코드명1", "사용여부"])) return;
-		if(alphabetNumCheck(dataObj.do_detailCd_chg, ["MASTR_CD", "DETAIL_CD"], ["마스터코드", "상세코드"])) return;
-		if(numCheck(dataObj.do_detailCd_chg, ["SORT_ORDR"], ["정렬순서"])) return;
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveCd");
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		//여기에 cdCtgrz 값을 저장하자.
+		addDataObj(jQuery, dataObj, "do_cd_chg", hshelper_cd.getHsChgData());
+		
+		if(lengthCheck(dataObj.do_cd_chg, 
+				{CD: 6, 	CD_KRN_NM: 100, 	CD_ENG_NM: 100, 	CD_KRN_ABRVN: 100, 	CD_ENG_ABRVN: 100,
+				 RMKS: 100}, 
+				 ["코드",	"코드 한글명",		"코드 영문명",		"코드 한글 약어",
+				  "코드 영문 약어",	"비고"])) return;
+		if(mandantoryColumnCheck(dataObj.do_cd_chg, 
+				["CD", "CD_KRN_NM", "CD_ENG_NM", "CD_KRN_ABRVN", "CD_ENG_ABRVN"], 
+				["코드", "코드 한글명", "코드 영문명", "코드 한글 약어", "코드 영문 약어"])) return;
+/*		if(alphabetNumCheck(dataObj.do_cd_chg, 
+				["MASTR_CD", "DETAIL_CD"], 
+				["마스터코드", "상세코드"])) return;*/
+		if(numCheck(dataObj.do_cd_chg, 
+				["CD"], 
+				["코드"])) return;
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "상세코드 저장", "N");
 			//저장후 재조회
 			if(returnData.RESULT.ERRORCODE == "0") {
-				$scope.selectDetailBasisCdList();
+				$scope.selectCdList();
 			}
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+	}
+	
+	//하위 메뉴 목록 그리드 행 추가 
+	$scope.delCd = function() {
+
+		var msg = "삭제할 코드에 해당하는 선택된 코드분류가 아닙니다..";
+			
+		if (hshelper_CdCtgrz.getCurRow() == undefined ) {
+			bootbox.alert(msg);
+			return false;
+		}
+		
+		//선택한 코드분류와 삭제하고자 하는 코드분류의 값을 비교한다.
+		var cdCtgrz = hshelper_CdCtgrz.getHsGridData()[hshelper_CdCtgrz.getCurRow() || 0].CD_CTGRZ;
+		if (cdCtgrz == undefined) {
+			bootbox.alert(msg);
+			return false;
+		}
+		
+		var cdCtgrzInCdGrid = hshelper_cd.getHsGridData()[hshelper_cd.getCurRow() || 0].CD_CTGRZ;
+		if (cdCtgrz != cdCtgrzInCdGrid) {
+			bootbox.alert(msg);
+			return false;
+		}
+		
+		
+		if (hshelper_cd == undefined) {
+			bootbox.alert("삭제할 테이블이 없습니다.");
+			return false;
+		}
+		
+		var delRow = hshelper_cd.delrow();
+		console.log("delRow : " + delRow);
+		//hshelper_lowerMenu.selectCell(delRow);
 	}
 	
 	
@@ -338,37 +409,15 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		//코드 분류 부터.. 테스트
 		console.log(">>>>SaveBasisCd");
-		$scope.saveCdCtgrz();
+		if(currentGrid.CD_CTGRZ == true && currentGrid.CD == false){
+			$scope.saveCdCtgrz();
+		}else if(currentGrid.CD_CTGRZ == false && currentGrid.CD == true){		
+			$scope.saveCd();
+		}else{
+			bootbox.alert("저장할 테이블이 잘못 지정되었습니다");
+		}
 		
 	}
-	
-	/**
-	 * <ul>
-	 * <li>2016.10.13</li>
-	 * <li>ckim</li>
-	 * <li>function name: CdtoNmOfGridData</li>
-	 * <li>function description: 그리드 데이터를 기존에 불러온 selectedCmbs의 Name으로 변환</li>
-	 * </ul>
-	 * 
-	 * @param obj
-	 * @return: obj
-	 */
-	function cdToNmOfGridData(obj)
-	{
-		for (i=0; i< obj.length; i++){
-			for (var key in obj[i]){
-				if(key =='USE_YN'){
-					for (j=0; j< $scope.USE_YN.length; j++){
-						var tmpStr = $scope.USE_YN[j].toString();
-						if(obj[i][key] == tmpStr.split(":")[0]){
-							obj[i][key] = tmpStr;						
-						}//if(obj[i][key] == tmpStr.ssplit(":")[0]){
-					}//for (j=0; j< $scope.USE_YN.length; j++)
-				}//if(key =='USE_YN')
-			}//for (var key in obj[i]){
-		}//for (i=0; i< obj.length; i++){
-		return obj;
-	};
 	
 	/**
 	 * <ul>
@@ -411,9 +460,22 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		$scope.page_CdCtgrz.totalItems = returnData.VARIABLE_MAP.cdCtgrzCnt; 
 		
 		setCdCtgrzGrid("Y");
+		setCdGrid("Y");
 		hshelper_CdCtgrz.setData(resultData);
 		
 	}	
+	
+	function setCurrentGrid(grid)
+	{
+		console.log(">>>setCurrentGrid : " + grid);
+		if(grid == "CD_CTGRZ"){
+			currentGrid.CD_CTGRZ = true;
+			currentGrid.CD = false;
+		}else{
+			currentGrid.CD_CTGRZ = false;
+			currentGrid.CD = true;
+		}
+	}
 	
 	$document.ready(function() {
 		

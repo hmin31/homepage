@@ -52,13 +52,20 @@ public class BasisCdWebCtrImpl {
 			resultListData = basisCdSvcImpl.getCdCtgrzList(paramMap);
 		}else if("selectCdCtgrzList".equals(svc_id)){
 			resultListData = basisCdSvcImpl.getCdCtgrzList(paramMap);
-		}
-		else if ("getCdList".equals(svc_id)) {
-			resultListData = basisCdSvcImpl.getCdList(paramMap);
 		}else if ("saveCdCtgrz".equals(svc_id)) {
 			//코드 분류 저장 시 등록자 처리 
 			basisCdSvcImpl.saveCdCtgrz(listData);
 		}
+		//코드 부분
+		else if ("getCdList".equals(svc_id)) {
+			resultListData = basisCdSvcImpl.getCdList(paramMap);
+		}
+		else if ("saveCd".equals(svc_id)) {
+			//코드 분류 저장 시 등록자 처리 
+			basisCdSvcImpl.saveCd(listData);
+		}
+		
+		
 		
 		/*String svc_id = (String) paramMap.get("SVC_ID");
 		if ("selectBasisCdList".equals(svc_id)) {
