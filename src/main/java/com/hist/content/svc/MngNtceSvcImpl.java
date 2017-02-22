@@ -1,5 +1,6 @@
 package com.hist.content.svc;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class MngNtceSvcImpl extends BizServiceImpl{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IListData getNtceMenu(Map paramMap) throws Exception {
 		IListData resultListData = new ListDataImpl();
+		
 		List  returnList = mngNtceDaoImpl.getNtceMenu(paramMap);
 		resultListData.setDataList("ntceMenu_do", returnList);
 		
@@ -29,37 +31,38 @@ public class MngNtceSvcImpl extends BizServiceImpl{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IListData selectNtceList(Map paramMap) throws Exception {
 		IListData resultListData = new ListDataImpl();
+		
+		//게시판 목록
 		List returnList = mngNtceDaoImpl.selectNtceList(paramMap);
 		resultListData.setDataList("ntce_do", returnList);
 		
-		return resultListData;
-	}
-	
-	public IListData getNtceDtls(Map<?, ?> paramMap) throws Exception {
-		IListData resultListData = new ListDataImpl();
-		String ntceDtls = mngNtceDaoImpl.getNtceDtls(paramMap);
-		
-		resultListData.addVariable("ntceDtls", ntceDtls);
+		//게시판 갯수
+		String strCnt = mngNtceDaoImpl.selectNtceCnt(paramMap);
+		resultListData.addVariable("ntce_cnt", strCnt);
 		
 		return resultListData;
 	}
 	
-	public void insertNtceDtls(Map<?, ?> paramMap) throws Exception {
-		mngNtceDaoImpl.insertNtceDtls(paramMap);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void saveNtce(IListData listData) throws Exception {
+		List list = listData.getDataList("layer_input");
+		HashMap rowData = null;	
+		String rowStatus = "";
 		
-	}
-	
-	public void updateNtceDtls(Map<?, ?> paramMap) throws Exception {
-		mngNtceDaoImpl.updateNtceDtls(paramMap);
-	}
-	
-	public void mergeNtceDtls(Map<?, ?> paramMap) throws Exception {
-		
-		// CLOB column이 1,000 을 넘을 때 insert의 경우 update로 인식 오류 merge into 사용하지 못함
-		if("N".equals(mngNtceDaoImpl.getIsMenuCdInsertable(paramMap))) {
-			mngNtceDaoImpl.insertNtceDtls(paramMap);
-		} else {
-			mngNtceDaoImpl.updateNtceDtls(paramMap);
+		for (int i = 0, j = list.size(); i < j; i++) {
+			rowData = (HashMap) list.get(i);
+			rowStatus = String.valueOf(rowData.get("ROW_STATUS"));
+			rowData.put("REG_USR_ID", listData.getParameter("REG_USR_ID"));
+			
+			if ("I".equals(rowStatus)) {
+				mngNtceDaoImpl.insertNtce(rowData);
+				
+			} else if ("U".equals(rowStatus)) {
+				mngNtceDaoImpl.updateNtce(rowData);	
+			
+			} else if ("D".equals(rowStatus)) {
+				mngNtceDaoImpl.deleteNtce(rowData);	
+			}
 		}
 	}
 }

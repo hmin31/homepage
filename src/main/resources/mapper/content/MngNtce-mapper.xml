@@ -3,85 +3,80 @@
 <mapper namespace="mngNtce">
 	
 	<select id="getNtceMenu" resultType="java.util.HashMap">
-		SELECT	MENU_CD 		AS code
-				,MENU_KRN_NM 	AS name
-		FROM 	HIST_MENU 
-		WHERE  	MENU_CATE IS NULL
+		SELECT	MENU_CD 		AS CODE
+				,MENU_KRN_NM 	AS NAME
+		FROM 	HIST_MENU
+		WHERE  	MENU_CATE = 'F'
+		AND     BLTN_CRET_YN = 'Y'
+	</select>
+	
+	<select id="selectNtceCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	HIST_BLTN
+		WHERE  	MENU_CD = #{srchMenuCd, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="selectNtceList" resultType="java.util.HashMap">
-		SELECT	'1' AS NO, 
-				'제목' AS SUBJECT, 
-				'admin' AS RGST_EMP, 
-				TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') AS RGST_DTIM, 
-				'admin' AS CORCT_EMP, 
-				TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') AS CORCT_DTIM
-		FROM 	DUAL
+		SELECT	BLTN_CD,
+				MENU_CD,
+				BLTN_NUM,
+				BLTN_SEQ,
+				TITL,
+                DBMS_LOB.SUBSTR(CTN, DBMS_LOB.GETLENGTH(CTN), 1) AS CTN,
+				INQ_CNT,
+				USE_YN,
+				(SELECT E.EMP_NM ||' ('|| E.EMP_NUM ||')' FROM HIST_EMP E WHERE E.EMP_NUM = HIST_BLTN.RGST_EMP_NUM) AS RGST_EMP,
+				TO_CHAR(RGST_DTIM, 'YYYY-MM-DD HH24:MI:SS') AS RGST_DTIM,
+				(SELECT E.EMP_NM ||' ('|| E.EMP_NUM ||')' FROM HIST_EMP E WHERE E.EMP_NUM = HIST_BLTN.CORCT_EMP_NUM) AS CORCT_EMP,
+				TO_CHAR(CORCT_DTIM, 'YYYY-MM-DD HH24:MI:SS') AS CORCT_DTIM
+		FROM 	HIST_BLTN
+		WHERE  	MENU_CD = #{srchMenuCd, jdbcType=VARCHAR}
+		ORDER BY BLTN_SEQ DESC
 	</select>
 	
-	<select id="getNtceDtls" resultType="string" >
-		SELECT	NVL(CTN_DTLS, EMPTY_CLOB()) AS CTN_DTLS
-		FROM 	HIST_CTN 
-		WHERE  	MENU_CD = #{MENU_CD}
-	</select>
-	
-	<insert id="insertNtceDtls">
-		INSERT INTO HIST_CTN (
-        	MENU_CD
-        	,CTN_DTLS
-			,RGST_EMP_NUM
-			,RGST_DTIM
+	<insert id="insertNtce">
+		INSERT INTO HIST_BLTN (
+        		BLTN_CD,
+	        	MENU_CD,
+	        	BLTN_NUM,
+	        	BLTN_SEQ,
+				TITL,
+				CTN,
+				INQ_CNT,
+				USE_YN,
+				RGST_EMP_NUM,
+				RGST_DTIM
         )
         VALUES (
-	        #{MENU_CD, jdbcType=VARCHAR}
-			,#{CTN_DTLS, jdbcType=CLOB}
-			,#{SES_USR_NM}
-			,sysdate
+        	(SELECT LPAD(NVL(MAX(BLTN_CD), 0) + 1, 9, '0') 
+        	 FROM HIST_BLTN),
+	        #{MENU_CD, jdbcType=VARCHAR},
+	        (SELECT NVL(MAX(BLTN_NUM), 0) + 1 
+	         FROM HIST_BLTN
+	         WHERE MENU_CD = #{MENU_CD, jdbcType=VARCHAR}),
+	        #{BLTN_SEQ, jdbcType=VARCHAR},
+	        #{TITL, jdbcType=VARCHAR},
+			#{CTN, jdbcType=CLOB},
+			0,
+			#{USE_YN, jdbcType=VARCHAR},
+			#{REG_USR_ID},
+			SYSDATE
         )
 	</insert>
 	
-	<update id="updateNtceDtls">
-		UPDATE HIST_CTN
-	        SET
-			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB}
-			,CORCT_EMP_NUM = #{RGST_EMP_NUM, jdbcType=VARCHAR}
-			,CORCT_DTIM = sysdate
-        WHERE MENU_CD = #{MENU_CD}
-	</update>	
-	
-	<update id="mergeNtceDtls" parameterType="java.util.HashMap">
-		MERGE INTO HIST_CTN A
-        USING DUAL ON (A.MENU_CD = #{MENU_CD, jdbcType=VARCHAR})
-        WHEN MATCHED THEN
-        	UPDATE 
-	        SET
-			CTN_DTLS = #{CTN_DTLS, jdbcType=CLOB, javaType=String}
-			,CORCT_EMP_NUM = #{SES_USR_NM}
-			,CORCT_DTIM = sysdate
-		WHEN NOT MATCHED THEN
-		INSERT (
-        	MENU_CD
-        	,CTN_DTLS
-			,RGST_EMP_NUM
-			,RGST_DTIM
-        )
-        VALUES (
-	        #{MENU_CD, jdbcType=VARCHAR}
-			,#{CTN_DTLS, jdbcType=CLOB}
-			,#{SES_USR_NM}
-			,sysdate
-        )
+	<update id="updateNtce">
+		UPDATE  HIST_BLTN
+		SET		BLTN_SEQ = #{BLTN_SEQ, jdbcType=VARCHAR},
+				TITL = #{TITL, jdbcType=VARCHAR},
+				CTN = #{CTN, jdbcType=CLOB},
+				USE_YN = #{USE_YN, jdbcType=VARCHAR},
+				CORCT_EMP_NUM = #{REG_USR_ID},
+				CORCT_DTIM = SYSDATE
+        WHERE   BLTN_CD = #{BLTN_CD, jdbcType=VARCHAR}
 	</update>
 	
-	<select id="getIsMenuCdInsertable" resultType="string">
-		SELECT
-		       CASE COUNT(*)
-		         WHEN 0
-		         THEN 'N'
-		         ELSE 'Y'
-		       END AS AVAIL_YN
-		  FROM HIST_CTN
-		 WHERE MENU_CD = #{MENU_CD}
-	</select>
-
+	<delete id="deleteNtce">
+		DELETE  FROM HIST_BLTN
+		WHERE   BLTN_CD = #{BLTN_CD, jdbcType=VARCHAR}
+	</delete>
 </mapper>

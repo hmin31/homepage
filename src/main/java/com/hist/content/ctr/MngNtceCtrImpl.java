@@ -55,18 +55,8 @@ public class MngNtceCtrImpl {
 		} else if ("selectNtceList".equals(svc_id)) {
 			resultListData = mngNtceSvcImpl.selectNtceList(paramMap);
 			
-			
-		} else if ("getNtceDtls".equals(svc_id)) {
-			resultListData = mngNtceSvcImpl.getNtceDtls(paramMap);
-			
-		} else if ("insertNtceDtls".equals(svc_id)) {
-			mngNtceSvcImpl.insertNtceDtls(paramMap);
-			
-		} else if ("updateNtceDtls".equals(svc_id)) {
-			mngNtceSvcImpl.updateNtceDtls(paramMap);
-			
-		} else if ("mergeNtceDtls".equals(svc_id)) {
-			mngNtceSvcImpl.mergeNtceDtls(paramMap);
+		} else if ("saveNtce".equals(svc_id)) {
+			mngNtceSvcImpl.saveNtce(listData);
 		}
 		
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);

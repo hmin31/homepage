@@ -22,23 +22,19 @@ public class MngNtceDaoImpl extends MybatisBizDaoImpl {
 		return queryForList(nameSpace + ".selectNtceList", parameterMap);
 	}
 	
-	public String getNtceDtls(Map<?, ?> parameterMap) throws Exception {
-		return queryForStr(nameSpace + ".getNtceDtls", parameterMap);
+	public String selectNtceCnt(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".selectNtceCnt", parameterMap);
 	}
 	
-	public void insertNtceDtls(Map<?, ?> parameterMap) throws Exception {
-		insert(nameSpace + ".insertNtceDtls", parameterMap);
+	public void insertNtce(Map<?, ?> parameterMap) throws Exception {
+		insert(nameSpace + ".insertNtce", parameterMap);
 	}
 	
-	public void updateNtceDtls(Map<?, ?> parameterMap) throws Exception {
-		update(nameSpace + ".updateNtceDtls", parameterMap);
+	public void updateNtce(Map<?, ?> parameterMap) throws Exception {
+		update(nameSpace + ".updateNtce", parameterMap);
 	}
 	
-	public void mergeNtceDtls(Map<?, ?> parameterMap) throws Exception {
-		update(nameSpace + ".mergeNtceDtls", parameterMap);
-	}
-	
-	public String getIsMenuCdInsertable(Map<?, ?> parameterMap) throws Exception {
-		return queryForStr(nameSpace + ".getIsMenuCdInsertable", parameterMap);
+	public void deleteNtce(Map<?, ?> parameterMap) throws Exception {
+		update(nameSpace + ".deleteNtce", parameterMap);
 	}
 }

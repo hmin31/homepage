@@ -1,14 +1,9 @@
-app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', '$sce',
-	function($scope, $http, $document, $window, $q, $sce) {
-
+app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
+	
 	var ctrUrl = '/mngNtce.do';
 	
 	var hshelper_cd;
 	
-	$scope.renderHtml = function(htmlCode) {
-		return $sce.trustAsHtml(htmlCode);
-	};
-
 	$scope.getNtceMenu = function() {
 		var dataObj = {};
 		var paramDataObj = {};
@@ -24,39 +19,42 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 	}
 	
 	$scope.selectNtceList = function() {
-		var dataObj = {};
-		var paramDataObj = {};
 		
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectNtceList");
-		addDataObj(jQuery, paramDataObj, "searchMenuCd", $scope.selectedNtceMenuCd);
-		
-		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-
-		var afterSuccessFunc = function(returnData) {
-			exceptionHandler(returnData.RESULT, "코드", "N");
+		if($scope.selectedNtceMenuCd != undefined) {
+			var dataObj = {};
+			var paramDataObj = {};
 			
-			hshelper_cd.init();
-			hshelper_cd.setData(returnData.ntce_do);
-			$scope.page_cd.totalItems = returnData.VARIABLE_MAP.cdCnt;
-		};
-		
-		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+			addDataObj(jQuery, paramDataObj, "SVC_ID", "selectNtceList");
+			addDataObj(jQuery, paramDataObj, "srchMenuCd", $scope.selectedNtceMenuCd);
+			
+			addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+			
+			var afterSuccessFunc = function(returnData) {
+				exceptionHandler(returnData.RESULT, "코드", "N");
+				
+				hshelper_cd.init();
+				hshelper_cd.setData(returnData.ntce_do);
+				$scope.totalItems = returnData.VARIABLE_MAP.ntce_cnt;
+			};
+			
+			commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+			
+		} else {
+			bootbox.alert("메뉴를 선택해 주세요.");
+		}
 	};
 	
 	function setCdGrid(){
-
 		var hsc_ins = document.getElementById('hst_ntce');
 		
 		var metaData = {};
-		metaData.colHeaders 	= ["", "No.",
-		                    		"글번호", "제목", "등록자", "등록일시", "수정자", "수정일시"];
-		metaData.colWidths 		= [42, 40,
-		                   			60, 250, 100, 150, 100, 150]; 
+		metaData.colHeaders 	= ["글번호", "제목", "게시여부", "조회수", "등록자", "등록일시", "수정자", "수정일시"];
+		metaData.colWidths 		= [60, 250, 100, 60, 120, 150, 120, 150]; 
 		metaData.columns 		= [
-		                 			{data: "CHK", type: "checkbox", readOnly:false},
-		                 			{data: "RNK", type: "textCenter", readOnly:true},
-		                 			{data: "NO", type: "textCenter", readOnly:true},
-		                 			{data: "SUBJECT", type: "text", readOnly:true},
+		                 			{data: "BLTN_NUM", type: "textCenter", readOnly:true},
+		                 			{data: "TITL", type: "text", readOnly:true},
+		                 			{data: "USE_YN", type: "textCenter", readOnly:true},
+		                 			{data: "INQ_CNT", type: "textCenter", readOnly:true},
 		                 			{data: "RGST_EMP", type: "textCenter", readOnly:true},
 		                 			{data: "RGST_DTIM", type: "textCenter", readOnly:true},
 		                 			{data: "CORCT_EMP", type: "textCenter", readOnly:true},
@@ -64,64 +62,113 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		                 		   ];
 		metaData.heightVal		= 516;
 		metaData.rowHeaders 	= false;
-		metaData.chkAllColumnYn = true;
+		
+		metaData.afterOnCellMouseDownCallback = function(hsi, row, column, erow, ecolumn) {
+			//sort index
+			var selRow = row;
+			if(hsi.sortIndex != undefined && hsi.sortIndex.length > 0) {
+				if(hsi.sortIndex.length > selRow) {
+					selRow = hsi.sortIndex[selRow][0];
+				}
+			}
+			
+			if(hshelper_cd.getHsGridData()[selRow].ROW_STATUS != 'I') {
+
+				$("#modal-content,#modal-background").toggleClass("active");
+				$("#modal-content,#modal-background").draggable();
+				
+				$scope.$apply(function() {
+				
+					var tempValue = hshelper_cd.getHsGridData()[selRow];
+					$scope.layer_input = {};
+					$scope.layer_input.ROW_STATUS="U";//Update
+					addDataMapObj(jQuery, $scope.layer_input, tempValue);
+					
+					$('#homepage_ntce').summernote(
+						'code', $scope.layer_input.CTN || ''
+					);
+					
+					$(".selMenuCd").attr("disabled", true);
+					/*if(readOnlyYn == false) $("#delBtn").show();*/
+					$("#delBtn").show();
+				});
+			}
+		}
 		
 		hshelper_cd = new HandsontableHelper(hsc_ins, metaData);
 		hshelper_cd.init();
 		hshelper_cd.setData();
 	};
 	
-	$scope.getNtceDtls = function() {
+	$scope.addNtce = function() {
+		$scope.layer_input = {};
+		$scope.layer_input.ROW_STATUS="I"; //Insert
 		
-		if($scope.selectedNtceMenuCd != undefined) {
-			var dataObj = {};
-			var paramDataObj = {};
-			addDataObj(jQuery, paramDataObj, "SVC_ID", "getNtceDtls");
-			addDataObj(jQuery, paramDataObj, "MENU_CD", $scope.selectedNtceMenuCd);
-			addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-			
-			var afterSuccessFunc = function(returnData) {
-				exceptionHandler(returnData.RESULT, "ntce menu", "N");
-				
-				$scope.searchedMenuCd = $scope.selectedNtceMenuCd;
-				
-				$('#homepage_ntce').summernote(
-						'code', returnData.VARIABLE_MAP.contetnsDtls || ''
-				);
-			};
-			
-			commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
-			
-		} else {
-			bootbox.alert("메뉴를 선택해 주세요.");
-		}
+		$('#homepage_ntce').summernote(
+			'code', ''
+		);
 		
-	}
-	
-	$scope.mergeNtceDtls = function() {
+		$(".selMenuCd").attr("disabled", false);
+		$("#delBtn").hide();
 		
-		if($scope.selectedNtceMenuCd != undefined) {
-			var dataObj = {};
-			var paramDataObj = {};
-			addDataObj(jQuery, paramDataObj, "SVC_ID", "mergeNtceDtls");
-			addDataObj(jQuery, paramDataObj, "MENU_CD", $scope.searchedMenuCd);
-			addDataObj(jQuery, paramDataObj, "CTN_DTLS", $('#homepage_ntce').summernote('code'));
-			addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-			
-			var afterSuccessFunc = function(returnData) {
-				exceptionHandler(returnData.RESULT, "ntce menu", "N");
-			};
-			
-			commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
-			
-		} else {
-			bootbox.alert("메뉴를 선택해 주세요.");
-		}
-	}
-	
-	$scope.previewClick = function() {
 		$("#modal-content,#modal-background").toggleClass("active");
 		$("#modal-content,#modal-background").draggable();
+	}
+	
+	$scope.saveNtce = function() {
+		var dataObj = {};
+		var paramDataObj = {};
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveNtce");
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		
+		$scope.layer_input.CTN = $('#homepage_ntce').summernote('code');
+
+		var layerInputObj = [];
+		layerInputObj[0] = $scope.layer_input;
+		addDataObj(jQuery, dataObj, "layer_input", layerInputObj);
+		
+		if(lengthCheck(dataObj.layer_input, {TITL: 500, BLTN_SEQ: 5}, ["제목", "정렬순서"])) return;
+		if(mandantoryColumnCheck(dataObj.layer_input, ["MENU_CD", "USE_YN", "BLTN_SEQ", "TITL"], ["메뉴", "게시여부", "정렬순서", "제목"])) return;
+
+		var afterSuccessFunc = function(returnData) {
+			exceptionHandler(returnData.RESULT, "저장", "Y");
+			$("#modal-content, #modal-background").toggleClass("active");
+			$scope.selectNtceList();
+		};
+		
+		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+	}
+			
+	$scope.delNtce = function() {
+		var dataObj = {};
+		var paramDataObj = {};
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveNtce");
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		
+		$scope.layer_input.ROW_STATUS="D"; //Delete
+		
+		var layerInputObj = [];
+		layerInputObj[0] = $scope.layer_input;
+		addDataObj(jQuery, dataObj, "layer_input", layerInputObj);
+		
+		if(mandantoryColumnCheck(dataObj.layer_input, ["USE_YN", "TITL"])) return;
+
+		var afterSuccessFunc = function(returnData) {
+			exceptionHandler(returnData.RESULT, "삭제", "Y");
+			$("#modal-content, #modal-background").toggleClass("active");
+			$scope.selectNtceList();
+		};
+		
+		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+	};
+	
+	$scope.renderHtml = function(htmlCode) {
+		return $sce.trustAsHtml(htmlCode);
+	};
+	
+	$scope.previewClick = function() {
+		$("#modal-content-preview,#modal-background2").toggleClass("active");
+		$("#modal-content-preview,#modal-background2").draggable();
 		
 		var htmlVar = $('#homepage_ntce').summernote('code');
 		$scope.thisCanBeusedInsideNgBindHtml = htmlVar;
@@ -148,10 +195,10 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		});
 	}
 	
-	$("#modal-background, #modal-close, #modal-close2").click(
+	$("#modal-background, #modal-background2, #modal-close, #modal-close2, #modal-close3").click(
 		function() {
-			$("#modal-content,#modal-background")
-					.toggleClass("active");
+			$("#modal-content,#modal-background").toggleClass("active");
+			//$("#modal-content-preview,#modal-background2").toggleClass("active");
 		}
 	);
 	
@@ -160,9 +207,9 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		$scope.getNtceMenu();
 		
 		setCdGrid();
-
+		
 		$('#homepage_ntce').summernote({
-			height: ($(window).height() - 300),
+			height: 350,
 			callbacks: {
 		        onImageUpload: function(image) {
 		            uploadImage(image[0]);
@@ -171,9 +218,9 @@ app.controller('ctr_mngNtce', ['$scope', '$http', '$document', '$window', '$q', 
 		});
 		
 		$('#homepage_ntce').summernote(
-			'code', ''
+				'code', ''
 		);
 		
 	});
 	
-}]);
+});
