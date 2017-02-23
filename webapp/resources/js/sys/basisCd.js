@@ -334,12 +334,12 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		if(mandantoryColumnCheck(dataObj.do_cd_chg, 
 				["CD", "CD_KRN_NM", "CD_ENG_NM", "CD_KRN_ABRVN", "CD_ENG_ABRVN"], 
 				["코드", "코드 한글명", "코드 영문명", "코드 한글 약어", "코드 영문 약어"])) return;
-/*		if(alphabetNumCheck(dataObj.do_cd_chg, 
-				["MASTR_CD", "DETAIL_CD"], 
-				["마스터코드", "상세코드"])) return;*/
-		if(numCheck(dataObj.do_cd_chg, 
+		if(alphabetNumCheck(dataObj.do_cd_chg, 
 				["CD"], 
 				["코드"])) return;
+/*		if(numCheck(dataObj.do_cd_chg, 
+				["CD"], 
+				["코드"])) return;*/
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "상세코드 저장", "N");
