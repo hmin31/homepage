@@ -36,11 +36,13 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= readOnlyYn;
-		metaData.colHeaders 		= ["순번", "메뉴"];
-		metaData.colWidths 			= [40, 100];
+		metaData.colHeaders 		= ["순번", "메뉴", "순서"];
+		metaData.colWidths 			= [40, 100, 40];
 		metaData.columns 			= [
-			   						   {data: "MENU_SEQ", type: "textCenter", readOnly: true},
-		                 			   {data: "MENU_TREE", type: "text"},
+		                 			   {data: "ROWNUM",			type: "textCenter", 	readOnly: true},
+		                 			   {data: "MENU_TREE", 		type: "text",			readOnly: true},
+		                 			   {data: "MENU_SEQ", 		type: "textCenter", 	readOnly: true}
+		                 			   
 		                 			  
 		                 			   ];
 		//코드 Hidden 추후
@@ -105,20 +107,32 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		//HandDataHelper용 Meta Data 설정 
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["순번",	"Menu 코드*",	"메뉴구분*",		"Menu 영문명",	"Menu 한글명*",	"URL",
-		                    		   "순서*",	"사용여부*",		"상위 코드",		"카테고리*",		"등록자*"];
-		metaData.colWidths 			= [40,		80,		80,		80,		80,		80, 
-		                   			   100,		80,		80,		80,		80
-		                   			  ]; 
+		metaData.colHeaders 		= ["선택", "순번",		"*Menu 코드",		"*메뉴구분",			"*Menu 영문명",	"*Menu 한글명",	
+		                    		   "URL",       "*순서",				"*게시판 사용",		"*컨텐츠 사용",	"*사용여부",
+		                    		   "상위 코드",	"*카테고리",  		"*등록자"];
+		metaData.colWidths 			= [42, 40,			80,			80,			80,			80,
+		                   			   80,      	40,			40,			40,			40,
+		                   			   100,			80,			80]; 
 		metaData.columns 			= [
-		                 			   {data: "RNK",		type: "textCenter", readOnly: true},
-		                 			   {data: "MENU_CD", 	type: "textCenter", readOnly: false},
-		                 			   {data: "MENU_CATE",	type: "text",		readOnly: false},
-		                 			   {data: "MENU_ENG_NM",type: "text", 		readOnly: false},
-		                 			   {data: "MENU_KRN_NM",type: "text" , 		readOnly: false},
-		                 			   {data: "MENU_URL",	type: "text",		readOnly: false},
-		                 			   {data: "MENU_SEQ",	type: "numeric",	readOnly: false},
-		                 			   {data: "USE_YN",		type: 'dropdown',
+		                 			   {data: "CHK", type: "checkbox", readOnly:false},
+		                 			   {data: "RNK",			type: "textCenter", readOnly: true},
+		                 			   {data: "MENU_CD", 		type: "textCenter", readOnly: false},
+		                 			   {data: "MENU_CATE",		type: "text",		readOnly: false},
+		                 			   {data: "MENU_ENG_NM",	type: "text", 		readOnly: false},
+		                 			   {data: "MENU_KRN_NM",	type: "text" , 		readOnly: false},
+		                 			   {data: "MENU_URL",		type: "text",		readOnly: false},
+		                 			   {data: "MENU_SEQ",		type: "numeric",	readOnly: false},
+		                 			   {data: "BLTN_CRET_YN", 	type: 'autocomplete',
+		                 				    source: use_yn_source,
+		                 				    strinct: false,
+		                 				    filter: false,
+		                 				    readOnly: false},
+	                 				   {data: "CNT_CRET_YN", 	type: 'autocomplete',
+		                 				    source: use_yn_source,
+		                 				    strinct: false,
+		                 				    filter: false,
+		                 				    readOnly: false},    
+		                 			   {data: "USE_YN",		type: 'autocomplete',
 		                 				    source: use_yn_source,
 		                 				    strinct: false,
 		                 				    filter: false,
@@ -131,6 +145,13 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		metaData.pkColumns			= ["MENU_CD", "MENU_CATE"]; 
 		metaData.rowHeaders 		= false;
 	
+		metaData.afterSelectionEndCallback = function(hsi, row, column, erow, ecolumn) {
+			for(var i in hshelper_lowerMenu.getHsGridData()){
+				hshelper_lowerMenu.getHsGridData()[i].CHK = false;
+			}
+			
+			hshelper_lowerMenu.getHsGridData()[row].CHK = true;
+		}
 		
 		hshelper_lowerMenu = new HandsontableHelper(hsc_ins, metaData);
 		hshelper_lowerMenu.init();
@@ -179,12 +200,14 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 
 	function setSelectedMenuList(returnData){
 		
-		setLowerMenuGrid("Y");
+		var use_yn_source = ['Y', 'N'];
+		
+		setLowerMenuGrid(use_yn_source);
 		var resultData = returnData.all_main_menu;
 		user_id = returnData.VARIABLE_MAP.USER_ID;
 		$scope.page_menu.totalItems = returnData.VARIABLE_MAP.menuCnt; 	
 		//모든 메뉴..
-		setAllMenuGrid("Y");
+		setAllMenuGrid(use_yn_source);
 		
 		hshelper_masterCd.setData(resultData);
 	};
@@ -238,11 +261,6 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 			return false;
 		}
 		//상위 메뉴 레벨
-/*		var hiMenuSeq = hshelper_masterCd.getHsGridData()[hshelper_masterCd.getCurRow() || 0].MENU_SEQ;
-		if (hiMenuSeq == 30) {
-			bootbox.alert("하위 메뉴를 생성할 수 없습니다");
-			return false;
-		}*/
 		
 		if (hshelper_lowerMenu == undefined) {
 			bootbox.alert("추가할 테이블이 없습니다.");
@@ -280,11 +298,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		}
 		
 		//행 선택되지 않은경우 어떻게 처리할것인가??
-		
-		//length, Menu 코드, 순서 자동 업데이트 필요
-		
 		var delRow = hshelper_lowerMenu.delrow();
-		console.log("delRow : " + delRow);
 		//hshelper_lowerMenu.selectCell(delRow);
 	}
 	
@@ -301,21 +315,24 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		console.log("change Data : " + hshelper_lowerMenu.getHsChgData());
 		
 		if(lengthCheck(dataObj.do_lowerMenu_chg, 
-				{MENU_CD: 9, HI_MENU_CD: 9, MENU_ENG_NM: 30, MENU_KRN_NM: 100, 
-				 MENU_URL: 500, MENU_SEQ: 3, USE_YN: 1, SYS_CTGRZ_CD: 4, RGST_EMP_NUM:8,	MENU_CATE:9},
-				["메뉴코드", "상위메뉴코드", "영문명", "국문명", "메뉴URL", 
-				 "메뉴순서", "사용여부", "분류코드", "등록직원번호", "메뉴구분"])) {
+				{MENU_CD: 9, 	HI_MENU_CD: 9,		MENU_ENG_NM: 30, 	MENU_KRN_NM: 100, 
+				 MENU_URL: 500, BLTN_CRET_YN: 1,	CNT_CRET_YN: 1,		MENU_SEQ: 3, 	
+				 USE_YN: 1, 	SYS_CTGRZ_CD: 4,	RGST_EMP_NUM:8,	MENU_CATE:9},
+				["메뉴코드", 		"상위메뉴코드", 	"영문명", 		"국문명", 
+				 "메뉴URL",		"게시판 사용",		"컨텐츠 사용",		"메뉴순서",
+				 "사용여부", 		"분류코드", "등록직원번호", "메뉴구분"])) {
 			return;
 		}
 		
 		if(mandantoryColumnCheck(dataObj.do_lowerMenu_chg,
-				["MENU_CD", "MENU_ENG_NM", "MENU_KRN_NM", "MENU_SEQ",
-				 "USE_YN", "SYS_CTGRZ_CD", "RGST_EMP_NUM",	"MENU_CATE"], 
-				["메뉴코드", "영문명", "국문명", "메뉴순서",
-				 "사용여부", "분류코드", "등록직원번호", "메뉴구분"])){
+				["MENU_CD", 		"MENU_ENG_NM", 		"MENU_KRN_NM", 		"MENU_SEQ",
+				 "USE_YN", 			"SYS_CTGRZ_CD", 	"RGST_EMP_NUM",		"MENU_CATE",
+				 "BLTN_CRET_YN",	"CNT_CRET_YN"], 
+				["메뉴코드", 			"영문명", 			"국문명", 			"메뉴순서",
+				 "사용여부", 			"분류코드", 			"등록직원번호", 		"메뉴구분",
+				 "게시판 사용",		"컨텐츠 사용"
+				 ])){
 			
-			//console.log("Validation Failed");
-		
 			return;
 		}
 		if(alphabetNumCheck(dataObj.do_lowerMenu_chg, 
@@ -325,7 +342,7 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 				["MENU_SEQ"], ["메뉴순서"])) return;
 		
 		var afterSuccessFunc = function(returnData) {
-			exceptionHandler(returnData.RESULT, "상세코드 저장", "N");
+			exceptionHandler(returnData.RESULT, "하위메뉴 저장", "N");
 			//저장후 재 조회를 어떤식으로 할것인가.. 
 			if(returnData.RESULT.ERRORCODE == "0") {
 				//우선 메뉴 전체 목록을 가져오는 방법으로..
@@ -344,7 +361,6 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		$scope.menuKnd_do = [{CODE: 'F', NAME: '프론트'}, {CODE: 'B', NAME: '백오피스'}];
 
 		window.setTimeout(function() {
-			console.log(">>>>Set TimeOut<<<<");
 			$scope.selectedMenuKnd = 'B';
 			$scope.getSelectedMenuList();
 

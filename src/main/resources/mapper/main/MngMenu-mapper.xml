@@ -22,15 +22,16 @@
              CONNECT_BY_ROOT C.MENU_CD AS ROOT_MENU_CD,
              SUBSTR (SYS_CONNECT_BY_PATH (C.MENU_KRN_NM, ' > '), 4) AS MENU_PATH,
              SYS_CONNECT_BY_PATH (LPAD (C.MENU_SEQ, 3, 0), '|') AS MENU_SEQ_GRD,
-             C.SYS_CTGRZ_CD
+             C.SYS_CTGRZ_CD,
+             ROWNUM
         FROM HIST_MENU C
         <where>
 			<if test="MENU_CATE != null and MENU_CATE !=''">
-				MENU_CATE = #{MENU_CATE}
+				MENU_CATE = #{MENU_CATE} OR HI_MENU_CD IS NULL
 			</if>
 		</where>
 		CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
-		LEVEL BETWEEN 0 AND 3
+		LEVEL BETWEEN 0 AND 2
 		START WITH HI_MENU_CD IS NULL
 		ORDER SIBLINGS BY C.MENU_SEQ ASC
 
@@ -58,7 +59,7 @@
 		SELECT	COUNT(*) AS CNT
 				FROM 	HIST_MENU C
 				
-				<where>
+<!-- 				<where>
 						<if test="MENU_CATE != null and MENU_CATE !=''">
 							MENU_CATE = #{MENU_CATE}
 						</if>
@@ -66,7 +67,16 @@
 				CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
 				LEVEL BETWEEN 0 AND 3
 				START WITH HI_MENU_CD IS NULL
-				ORDER SIBLINGS BY C.MENU_SEQ ASC
+				ORDER SIBLINGS BY C.MENU_SEQ ASC -->
+			<where>
+				<if test="MENU_CATE != null and MENU_CATE !=''">
+					MENU_CATE = #{MENU_CATE} OR HI_MENU_CD IS NULL
+				</if>
+			</where>
+			CONNECT BY PRIOR C.MENU_CD = C.HI_MENU_CD AND 
+			LEVEL BETWEEN 0 AND 2
+			START WITH HI_MENU_CD IS NULL
+			ORDER SIBLINGS BY C.MENU_SEQ ASC
 	</select>
 	
 	
@@ -88,6 +98,8 @@
 			    RGST_DTIM,
 			    CORCT_EMP_NUM,
 			    CORCT_DTIM,
+			    BLTN_CRET_YN,
+			    CNT_CRET_YN,
 		        RANK() OVER (ORDER BY MENU_SEQ, MENU_CD) RNK
 		FROM 	HIST_MENU
 		<where>
@@ -141,7 +153,9 @@
 				CORCT_EMP_NUM,
 			</if>
 			RGST_DTIM,
-			CORCT_DTIM
+			CORCT_DTIM,
+			BLTN_CRET_YN,
+		    CNT_CRET_YN
 		)
 		VALUES
 		(
@@ -174,7 +188,10 @@
 				#{REG_USR_ID},
 			</if>
 			SYSDATE,
-			SYSDATE
+			SYSDATE,
+			#{BLTN_CRET_YN},
+			#{CNT_CRET_YN}
+			
 		)
 	</insert>
 
@@ -200,7 +217,9 @@
 		<if test="CORCT_DTIM != null">
 				CORCT_DTIM = SYSDATE,
 		</if>
-		DLT_YN = #{DLT_YN}
+		DLT_YN = #{DLT_YN},
+		BLTN_CRET_YN 	= 	#{BLTN_CRET_YN},
+		CNT_CRET_YN 	= 	#{CNT_CRET_YN}
 		
 		WHERE	MENU_CD = #{MENU_CD} 
 		AND MENU_CATE = #{MENU_CATE}

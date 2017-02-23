@@ -77,37 +77,6 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 	}
 	
 	
-	//조건에 따라 코드 분류 리스트를 가져온다.  
-	/*$scope.selectCdCtgrzList = function() {
-		var dataObj = {};
-		var paramDataObj = {};
-		addDataObj(jQuery, paramDataObj, "SVC_ID", "getCdCtgrzList");		//코드 분류 리스트를 가져온다.
-		
-		addDataObj(jQuery, paramDataObj, "searchCdCtgrz", $scope.input_CdCtgrz);
-		
-		
-		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-
-		var afterSuccessFunc = function(returnData) {
-			exceptionHandler(returnData.RESULT, "마스터코드", "N");
-			
-			var gridData= cdToNmOfGridData(returnData.do_masterCd);//Cd를 Name형식으로 변환
-				
-			var gridData = returnData.cdCtgrz_do;
-			
-			hshelper_CdCtgrz.setData(gridData);
-			
-			$scope.page_CdCtgrz.totalItems = returnData.VARIABLE_MAP.masterCnt;
-			
-			hshelper_CdCtgrz.selectCell(0, 1);
-			
-			//current_mastr_cd = returnData.do_masterCd[0].MASTR_CD;
-			//$scope.selectDetailBasisCdList(current_mastr_cd);
-		};
-		
-		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
-	}*/
-	
 	$scope.selectCdList = function(cdCtgrz) {
 		
 		if(typeof(cdCtgrz)=='undefined') {
@@ -146,21 +115,21 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["No.",		"*코드분류",		"*한글명",	"*영문명", "*한글약어",
+		metaData.colHeaders 		= ["선택", "No.",		"*코드분류",		"*한글명",	"*영문명", "*한글약어",
 		                    		   "*영문약어",	"*사용여부"];
-		metaData.colWidths 			= [40, 		80, 	80,		80,		80,
+		metaData.colWidths 			= [42, 40, 		80, 	80,		80,		80,
 		                   			   80,		80];
 		metaData.columns 			= [
+		                 			   {data: "CHK", type: "checkbox", readOnly:false},
 			   						   {data: "RNK",			type: "textCenter", readOnly: true},
 		                 			   {data: "CD_CTGRZ",	 	type: "textCenter", readOnly: false, validator: /[a-zA-Z0-9]/g}, 
 		                 			   {data: "CTGRZ_KRN_NM", 	type: "text",		readOnly: false}, 
 		                 			   {data: "CTGRZ_ENG_NM",	type: "text",		readOnly: false},
 		                 			   {data: "CTGRZ_KRN_ABRVN",type: "text",		readOnly: false},
 		                 			   {data: "CTGRZ_ENG_ABRVN",type: "text",		readOnly: false},
-		                 			   {data: "SEQ_USE_YN", 	type: 'autocompleteCenter',
-	                 				    source: use_yn_source,
-	                 				    strinct: false,
-	                 				    filter: false,
+		                 			   {data: "SEQ_USE_YN", 	type: "autocomplete",
+		                 				source: ['Y', 'N'], 
+		                 				strict: false,
 	                 				    readOnly: false}
 		                 			   ];
 		metaData.pkColumns			= ["CD_CTGRZ"];
@@ -169,9 +138,9 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		//코드 분류 선택시 Callback
 		metaData.afterSelectionEndCallback = function(hsi, row, column, erow, ecolumn) {
-			if (hsi.getCellMeta(row, column).prop == "CD_CTGRZ" || 
+/*			if (hsi.getCellMeta(row, column).prop == "CD_CTGRZ" || 
 				hsi.getCellMeta(row, column).prop == "CTGRZ_KRN_NM" || 
-				hsi.getCellMeta(row, column).prop == "CTGRZ_ENG_NM") {
+				hsi.getCellMeta(row, column).prop == "CTGRZ_ENG_NM") {*/
 			
 				//sort index
 				var selRow = row;
@@ -182,24 +151,34 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 					}
 				}
 				
+				//현재 선택된 행이 추가된 행이 아닐경우..
 				if(hshelper_CdCtgrz.getHsGridData()[selRow].ROW_STATUS != 'I') {
 					//코드 분류 값 클릭시 코드 값을 조회한다.
 					console.log(">>>>>CdCtgrz selected... selRow : " + selRow);
 					$scope.page_Cd.currentPage = 1;
 					current_cdCtgrz = hshelper_CdCtgrz.getHsGridData()[selRow].CD_CTGRZ;
 					$scope.selectCdList(current_cdCtgrz);
+					//다른 행들의 CHK값을 없앤다.
+					
+					for(var i in hshelper_CdCtgrz.getHsGridData()){
+						hshelper_CdCtgrz.getHsGridData()[i].CHK = false;
+					}
+					
+					hshelper_CdCtgrz.getHsGridData()[selRow].CHK = true;
+					
 				} else {
+					//현재 선택된 행이 추가된 행이면, 코드 리스트를 초기화 시킨다.
 					$scope.page_Cd.totalItems = 0;
 					hshelper_cd.init();
 					hshelper_cd.setData();
 				}
 			}
 			
-		}
+		//}
 		//cell selection process
-		metaData.afterOnCellMouseDownCallback = function(hsi, row, column, erow, ecolumn) {
+/*		metaData.afterOnCellMouseDownCallback = function(hsi, row, column, erow, ecolumn) {
 			setCurrentGrid("CD_CTGRZ");
-		}
+		}*/
 		
 		//테이블 생성 
 		hshelper_CdCtgrz = new HandsontableHelper(hsc_ins, metaData);
@@ -225,11 +204,12 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["No.",	"*코드", "*한글명", "*영문명", "*한글약어", 
+		metaData.colHeaders 		= ["선택", "No.",	"*코드", "*한글명", "*영문명", "*한글약어", 
 		                    		   "*영문약어", "비고"];
-		metaData.colWidths 			= [40,	 80,	240,	240,	80,  
+		metaData.colWidths 			= [42, 40,	 80,	240,	240,	80,  
 		                   			   80,	 80];
 		metaData.columns 			= [
+		                 			   {data: "CHK", type: "checkbox", readOnly:false},
 			   						   {data: "RNK", 			type: "textCenter", 		readOnly: true},
 		                 			   {data: "CD", 			type: "textCenter",			readOnly: false}, 
 		                 			   {data: "CD_KRN_NM", 		type: "textCenter", 		readOnly: false},
@@ -243,7 +223,11 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		metaData.rowHeaders 		= false;
 		
 		metaData.afterSelectionEndCallback = function(hsi, row, column, erow, ecolumn) {
+			for(var i in hshelper_cd.getHsGridData()){
+				hshelper_cd.getHsGridData()[i].CHK = false;
+			}
 			
+			hshelper_cd.getHsGridData()[row].CHK = true;
 			setCurrentGrid("CD");
 		}
 
@@ -253,7 +237,6 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 	}
 	
 	$scope.addCdCtgrz = function() {
-		console.log(">>>>>>>adCdCtgrz");
 		if (hshelper_CdCtgrz == undefined) {
 			bootbox.alert("추가할 테이블이 없습니다.");
 			return false;
@@ -399,7 +382,6 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		}
 		
 		var delRow = hshelper_cd.delrow();
-		console.log("delRow : " + delRow);
 		//hshelper_lowerMenu.selectCell(delRow);
 	}
 	
@@ -408,7 +390,6 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 	$scope.saveBasisCd = function() {
 		
 		//코드 분류 부터.. 테스트
-		console.log(">>>>SaveBasisCd");
 		if(currentGrid.CD_CTGRZ == true && currentGrid.CD == false){
 			$scope.saveCdCtgrz();
 		}else if(currentGrid.CD_CTGRZ == false && currentGrid.CD == true){		
@@ -443,31 +424,22 @@ app.controller('ctr_basisCd', function($scope, $http, $document, $window, $q) {
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
 	
-	/**
-	 * <ul>
-	 * <li>2016.09.29</li>
-	 * <li>ckim</li>
-	 * <li>function name: setCdCtgrzList</li>
-	 * <li>function description: 건색조건을 selectbox로 만들어준다</li>
-	 * </ul>
-	 * 
-	 * @param returnData
-	 * @return: none
-	 */
+
 	function setCdCtgrzList(returnData){
 
 		var resultData = returnData.cdCtgrz_do;
 		$scope.page_CdCtgrz.totalItems = returnData.VARIABLE_MAP.cdCtgrzCnt; 
 		
-		setCdCtgrzGrid("Y");
-		setCdGrid("Y");
+		var use_yn_source = ['Y', 'N'];
+		
+		setCdCtgrzGrid(use_yn_source);
+		setCdGrid(use_yn_source);
 		hshelper_CdCtgrz.setData(resultData);
 		
 	}	
 	
 	function setCurrentGrid(grid)
 	{
-		console.log(">>>setCurrentGrid : " + grid);
 		if(grid == "CD_CTGRZ"){
 			currentGrid.CD_CTGRZ = true;
 			currentGrid.CD = false;
