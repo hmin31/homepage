@@ -166,15 +166,6 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 		return $sce.trustAsHtml(htmlCode);
 	};
 	
-	$scope.previewClick = function() {
-		$("#modal-content-preview,#modal-background2").toggleClass("active");
-		$("#modal-content-preview,#modal-background2").draggable();
-		
-		var htmlVar = $('#homepage_ntce').summernote('code');
-		$scope.thisCanBeusedInsideNgBindHtml = htmlVar;
-		$scope.renderHtml($scope.thisCanBeusedInsideNgBindHtml);
-	}
-	
 	function uploadImage(image) {
 		var data = new FormData();
 		data.append("image", image);
@@ -198,7 +189,6 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 	$("#modal-background, #modal-background2, #modal-close, #modal-close2, #modal-close3").click(
 		function() {
 			$("#modal-content,#modal-background").toggleClass("active");
-			//$("#modal-content-preview,#modal-background2").toggleClass("active");
 		}
 	);
 	
