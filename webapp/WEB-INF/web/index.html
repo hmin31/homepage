@@ -17,6 +17,33 @@
 
 <script src="/resources/js/index.js"></script>
 
+<script>
+(function($){
+	
+	$('.page-scroll a').bind('click', function(e){
+		var anchor = $(this);
+		$('html, body').stop().animate({
+			scrollTop: $(anchor.attr('href')).offset().top
+		}, 1000);
+		e.preventDefault();
+	});
+	
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 100) {
+			$('.scroll-up').fadeIn();
+		} else {
+			$('.scroll-up').fadeOut();
+		}
+	});
+	
+	$('a[href="#totop"]').click(function() {
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+		return false;
+	});
+	
+});(jQuery);
+</script>
+
 <!-- HTML5 shim and Respond.js IE8 support resources/js/HTML5 elements and media queries -->
 <!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -29,7 +56,7 @@
 
 <body ng-app="app_index" ng-controller="ctr_index" ng-cloak>
 
-	<div class="navbar-wrapper" style="height: 51px;"">
+	<div class="navbar-wrapper" style="height: 51px;"">	
 		<div class="hist-affix affix" data-spy="affix" data-offset-top="79">
 
 			<nav class="navbar navbar-default navbar-hist">
@@ -39,20 +66,47 @@
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#"><img src="/resources/image/ci1.png" width="120" height="20" style="margin-right: 15px;"></a>
+						<a class="navbar-brand" href="#home"><img src="/resources/image/ci1.png" width="120" height="20" style="margin-right: 15px;"></a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
+						<ul class="nav navbar-nav" >
 							<li class="active">
-							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}">{{hi_menu.MENU_KRN_NM}}</a>
-								<ul class="dropdown-menu" style="background-color: #a3b4c0;">
-									<li ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} "><a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a></li>
-								</ul></li>
+							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}">
+									{{hi_menu.MENU_KRN_NM}}
+								</a>
+								<style scoped>
+									.test-margin {
+										
+									}
+									@media (max-width: 768px) {
+									    .test-margin {
+									    	margin-left: 0px !important;
+									    }
+									}
+									</style>
+								<ul class="dropdown-menu test-margin" style="background-color: rgba(255, 255, 255, 0.9);  
+									padding-top: 30px; margin-top: 0px; 
+									margin-left: -{{50 + (120 * ($index + 1))}}px;
+									">
+									<li class="has-children hidden-xs" style="margin-left: 100px;">
+										<h4>{{hi_menu.MENU_KRN_NM}}</h4>
+									</li>
+									<li class="has-children" >
+										<ul ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} ">
+											<a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a>
+										</ul>
+									</li>
+								</ul>
+							
+							</li>
 
 						</ul>
 					</div>
+					
+					
 					<!-- /.navbar-collapse -->
 				</div>
 				<!-- /.container-fluid -->
@@ -62,120 +116,124 @@
 	</div>
 
 	<!-- slide wrapper -->
-	<div id="view-main" class="view">
-		<div class="view-inner">
-			<div div class="image_main" style="text-align: center;">
-				<div class="" style="overflow: hidden;">
-					<div class="" style="position: relative; height: 100vh;">
-						<div ng-bind-html="renderHtml(mainContents)"></div>
+	<section id="home" class="module">
+		<div id="view-main" class="view">
+			<div class="view-inner">
+				<div div class="image_main" style="text-align: center;">
+					<div class="" style="overflow: hidden;">
+						<div class="" style="position: relative; height: 100vh;">
+							<div ng-bind-html="renderHtml(mainContents)"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
+	
 
 	<!-- 1starea -->
-
-	<div class="boxset">
-		<div class="container">
-			<div class="container section-title ">
-				<h2>사업소개 반복페이지, 그럴싸한 타이틀멘트</h2>
-				<p>주요사업내용 변경가능, 6개선에서 진행되면 좋으나 홀수로 진행시 미디어쿼리 수정필요</p>
-			</div>
-			<div class="row " style="margin-top: 30px;">
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="" /resources/image//b01.png" alt="Consulting" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">Consulting</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+	<section id="biz" class="module">
+		<div class="boxset">
+			<div class="container">
+				<div class="container section-title ">
+					<h2>사업소개 반복페이지, 그럴싸한 타이틀멘트</h2>
+					<p>주요사업내용 변경가능, 6개선에서 진행되면 좋으나 홀수로 진행시 미디어쿼리 수정필요</p>
+				</div>
+				<div class="row " style="margin-top: 30px;">
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="" /resources/image//b01.png" alt="Consulting" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">Consulting</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="/resources/image/b02.png" alt="IT Solution & System" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">IT Solution & System</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="/resources/image/b02.png" alt="IT Solution & System" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">IT Solution & System</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="/resources/image/b03.png" alt="IT Service" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">IT Service</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="/resources/image/b03.png" alt="IT Service" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">IT Service</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="/resources/image/b04.png" alt="IT Outsourcing" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">IT Outsourcing</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="/resources/image/b04.png" alt="IT Outsourcing" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">IT Outsourcing</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="/resources/image/b05.png" alt="IT Convergence" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">IT Convergence</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="/resources/image/b05.png" alt="IT Convergence" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">IT Convergence</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="row form-group">
-						<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-							<img src="/resources/image/b06.png" alt="Contact Center" style="max-width: 100%; max-height: 100%">
-						</div>
-						<div class="col-md-8 col-xs-8">
-							<div class="media-body">
-								<h4 class="media-heading">
-									<a href="//">Contact Center</a>
-								</h4>
-								<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+					<div class="col-md-4">
+						<div class="row form-group">
+							<div class="media-img col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+								<img src="/resources/image/b06.png" alt="Contact Center" style="max-width: 100%; max-height: 100%">
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="//">Contact Center</a>
+									</h4>
+									<p class="hidden-xs">What is Riot Design, our clients and specialties.</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- 2ndarea -->
 

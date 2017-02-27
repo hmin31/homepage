@@ -113,8 +113,6 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 	};
 	
 	$document.ready(function() {
-		console.log("main document ready!");
-		
 		$scope.selectMenuList();
 	});	
 	

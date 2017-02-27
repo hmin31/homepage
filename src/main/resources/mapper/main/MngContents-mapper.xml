@@ -7,6 +7,8 @@
 				,MENU_KRN_NM 	AS name
 		FROM 	HIST_MENU 
 		WHERE  	MENU_CATE  = 'F'
+		AND 	USE_YN = 'Y'
+    	AND 	DLT_YN = 'N'
 	</select>
 
 	<select id="getContentsDtls" resultType="string" >
