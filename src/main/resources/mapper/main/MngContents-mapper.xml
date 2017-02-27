@@ -26,9 +26,10 @@
 	
 	<select id="getContentsDtlsHstList" resultType="java.util.HashMap">
 		SELECT	CTN_SEQ		AS CODE
-				,TO_CHAR(RGST_DTIM, 'yyyy-mm-dd HH:mi:ss') AS NAME
+				,TO_CHAR(RGST_DTIM, 'yyyy-mm-dd HH24:mi:ss') AS NAME
 		FROM 	HIST_CTN_HST 
 		WHERE  	MENU_CD = #{MENU_CD}
+		ORDER BY RGST_DTIM DESC
 	</select>
 	
 	<insert id="insertContentsDtls">
