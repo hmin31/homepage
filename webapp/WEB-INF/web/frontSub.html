@@ -1,0 +1,77 @@
+<div id="about-main" class="view">
+	<div class="view-inner">
+		<div div class="image_main" style="text-align: center;">
+			<div class="" style="overflow: hidden;">
+				<div class="" style="position: relative; height: 500px;">
+					<div class="about_img_class" style="position: absolute; top: 0px;">
+						<div class="inner">
+							<div class="container section-title ">
+								<h2 style="color: #008cbf;">공지사항</h2>
+								<p>한진정보통신에서 알려드리는 공지사항</p>
+							</div>
+							<div class="boardArea">
+								<div class="searchArea search02">
+									<select title="공지사항 구분" name="SEARCH_GBN" id="SEARCH_GBN">
+										<option value="all">전체</option>
+										<option value="SUBJECT">제목</option>
+										<option value="CONTENTS">내용</option>
+									</select> <input type="text" title="검색어 입력" name="SEARCH_VALUE" id="SEARCH_VALUE" value="">
+									<button type="button" class="btnSearch" id="SearchBtn">검색</button>
+								</div>
+
+								<table class="tblList accout" summary="">
+									<colgroup>
+										<col style="width: 9.248%;">
+										<col style="width: *%">
+										<col style="width: 15.227%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col" class="thNum">번호</th>
+											<th scope="col">제목</th>
+											<th scope="col">등록일</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<tr>
+											<td class="num">2</td>
+											<td class="subject"><a href="222">공지샘플내용0002 </a></td>
+											<td class="date">3/1/2017</td>
+										</tr>
+
+										<tr>
+											<td class="num">1</td>
+											<td class="subject"><a href="111">공지샘플내용0001</a></td>
+											<td class="date">3/1/2017</td>
+										</tr>
+
+									</tbody>
+								</table>
+								<!-- paginate -->
+								<div class="paginate" id="PagingList">
+									<a href="javascript:;" class="first">맨처음목록</a> <a href="javascript:;" class="prev">이전목록</a> <a href="/kor/customer/notice.asp?Page=1&amp;page_count=&amp;SEARCH_GBN=&amp;SEARCH_VALUE=" onclick="setLocation({Page:1, params:'page_count=&amp;SEARCH_GBN=&amp;SEARCH_VALUE='}); return false;" class="current">1</a> <a href="javascript:;" class="next">다음목록</a> <a href="javascript:;" class="last">마지막 목록</a>
+								</div>
+								<script type="text/javascript">
+									var pars = "page_count=&SEARCH_GBN=&SEARCH_VALUE=";
+									var html = setPage({
+										PageSize : "10",
+										Page : "1",
+										TotalCount : "2",
+										btnPrev10 : "/images/admin/btn/prev_first.png",
+										btnPrev : "/images/admin/btn/prev.png",
+										btnNext : "/images/admin/btn/next.png",
+										btnNext10 : "/images/admin/btn/next_end.png",
+										params : "page_count=&SEARCH_GBN=&SEARCH_VALUE="
+									});
+									$("#PagingList").html(html);
+								</script>
+								<!-- //paginate -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

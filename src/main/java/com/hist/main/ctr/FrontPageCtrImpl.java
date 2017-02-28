@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.frw.dto.IListData;
 import com.frw.dto.ListDataImpl;
@@ -32,6 +33,17 @@ public class FrontPageCtrImpl {
 	@Resource
 	private JsonDataHandlerImpl jsonDataHandlerImpl;
 
+	@RequestMapping(value = "/frontMain.do", method = RequestMethod.GET)
+	public ModelAndView getFrontMainView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
+		return new ModelAndView("frontMain");
+	}
+	
+	@RequestMapping(value = "/frontSub.do", method = RequestMethod.GET)
+	public ModelAndView getFrontSubView(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
+		log.debug("view parameter is ");
+		return new ModelAndView("frontSub");
+	}	
+	
 	@RequestMapping(value = "/frontPage.do", method = RequestMethod.POST)
 	public void doPost(@RequestBody(required = false) HashMap<String, Object> reqBodyMap, HttpServletRequest req,
 			HttpServletResponse res, BindingResult bindingResult) throws Exception {
@@ -47,6 +59,7 @@ public class FrontPageCtrImpl {
 			resultListData = frontPageSvcImpl.getMenuList(paramMap);
 		} else if ("getAllFrontPageContents".equals(svc_id)) {
 			resultListData = frontPageSvcImpl.getAllFrontPageContents(paramMap);
+		
 		}
 		
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);
