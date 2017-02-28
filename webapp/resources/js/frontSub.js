@@ -21,6 +21,15 @@ app.controller('ctr_frontSub', [ '$scope', '$http', '$document', '$window', '$q'
 			exceptionHandler(returnData.RESULT, "", "N");
 			$scope.subTitleContents = returnData.VARIABLE_MAP.mainContents || '';
 			$scope.grid_title = returnData.VARIABLE_MAP.MENU_KRN_NM || '';
+			$scope.BLTN_CRET_YN = returnData.VARIABLE_MAP.BLTN_CRET_YN;
+			$scope.CNT_CRET_YN = returnData.VARIABLE_MAP.CNT_CRET_YN;
+			
+			if($scope.BLTN_CRET_YN === 'Y') {
+				$scope.ntce_do = returnData.ntce_do;
+			}
+			if($scope.CNT_CRET_YN === 'Y') {
+				$scope.subContents = returnData.VARIABLE_MAP.subContents || '';
+			}
 			
 		};
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);

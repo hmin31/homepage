@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.frw.dto.IListData;
 import com.frw.dto.ListDataImpl;
 import com.frw.svc.BizServiceImpl;
+import com.hist.content.dao.MngNtceDaoImpl;
 import com.hist.main.dao.FrontPageDaoImpl;
 import com.hist.main.dao.MngContentsDaoImpl;
 
@@ -20,6 +21,9 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 	@Autowired
 	private FrontPageDaoImpl frontPageDaoImpl;
 
+	@Autowired
+	private MngNtceDaoImpl mngNtceDaoImpl;
+	
 	@Autowired
 	private MngContentsDaoImpl mngContentsDaoImpl;
 	
@@ -76,6 +80,16 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		resultListData.addVariable("CNT_CRET_YN", String.valueOf(returnMap.get("CNT_CRET_YN")));
 		resultListData.addVariable("MENU_KRN_NM", String.valueOf(returnMap.get("MENU_KRN_NM")));
 		
+		if("Y".equals(String.valueOf(returnMap.get("BLTN_CRET_YN")))) {
+			customedParamMap.put("srchMenuCd", customedParamMap.get("MENU_CD"));
+			List ntceList = mngNtceDaoImpl.selectNtceList(customedParamMap);
+			resultListData.setDataList("ntce_do", ntceList);
+		}
+		if("Y".equals(String.valueOf(returnMap.get("CNT_CRET_YN")))) {
+			String subContents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+			resultListData.addVariable("subContents", subContents);
+		}
+		
 		String subTitleMenuCd = mngContentsDaoImpl.getSubTitleMenuCd(customedParamMap);
 		customedParamMap.put("MENU_CD", subTitleMenuCd);
 		
@@ -84,8 +98,6 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		
 		return resultListData;
 	}
-	
-	
 	
 
 }

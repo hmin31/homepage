@@ -3,7 +3,7 @@
 	<div ng-bind-html="renderHtml(subTitleContents)"></div>
 </section>
 
-<div id="about-main" class="view">
+<div id="about-main" class="view" ng-show="BLTN_CRET_YN == 'Y'">
 	<div class="view-inner">
 		<div div class="image_main" style="text-align: center;">
 			<div class="" style="overflow: hidden;">
@@ -28,7 +28,7 @@
 									<colgroup>
 										<col style="width: 9.248%;">
 										<col style="width: *%">
-										<col style="width: 15.227%;">
+										<col style="width: 20.227%;">
 									</colgroup>
 									<thead>
 										<tr>
@@ -38,19 +38,11 @@
 										</tr>
 									</thead>
 									<tbody>
-
-										<tr>
-											<td class="num">2</td>
-											<td class="subject"><a href="222">공지샘플내용0002 </a></td>
-											<td class="date">3/1/2017</td>
+										<tr ng-repeat="item in ntce_do" >
+											<td class="num">{{item.BLTN_NUM}}</td>
+											<td class="subject"><a href="222">{{item.TITL}}</a></td>
+											<td class="date">{{item.RGST_DTIM}}</td>
 										</tr>
-
-										<tr>
-											<td class="num">1</td>
-											<td class="subject"><a href="111">공지샘플내용0001</a></td>
-											<td class="date">3/1/2017</td>
-										</tr>
-
 									</tbody>
 								</table>
 							</div>
@@ -60,4 +52,7 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div id="about-main" class="view" ng-show="CNT_CRET_YN == 'Y'">
+	<div ng-bind-html="renderHtml(subContents)"></div>
 </div>

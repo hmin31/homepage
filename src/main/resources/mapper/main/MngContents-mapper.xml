@@ -9,6 +9,7 @@
 		WHERE  	MENU_CATE  = 'F'
 		AND 	USE_YN = 'Y'
     	AND 	DLT_YN = 'N'
+    	AND		CNT_CRET_YN = 'Y'
 	</select>
 
 	<select id="getContentsDtls" resultType="string" >
