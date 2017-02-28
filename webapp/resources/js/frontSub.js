@@ -20,6 +20,8 @@ app.controller('ctr_frontSub', [ '$scope', '$http', '$document', '$window', '$q'
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "", "N");
 			$scope.subTitleContents = returnData.VARIABLE_MAP.mainContents || '';
+			$scope.grid_title = returnData.VARIABLE_MAP.MENU_KRN_NM || '';
+			
 		};
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 
@@ -31,6 +33,7 @@ app.controller('ctr_frontSub', [ '$scope', '$http', '$document', '$window', '$q'
 	
 	$scope.init = function () {
 		$scope.getAllFrontPageContents();
+		
 	};
 	
 } ]);

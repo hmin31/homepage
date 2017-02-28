@@ -69,6 +69,12 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		customedParamMap.putAll((Map<? extends String, ? extends Object>) paramMap);
 		
 		IListData resultListData = new ListDataImpl();
+
+		List returnList = mngContentsDaoImpl.getMenuCotain(customedParamMap);
+		Map returnMap = (Map) returnList.get(0);
+		resultListData.addVariable("BLTN_CRET_YN", String.valueOf(returnMap.get("BLTN_CRET_YN")));
+		resultListData.addVariable("CNT_CRET_YN", String.valueOf(returnMap.get("CNT_CRET_YN")));
+		resultListData.addVariable("MENU_KRN_NM", String.valueOf(returnMap.get("MENU_KRN_NM")));
 		
 		String subTitleMenuCd = mngContentsDaoImpl.getSubTitleMenuCd(customedParamMap);
 		customedParamMap.put("MENU_CD", subTitleMenuCd);
