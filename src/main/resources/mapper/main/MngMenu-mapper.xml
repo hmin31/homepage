@@ -98,8 +98,8 @@
 			    RGST_DTIM,
 			    CORCT_EMP_NUM,
 			    CORCT_DTIM,
-			    BLTN_CRET_YN,
-			    CNT_CRET_YN,
+			    BLTN_CRET_YN || ':' || CM_HISTCDKRNNM_FUNC(BLTN_CRET_YN) AS BLTN_CRET_YN,
+			    CNT_CRET_YN || ':' || CM_HISTCDKRNNM_FUNC(CNT_CRET_YN) AS CNT_CRET_YN,
 		        RANK() OVER (ORDER BY MENU_SEQ, MENU_CD) RNK
 		FROM 	HIST_MENU
 		<where>
@@ -189,8 +189,8 @@
 			</if>
 			SYSDATE,
 			SYSDATE,
-			#{BLTN_CRET_YN},
-			#{CNT_CRET_YN}
+			substr(#{BLTN_CRET_YN}, 0, instr(#{BLTN_CRET_YN}, ':') - 1),
+			substr(#{CNT_CRET_YN}, 0, instr(#{CNT_CRET_YN}, ':') - 1)
 			
 		)
 	</insert>
@@ -218,8 +218,8 @@
 				CORCT_DTIM = SYSDATE,
 		</if>
 		DLT_YN = #{DLT_YN},
-		BLTN_CRET_YN 	= 	#{BLTN_CRET_YN},
-		CNT_CRET_YN 	= 	#{CNT_CRET_YN}
+		BLTN_CRET_YN 	= 	substr(#{BLTN_CRET_YN}, 0, instr(#{BLTN_CRET_YN}, ':') - 1),
+		CNT_CRET_YN 	= 	substr(#{CNT_CRET_YN}, 0, instr(#{CNT_CRET_YN}, ':') - 1)
 		
 		WHERE	MENU_CD = #{MENU_CD} 
 		AND MENU_CATE = #{MENU_CATE}
