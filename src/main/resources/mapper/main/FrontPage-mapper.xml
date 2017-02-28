@@ -15,6 +15,7 @@
 		<foreach item="hi_menu_cd" index="index" collection="hi_menu_cds" open="(" close=")" separator=",">
 			#{hi_menu_cd}
 		</foreach>
+		ORDER BY MENU_SEQ 
 	</select>
 
 </mapper>
