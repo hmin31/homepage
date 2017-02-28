@@ -53,7 +53,6 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 
 		Map<String, Object> customedParamMap = new HashMap<String, Object>();
 		customedParamMap.putAll((Map<? extends String, ? extends Object>) paramMap);
-		customedParamMap.put("MENU_CD", "AL0000000");
 		
 		IListData resultListData = new ListDataImpl();
 		
@@ -62,6 +61,25 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		
 		return resultListData;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public IListData getFrontSubTitleContents(Map<?, ?> paramMap) throws Exception {
+
+		Map<String, Object> customedParamMap = new HashMap<String, Object>();
+		customedParamMap.putAll((Map<? extends String, ? extends Object>) paramMap);
+		
+		IListData resultListData = new ListDataImpl();
+		
+		String subTitleMenuCd = mngContentsDaoImpl.getSubTitleMenuCd(customedParamMap);
+		customedParamMap.put("MENU_CD", subTitleMenuCd);
+		
+		String mainContents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("mainContents", mainContents);
+		
+		return resultListData;
+	}
+	
+	
 	
 
 }

@@ -23,6 +23,13 @@
 		WHERE  	MENU_CD = #{MENU_CD}
 		AND		CTN_SEQ = #{CTN_SEQ}
 	</select>	
+		
+	<select id="getSubTitleMenuCd" resultType="string">
+		SELECT  HI_MENU_CD
+		FROM 	HIST_MENU MENU
+		WHERE 	MENU_CD = #{MENU_CD}
+		AND		MENU_CATE = 'F'
+	</select>
 	
 	<select id="getContentsDtlsHstList" resultType="java.util.HashMap">
 		SELECT	CTN_SEQ		AS CODE

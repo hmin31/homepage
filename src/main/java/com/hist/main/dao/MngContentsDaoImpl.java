@@ -22,6 +22,10 @@ public class MngContentsDaoImpl extends MybatisBizDaoImpl {
 		return queryForStr(nameSpace + ".getContentsDtls", parameterMap);
 	}
 	
+	public String getSubTitleMenuCd(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".getSubTitleMenuCd", parameterMap);
+	}
+	
 	public List<?> getContentsDtlsHstList(Map<?, ?> parameterMap) throws Exception {
 		return queryForList(nameSpace + ".getContentsDtlsHstList", parameterMap);
 	}

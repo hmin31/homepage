@@ -59,7 +59,9 @@ public class FrontPageCtrImpl {
 			resultListData = frontPageSvcImpl.getMenuList(paramMap);
 		} else if ("getAllFrontPageContents".equals(svc_id)) {
 			resultListData = frontPageSvcImpl.getAllFrontPageContents(paramMap);
-		
+		} else if ("getFrontSubTitleContents".equals(svc_id)) {
+			resultListData = frontPageSvcImpl.getFrontSubTitleContents(paramMap);
+			
 		}
 		
 		resultListData = jsonDataHandlerImpl.setSessionMenuDataToIListData(req, resultListData);

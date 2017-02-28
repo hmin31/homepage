@@ -6,7 +6,7 @@
 		SELECT 	MENU.MENU_CD
 				,HI_MENU_CD
 				,MENU_KRN_NM
-				,'#/frontSub.do?view=' || MENU_URL AS MENU_URL
+				,'#/frontSub.do?MENU_CD=' || MENU_CD AS MENU_URL
 		FROM 	HIST_MENU MENU
 		WHERE 	MENU_CATE = 'F'
 		AND 	USE_YN = 'Y'
