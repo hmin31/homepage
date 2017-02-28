@@ -48,25 +48,6 @@
 
 									</tbody>
 								</table>
-								<!-- paginate -->
-								<div class="paginate" id="PagingList">
-									<a href="javascript:;" class="first">맨처음목록</a> <a href="javascript:;" class="prev">이전목록</a> <a href="/kor/customer/notice.asp?Page=1&amp;page_count=&amp;SEARCH_GBN=&amp;SEARCH_VALUE=" onclick="setLocation({Page:1, params:'page_count=&amp;SEARCH_GBN=&amp;SEARCH_VALUE='}); return false;" class="current">1</a> <a href="javascript:;" class="next">다음목록</a> <a href="javascript:;" class="last">마지막 목록</a>
-								</div>
-								<script type="text/javascript">
-									var pars = "page_count=&SEARCH_GBN=&SEARCH_VALUE=";
-									var html = setPage({
-										PageSize : "10",
-										Page : "1",
-										TotalCount : "2",
-										btnPrev10 : "/images/admin/btn/prev_first.png",
-										btnPrev : "/images/admin/btn/prev.png",
-										btnNext : "/images/admin/btn/next.png",
-										btnNext10 : "/images/admin/btn/next_end.png",
-										params : "page_count=&SEARCH_GBN=&SEARCH_VALUE="
-									});
-									$("#PagingList").html(html);
-								</script>
-								<!-- //paginate -->
 							</div>
 						</div>
 					</div>

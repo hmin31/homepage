@@ -1,4 +1,5 @@
-app.controller('ctr_frontMain', [ '$scope', '$http', '$document', '$window', '$q', '$sce', function($scope, $http, $document, $window, $q, $sce) {
+app.controller('ctr_frontMain', [ '$scope', '$http', '$document', '$window', '$q', '$sce', 
+	function($scope, $http, $document, $window, $q, $sce) {
 
 	var ctrUrl = '/frontPage.do';
 
@@ -23,7 +24,11 @@ app.controller('ctr_frontMain', [ '$scope', '$http', '$document', '$window', '$q
 	}
 
 	$document.ready(function() {
-		$scope.getAllFrontPageContents();
+		
 	});
+	
+	$scope.init = function () {
+		$scope.getAllFrontPageContents();
+	};
 
 } ]);
