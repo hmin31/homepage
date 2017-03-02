@@ -37,4 +37,9 @@ public class MngNtceDaoImpl extends MybatisBizDaoImpl {
 	public void deleteNtce(Map<?, ?> parameterMap) throws Exception {
 		update(nameSpace + ".deleteNtce", parameterMap);
 	}
+	
+	public String selectNtceContents(Map<?, ?> parameterMap) throws Exception {
+		return queryForStr(nameSpace + ".selectNtceContents", parameterMap);
+	}
+	
 }

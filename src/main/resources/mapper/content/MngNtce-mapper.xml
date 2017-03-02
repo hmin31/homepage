@@ -34,6 +34,13 @@
 		ORDER BY BLTN_SEQ DESC
 	</select>
 	
+	<select id="selectNtceContents" resultType="String">
+		SELECT	DBMS_LOB.SUBSTR(CTN, DBMS_LOB.GETLENGTH(CTN), 1) AS CTN
+		FROM 	HIST_BLTN
+		WHERE  	MENU_CD = #{srchMenuCd, jdbcType=VARCHAR}
+		AND		BLTN_NUM = #{BLTN_NUM, jdbcType=VARCHAR}
+	</select>
+	
 	<insert id="insertNtce">
 		INSERT INTO HIST_BLTN (
         		BLTN_CD,

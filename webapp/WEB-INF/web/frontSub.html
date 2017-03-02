@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div id="about-main" class="view" ng-show="BLTN_CRET_YN == 'Y'">
-				<div class="view-inner">
+				<div class="view-inner" ng-show="!CONTENTS_BOOL">
 					<div div class="image_main" style="text-align: center;">
 						<div class="" style="overflow: hidden;">
 							<div class="" style="position: relative; height: 500px;">
@@ -42,7 +42,7 @@
 												<tbody>
 													<tr ng-repeat="item in ntce_do">
 														<td class="num">{{item.BLTN_NUM}}</td>
-														<td class="subject"><a href="222">{{item.TITL}}</a></td>
+														<td class="subject"><a ng-click="boardClick(item.BLTN_NUM)">{{item.TITL}}</a></td>
 														<td class="date">{{item.RGST_DTIM}}</td>
 													</tr>
 												</tbody>
@@ -53,6 +53,11 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="view-inner" ng-show="CONTENTS_BOOL">
+					<div ng-bind-html="renderHtml(ntceContents)">
+					</div>
+					<button type="button" class="btn btn-default" ng-click="backClick()">< back</button>
 				</div>
 			</div>
 		</div>

@@ -61,6 +61,8 @@ public class FrontPageCtrImpl {
 			resultListData = frontPageSvcImpl.getAllFrontPageContents(paramMap);
 		} else if ("getFrontSubTitleContents".equals(svc_id)) {
 			resultListData = frontPageSvcImpl.getFrontSubTitleContents(paramMap);
+		} else if ("selectNtceContents".equals(svc_id)) {
+			resultListData = frontPageSvcImpl.selectNtceContents(paramMap);
 			
 		}
 		
