@@ -38,7 +38,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="item in ntce_do" >
+										<tr ng-repeat="item in ntce_do">
 											<td class="num">{{item.BLTN_NUM}}</td>
 											<td class="subject"><a href="222">{{item.TITL}}</a></td>
 											<td class="date">{{item.RGST_DTIM}}</td>
@@ -53,6 +53,12 @@
 		</div>
 	</div>
 </div>
-<div id="about-main" class="view" ng-show="CNT_CRET_YN == 'Y'">
-	<div ng-bind-html="renderHtml(subContents)"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div id="about-main" class="view" ng-show="CNT_CRET_YN == 'Y'">
+				<div ng-bind-html="renderHtml(subContents)"></div>
+			</div>
+		</div>
+	</div>
 </div>

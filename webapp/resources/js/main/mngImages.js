@@ -53,7 +53,7 @@ app.controller('ctr_mngImages', ['$scope', '$http', '$document', '$window', '$q'
 		
 		var metaData = {};
 		metaData.colHeaders 		= ["Image ID", "Image name", "Imae extension", "Image size", "regist user", "regist date"];
-		metaData.colWidths 			= [200, 200, 80, 80, 80, 80];
+		metaData.colWidths 			= [240, 200, 80, 80, 80, 80];
 		metaData.columns 			= [
 			   						   	{data: "IMAGE_ID", type: "text", readOnly: true},
 				   					   	{data: "IMAGE_NM", type: "text", readOnly: true},
