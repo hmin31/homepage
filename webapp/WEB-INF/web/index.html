@@ -84,19 +84,21 @@
 									
 								}
 								
-								@media ( max-width : 768px) {
+								@media ( max-width : 992px) {
 									.test-margin {
 										margin-left: 0px !important;
+										width: 100%;
 									}
 								}
 								</style>
 								<ul class="dropdown-menu test-margin" style="background-color: rgba(255, 255, 255, 0.9); 
 									padding-top: 30px; margin-top: 0px; margin-left: -{{100+ (120* ($index+ 1))}}px">
-									<li class="has-children hidden-xs" style="margin-left: 100px;">
-										<h4>{{hi_menu.MENU_KRN_NM}}</h4>
+									<li class="has-children hidden-sm" >
+										<h4 style="text-align: -webkit-center;">{{hi_menu.MENU_KRN_NM}}</h4>
 									</li>
 									<li class="has-children">
-										<ul ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} ">
+										<ul ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} "
+											style="padding-left: 20px;">
 											<a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a>
 										</ul>
 									</li>

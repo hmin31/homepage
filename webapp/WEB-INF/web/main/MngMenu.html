@@ -57,14 +57,14 @@
 				<div class="col-md-4 left-grid-11st">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-4 left-grid-11st">
+							<div class="col-md-6 left-grid-11st">
 								<h5>메뉴 전체 목록</h5>
 							</div>
-  							<div class="col-md-8" style="text-align: right !important;">
-								Total Row: {{page_menu.totalItems || 0}}&nbsp;&nbsp;
+  							<div class="col-md-6" style="text-align: right !important;">
+								<h6>Total Row: {{page_menu.totalItems || 0}}&nbsp;&nbsp;
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="addMasterCd()"><i class="fa fa-plus"></i></button>
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:none;" ng-click="saveMasterCd()"><i class="fa fa-floppy-o"></i></button>
-								&nbsp;
+								&nbsp;</h6>
 							</div>  
 
 						</div>
@@ -85,10 +85,10 @@
 								<h5>하위 Menu 목록</h5>
 							</div>
 							<div class="col-md-8" style="text-align: right !important;">
-								Total Row: {{page_lowerMenu.totalItems || 0}}&nbsp;&nbsp;
+								<h6>Total Row: {{page_lowerMenu.totalItems || 0}}&nbsp;&nbsp;
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="addLowerMenu()"><i class="fa fa-plus"></i></button>
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" style="display:inline;" ng-click="deleteLowerMenu()"><i class="fa fa-minus"></i></button>
-								&nbsp;
+								&nbsp;</h6>
 							</div>
 							<!-- +/- 등록 -->
 							<!-- <div style="text-align: right !important;">

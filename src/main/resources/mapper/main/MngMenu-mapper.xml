@@ -91,7 +91,7 @@
 			    MENU_ENG_NM,
                 MENU_URL,
                 MENU_SEQ,
-			    USE_YN,  
+			    USE_YN || ':' || CM_HISTCDKRNNM_FUNC(USE_YN) AS USE_YN,
                 SYS_CTGRZ_CD,
                 DLT_YN,
                 RGST_EMP_NUM,                            
@@ -167,7 +167,7 @@
 			<if test="MENU_ENG_NM != null and MENU_ENG_NM !=''">
 				#{MENU_ENG_NM},
 			</if>
-			UPPER(#{USE_YN}),
+			substr(#{USE_YN}, 0, instr(#{USE_YN}, ':') - 1),
 			<if test="SYS_CTGRZ_CD != null and SYS_CTGRZ_CD !=''">
 				UPPER(#{SYS_CTGRZ_CD}),
 			</if>
@@ -203,8 +203,7 @@
 		MENU_ENG_NM = #{MENU_ENG_NM},
 		MENU_SEQ	= #{MENU_SEQ},
 		SYS_CTGRZ_CD = #{SYS_CTGRZ_CD},
-		
-		
+		USE_YN = substr(#{USE_YN}, 0, instr(#{USE_YN}, ':') - 1),
 		<if test="HI_MENU_CD != null">
 				HI_MENU_CD = #{HI_MENU_CD},
 		</if>

@@ -55,14 +55,8 @@
 	/*     background-color: transparent; */
 }
 
-@media ( min-width : 768px) {
-	.dropdown-menu {
-		background-color: #a3b4c0;
-		width: 100vw;
-	}
-}
 
-@media ( min-width : 992px) {
+@media ( min-width : 768px) {
 	.dropdown-menu {
 		background-color: #a3b4c0;
 		width: 100vw;

@@ -110,8 +110,8 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		metaData.colHeaders 		= ["선택", "순번",		"*Menu 코드",		"*메뉴구분",			"*Menu 영문명",	"*Menu 한글명",	
 		                    		   "URL",       "*순서",				"*게시판 사용",		"*컨텐츠 사용",	"*사용여부",
 		                    		   "상위 코드",	"*카테고리",  		"*등록자"];
-		metaData.colWidths 			= [42, 40,			80,			80,			80,			80,
-		                   			   80,      	40,			40,			40,			40,
+		metaData.colWidths 			= [42, 40,			80,			80,			160,			120,
+		                   			   120,      	40,			80,			80,			80,
 		                   			   100,			80,			80]; 
 		metaData.columns 			= [
 		                 			   {data: "CHK", type: "checkbox", readOnly:false},
@@ -317,10 +317,10 @@ app.controller('ctr_mngMenu', function($scope, $http, $document, $window, $q) {
 		if(lengthCheck(dataObj.do_lowerMenu_chg, 
 				{MENU_CD: 9, 	HI_MENU_CD: 9,		MENU_ENG_NM: 30, 	MENU_KRN_NM: 100, 
 				 MENU_URL: 500, MENU_SEQ: 3, 	
-				 USE_YN: 1, 	SYS_CTGRZ_CD: 4,	RGST_EMP_NUM:8,	MENU_CATE:9},
+				 SYS_CTGRZ_CD: 4,	RGST_EMP_NUM:8,	MENU_CATE:9},
 				["메뉴코드", 		"상위메뉴코드", 	"영문명", 		"국문명", 
 				 "메뉴URL",		"메뉴순서",
-				 "사용여부", 		"분류코드", "등록직원번호", "메뉴구분"])) {
+				 "분류코드", "등록직원번호", "메뉴구분"])) {
 			return;
 		}
 		
