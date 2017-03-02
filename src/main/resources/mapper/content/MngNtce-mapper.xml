@@ -22,7 +22,6 @@
 				BLTN_NUM,
 				BLTN_SEQ,
 				TITL,
-                DBMS_LOB.SUBSTR(CTN, DBMS_LOB.GETLENGTH(CTN), 1) AS CTN,
 				INQ_CNT,
 				USE_YN,
 				(SELECT E.EMP_NM ||' ('|| E.EMP_NUM ||')' FROM HIST_EMP E WHERE E.EMP_NUM = HIST_BLTN.RGST_EMP_NUM) AS RGST_EMP,
@@ -35,7 +34,7 @@
 	</select>
 	
 	<select id="selectNtceContents" resultType="String">
-		SELECT	DBMS_LOB.SUBSTR(CTN, DBMS_LOB.GETLENGTH(CTN), 1) AS CTN
+		SELECT	NVL(CTN, EMPTY_CLOB()) AS CTN
 		FROM 	HIST_BLTN
 		WHERE  	MENU_CD = #{srchMenuCd, jdbcType=VARCHAR}
 		AND		BLTN_NUM = #{BLTN_NUM, jdbcType=VARCHAR}
