@@ -60,8 +60,26 @@ public class FrontPageSvcImpl extends BizServiceImpl {
 		
 		IListData resultListData = new ListDataImpl();
 		
-		String mainContents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
-		resultListData.addVariable("mainContents", mainContents);
+		customedParamMap.put("MENU_CD", "AL0000000");
+		String contents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("mainContents", contents);
+		
+		customedParamMap.put("MENU_CD", "MP1000010");
+		contents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("_1stContents", contents);
+
+		customedParamMap.put("MENU_CD", "MP1000020");
+		contents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("_2ndContents", contents);
+		
+		customedParamMap.put("MENU_CD", "MP1000030");
+		contents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("_3rdContents", contents);
+		
+		customedParamMap.put("MENU_CD", "MP1000040");
+		contents = mngContentsDaoImpl.getContentsDtls(customedParamMap);
+		resultListData.addVariable("_4thContents", contents);
+			
 		
 		return resultListData;
 	}

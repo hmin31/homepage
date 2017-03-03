@@ -3,13 +3,18 @@
 <mapper namespace="mngContents">
 
 	<select id="getContentsMenu" resultType="java.util.HashMap">
-		SELECT	MENU_CD 		AS code
-				,MENU_KRN_NM 	AS name
-		FROM 	HIST_MENU 
-		WHERE  	MENU_CATE  = 'F'
-		AND 	USE_YN = 'Y'
-    	AND 	DLT_YN = 'N'
-    	AND		CNT_CRET_YN = 'Y'
+		SELECT	MENU.MENU_CD AS code
+				,CASE WHEN HI_MENU.MENU_KRN_NM IS NULL 
+        		THEN '' 
+        		ELSE '[' || HI_MENU.MENU_KRN_NM || '] '  
+        		END 
+        		|| MENU.MENU_KRN_NM AS name
+		FROM 	HIST_MENU MENU LEFT OUTER JOIN HIST_MENU HI_MENU ON MENU.HI_MENU_CD = HI_MENU.MENU_CD
+		WHERE  	MENU.MENU_CATE  = 'F'
+		AND 	MENU.USE_YN = 'Y'
+    	AND 	MENU.DLT_YN = 'N'
+    	AND		MENU.CNT_CRET_YN = 'Y'
+    	ORDER BY MENU.MENU_CD    	
 	</select>
 
 	<select id="getContentsDtls" resultType="string" >
