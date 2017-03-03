@@ -53,6 +53,7 @@ public class MngContentsCtrImpl {
 			resultListData = mngContentsSvcImpl.getContentsMenu(paramMap);
 		} else if ("getContentsDtls".equals(svc_id)) {
 			resultListData = mngContentsSvcImpl.getContentsDtls(paramMap);
+			
 		} else if ("insertContentsDtls".equals(svc_id)) {
 			mngContentsSvcImpl.insertContentsDtls(paramMap);
 		} else if ("updateContentsDtls".equals(svc_id)) {

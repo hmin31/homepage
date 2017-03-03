@@ -43,6 +43,22 @@ public class MngNtceSvcImpl extends BizServiceImpl{
 		return resultListData;
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	public IListData selectNtceContents(Map<?, ?> paramMap) throws Exception {
+
+		Map<String, Object> customedParamMap = new HashMap<String, Object>();
+		customedParamMap.putAll((Map<? extends String, ? extends Object>) paramMap);
+		customedParamMap.put("srchMenuCd", customedParamMap.get("MENU_CD"));
+		
+		IListData resultListData = new ListDataImpl();
+
+		String ntceContents = mngNtceDaoImpl.selectNtceContents(customedParamMap);
+		resultListData.addVariable("ntceContents", ntceContents);
+		
+		return resultListData;
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void saveNtce(IListData listData) throws Exception {
 		List list = listData.getDataList("layer_input");

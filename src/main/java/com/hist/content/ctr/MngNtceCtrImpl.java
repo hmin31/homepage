@@ -55,6 +55,9 @@ public class MngNtceCtrImpl {
 		} else if ("selectNtceList".equals(svc_id)) {
 			resultListData = mngNtceSvcImpl.selectNtceList(paramMap);
 			
+		} else if ("selectNtceContents".equals(svc_id)) {
+			resultListData = mngNtceSvcImpl.selectNtceContents(paramMap);
+			
 		} else if ("saveNtce".equals(svc_id)) {
 			mngNtceSvcImpl.saveNtce(listData);
 		}

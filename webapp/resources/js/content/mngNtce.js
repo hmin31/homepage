@@ -4,6 +4,8 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 	
 	var hshelper_cd;
 	
+	$scope.contentsBool = false;
+	
 	$scope.getNtceMenu = function() {
 		var dataObj = {};
 		var paramDataObj = {};
@@ -73,9 +75,6 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 			}
 			
 			if(hshelper_cd.getHsGridData()[selRow].ROW_STATUS != 'I') {
-
-				$("#modal-content,#modal-background").toggleClass("active");
-				$("#modal-content,#modal-background").draggable();
 				
 				$scope.$apply(function() {
 				
@@ -83,14 +82,9 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 					$scope.layer_input = {};
 					$scope.layer_input.ROW_STATUS="U";//Update
 					addDataMapObj(jQuery, $scope.layer_input, tempValue);
+
+					$scope.boardClick($scope.layer_input);
 					
-					$('#homepage_ntce').summernote(
-						'code', $scope.layer_input.CTN || ''
-					);
-					
-					$(".selMenuCd").attr("disabled", true);
-					/*if(readOnlyYn == false) $("#delBtn").show();*/
-					$("#delBtn").show();
 				});
 			}
 		}
@@ -100,7 +94,37 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 		hshelper_cd.setData();
 	};
 	
+	$scope.boardClick = function(curRow) {
+		
+		var dataObj = {};
+		var paramDataObj = {};
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "selectNtceContents");
+		addDataObj(jQuery, paramDataObj, "MENU_CD", curRow.MENU_CD);
+		addDataObj(jQuery, paramDataObj, "BLTN_NUM", curRow.BLTN_NUM);
+		
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		var afterSuccessFunc = function(returnData) {
+			exceptionHandler(returnData.RESULT, "", "N");
+			$scope.ntceContents = returnData.VARIABLE_MAP.ntceContents || '';
+			
+			$scope.contentsBool = true;
+			
+			$('#homepage_ntce').summernote(
+					'code', $scope.ntceContents || ''
+				);
+				
+			$(".selMenuCd").attr("disabled", true);
+			$("#delBtn").show();
+			
+		};
+		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+		
+	};
+	
 	$scope.addNtce = function() {
+		
+		$scope.contentsBool = true;
+		
 		$scope.layer_input = {};
 		$scope.layer_input.ROW_STATUS="I"; //Insert
 		
@@ -111,8 +135,6 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 		$(".selMenuCd").attr("disabled", false);
 		$("#delBtn").hide();
 		
-		$("#modal-content,#modal-background").toggleClass("active");
-		$("#modal-content,#modal-background").draggable();
 	}
 	
 	$scope.saveNtce = function() {
@@ -132,8 +154,9 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "저장", "Y");
-			$("#modal-content, #modal-background").toggleClass("active");
+			$scope.contentsBool = false;
 			$scope.selectNtceList();
+			
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
@@ -155,12 +178,16 @@ app.controller('ctr_mngNtce', function($scope, $http, $document, $window, $q) {
 
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "삭제", "Y");
-			$("#modal-content, #modal-background").toggleClass("active");
+			$scope.contentsBool = false;
 			$scope.selectNtceList();
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	};
+	
+	$scope.cancelNtce = function() {
+		$scope.contentsBool = false;
+	}
 	
 	$scope.renderHtml = function(htmlCode) {
 		return $sce.trustAsHtml(htmlCode);

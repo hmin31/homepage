@@ -27,98 +27,73 @@
 			<div class="row">
 				<div class="col-md-12 left-grid-11st">
 					<div class="container">
-						<div class="row">
+						<div class="row" ng-show="!contentsBool">
 							<div class="col-md-6 left-grid-11st">
 								<h5>게시판</h5>
 							</div>
 							<div class="col-md-6" style="text-align: right !important;">
 								Total Row: {{totalItems || 0}}&nbsp;&nbsp;
 								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" ng-click="addNtce()">
-								<i class="fa fa-plus"></i></button>
+									<i class="fa fa-plus"></i>
+								</button>
 								&nbsp;
 							</div>
 						</div>
-						<div class="row">
+						<div class="row" ng-show="!contentsBool">
 							<div class="col-md-12 left-grid-11st">
 								<div id="hst_ntce" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	
-	<div id="modal-background"></div>
-	<div id="modal-content" style="height: 730px; width: 600px !important; padding: 0px" class="popup-bg-11st">
-		<div id="headerBar" style="height: 10px; background: #586ce6; border-radius: 10px 10px 0px 0px; border: 2px solid #586ce6;"></div>
-		<div class="modal-header">
-			<button type="button" class="close" id="modal-close2" aria-label="Close">
-				<span aria-hidden="true" class="exitBtn" >&times;</span>
-			</button>
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">게시판</b>
-				</h3>
-			</div><p><p>
-		</div>
-		<div class="modal-body">
-			<div class="row" style="margin-bottom: 5px;">
-
-				<div class="col-md-12" style="padding-right: 10px;">
-					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 *</span> 
-						<select ng-model="layer_input.MENU_CD" class="form-control ng-pristine cudAuthSelect selMenuCd">
-							<option value="">-선택-</option>
-							<option value="{{item.CODE}}" ng-repeat="item in ntceMenu_do" >{{item.NAME}}</option>
-						</select>
-					</div>
-					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<div class="input-group input-group-sm" style="float: left; width: 50%;">
-							<span class="input-group-addon modalInputLabel_md popup-grid-11st">작성자</span> 
-							<input type="text" id="inp_RGST_EMP" name="inp_RGST_EMP" class="form-control ng-pristine popup-grid-radius" ng-model="layer_input.RGST_EMP" readonly>
-						</div>
-						<div class="input-group input-group-sm" style="float: right; width: 50%;">
-							<span class="input-group-addon modalInputLabel_md popup-grid-11st">작성일</span>
-							<input type="text" id="inp_RGST_DTIM" name="inp_RGST_DTIM" class="form-control ng-pristine popup-grid-radius" ng-model="layer_input.RGST_DTIM" readonly>
-						</div>
-					</div>
-					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<div class="input-group input-group-sm" style="float: left; width: 50%;">
-							<span class="input-group-addon modalInputLabel_md popup-grid-11st">게시여부 *</span> 
-							<select ng-model="layer_input.USE_YN" class="form-control ng-pristine popup-grid-radius cudAuthSelect">
-								<option value="">-선택-</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
-							</select>
-						</div>
-						<div class="input-group input-group-sm" style="float: right; width: 50%;">
-							<span class="input-group-addon modalInputLabel_md popup-grid-11st">정렬순서 *</span>
-							<input type="text" id="inp_BLTN_SEQ" name="inp_BLTN_SEQ" class="form-control ng-pristine popup-grid-radius cudAuthInput" ng-model="layer_input.BLTN_SEQ" maxlength="5" 
-								onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'>
-						</div>
-					</div>
-					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">제목 *</span>
-						<input type="text" id="inp_TITL" name="inp_TITL" class="form-control ng-pristine popup-grid-radius cudAuthInput" ng-model="layer_input.TITL" maxlength="160">
-					</div>
-					<div class="input-group input-group-sm" style="float: left; width: 99%;">
-						<span class="input-group-addon modalInputLabel_md popup-grid-11st">내용</span> 
-	 						<div class="col-md-12 left-grid-11st">
-								<div id="homepage_ntce"></div>
+						<div class="row" ng-show="contentsBool">
+							<div class="col-md-12" style="padding-right: 10px;">
+								<div class="input-group input-group-sm" style="float: left; width: 99%;">
+									<span class="input-group-addon modalInputLabel_md popup-grid-11st">메뉴 *</span> <select ng-model="layer_input.MENU_CD" class="form-control ng-pristine cudAuthSelect selMenuCd">
+										<option value="">-선택-</option>
+										<option value="{{item.CODE}}" ng-repeat="item in ntceMenu_do">{{item.NAME}}</option>
+									</select>
+								</div>
+								<div class="input-group input-group-sm" style="float: left; width: 99%;">
+									<div class="input-group input-group-sm" style="float: left; width: 50%;">
+										<span class="input-group-addon modalInputLabel_md popup-grid-11st">작성자</span> <input type="text" id="inp_RGST_EMP" name="inp_RGST_EMP" class="form-control ng-pristine popup-grid-radius" ng-model="layer_input.RGST_EMP" readonly>
+									</div>
+									<div class="input-group input-group-sm" style="float: right; width: 50%;">
+										<span class="input-group-addon modalInputLabel_md popup-grid-11st">작성일</span> <input type="text" id="inp_RGST_DTIM" name="inp_RGST_DTIM" class="form-control ng-pristine popup-grid-radius" ng-model="layer_input.RGST_DTIM" readonly>
+									</div>
+								</div>
+								<div class="input-group input-group-sm" style="float: left; width: 99%;">
+									<div class="input-group input-group-sm" style="float: left; width: 50%;">
+										<span class="input-group-addon modalInputLabel_md popup-grid-11st">게시여부 *</span> <select ng-model="layer_input.USE_YN" class="form-control ng-pristine popup-grid-radius cudAuthSelect">
+											<option value="">-선택-</option>
+											<option value="Y">Y</option>
+											<option value="N">N</option>
+										</select>
+									</div>
+									<div class="input-group input-group-sm" style="float: right; width: 50%;">
+										<span class="input-group-addon modalInputLabel_md popup-grid-11st">정렬순서 *</span> <input type="text" id="inp_BLTN_SEQ" name="inp_BLTN_SEQ" class="form-control ng-pristine popup-grid-radius cudAuthInput" ng-model="layer_input.BLTN_SEQ" maxlength="5" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode: disabled;'>
+									</div>
+								</div>
+								<div class="input-group input-group-sm" style="float: left; width: 99%;">
+									<span class="input-group-addon modalInputLabel_md popup-grid-11st">제목 *</span> <input type="text" id="inp_TITL" name="inp_TITL" class="form-control ng-pristine popup-grid-radius cudAuthInput" ng-model="layer_input.TITL" maxlength="160">
+								</div>
+								<div class="input-group input-group-sm" style="float: left; width: 99%;">
+									<span class="input-group-addon modalInputLabel_md popup-grid-11st">내용</span>
+									<div class="col-md-12 left-grid-11st">
+										<div id="homepage_ntce"></div>
+									</div>
+								</div>
 							</div>
+							<div style="height: 25px; clear: both;"></div>
+							<div style="text-align: center">
+								<button type="button" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" ng-click="saveNtce()">저장</button>
+								<button type="button" id="delBtn" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" style="display: none;" ng-click="delNtce()">삭제</button>
+								<button type="button" class="btn-f21-basic btn-1 btn-xs popup-btn-11st" id="modal-close" ng-click="cancelNtce()">취소</button>
+							</div>
+						</div>
 					</div>
-				</div>
-				
-				<div style="height: 25px; clear: both;"></div>
-				<div style="text-align: center">
-					<button type="button" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" ng-click="saveNtce()">저장</button>
-					<button type="button" id="delBtn" class="btn-f21-basic btn-1 btn-xs cudAuthCtr popup-btn-11st" style="display:none;" ng-click="delNtce()">삭제</button>
-					<button type="button" class="btn-f21-basic btn-1 btn-xs popup-btn-11st" id="modal-close">취소</button>
 				</div>
 			</div>
 		</div>
+
 	</div>
-	
+
 </div>
