@@ -235,7 +235,7 @@
 }
 
 .carousel-inner {
-	background: #EEEEF2;
+	background: #78afc3;
 }
 
 /* ==========================================================================
@@ -249,7 +249,7 @@
 }
 
 .link {
-	background: #78afc3;
+	background: #568090;
 }
 
 .link .row {
@@ -796,4 +796,8 @@ td, th {
 	.searchArea.search02 input[type=text] {
 		width: 50vw;
 	}
+}
+
+.navbar {
+    border-radius: 0px !important;
 }
