@@ -11,43 +11,48 @@
 
 					<div class="container" style="position: inherit; top: 0px;">
 						<div class="row">
-							<div class="column-md-12">
-								<div class="section-title ">
-									<h2 style="color: #008cbf;">{{grid_title}}</h2>
-									<p>한진정보통신에서 알려드리는 {{grid_title}}</p>
-								</div>
-								<div class="boardArea">
-									<div class="searchArea search02">
-										<select title="공지사항 구분" name="SEARCH_GBN" id="SEARCH_GBN">
-											<option value="all">전체</option>
-											<option value="SUBJECT">제목</option>
-											<option value="CONTENTS">내용</option>
-										</select> <input type="text" title="검색어 입력" name="SEARCH_VALUE" id="SEARCH_VALUE" value="">
-										<button type="button" class="btnSearch" id="SearchBtn">검색</button>
+							<div class="inner">
+								<div class="column-md-12">
+									<div class="sub-title">
+										<h2 style="color: #008cbf;">{{grid_title}}</h2>
+										<p>한진정보통신에서 알려드리는 {{grid_title}}</p>
 									</div>
+									<div class="boardArea">
+										<div class="searchArea search02">
+											<select title="공지사항 구분" name="SEARCH_GBN" id="SEARCH_GBN">
+												<option value="all">전체</option>
+												<option value="SUBJECT">제목</option>
+												<option value="CONTENTS">내용</option>
+											</select>
+											<input type="text" title="검색어 입력" name="SEARCH_VALUE" id="SEARCH_VALUE" value="">
+											<button type="button" class="btnSearch" id="SearchBtn" style="background-color: #57abc7;">검색</button>
+										</div>
 
-									<table class="tblList accout" summary="">
-										<colgroup>
-											<col style="width: 9.248%;">
-											<col style="width: *%">
-											<col style="width: 20.227%;">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col" class="thNum">번호</th>
-												<th scope="col">제목</th>
-												<th scope="col">등록일</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="item in ntce_do">
-												<td class="num">{{item.BLTN_NUM}}</td>
-												<td class="subject"><a ng-click="boardClick(item.BLTN_NUM)">{{item.TITL}}</a></td>
-												<td class="date">{{item.RGST_DTIM}}</td>
-											</tr>
-										</tbody>
-									</table>
-									<p>
+										<table class="tblList accout" summary="">
+											<colgroup>
+												<col style="width: 9.248%;">
+												<col style="width: *%">
+												<col style="width: 20.227%;">
+											</colgroup>
+											<thead>
+												<tr>
+													<th scope="col" class="thNum">번호</th>
+													<th scope="col">제목</th>
+													<th scope="col">등록일</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="item in ntce_do">
+													<td class="num">{{item.BLTN_NUM}}</td>
+													<td class="subject">
+														<a ng-click="boardClick(item.BLTN_NUM)">{{item.TITL}}</a>
+													</td>
+													<td class="date">{{item.RGST_DTIM}}</td>
+												</tr>
+											</tbody>
+										</table>
+										<p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -59,7 +64,7 @@
 					<div class="row">
 						<div class="column-md-12">
 							<p>
-							<div class="view-inner" >
+							<div class="view-inner">
 								<div ng-bind-html="renderHtml(ntceContents)"></div>
 								<button type="button" class="btn btn-default" ng-click="backClick()">< back</button>
 							</div>
