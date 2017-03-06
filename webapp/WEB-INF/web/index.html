@@ -77,22 +77,9 @@
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li class="active">
-							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do">
+							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do" style="position: static;">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}"> {{hi_menu.MENU_KRN_NM}} </a>
-								<style scoped>
-								.test-margin {
-									
-								}
-								
-								@media ( max-width : 992px) {
-									.test-margin {
-										margin-left: 0px !important;
-										width: 100%;
-									}
-								}
-								</style>
-								<ul class="dropdown-menu test-margin" ng-attr-style="background-color: rgba(255, 255, 255, 0.9); 
-									padding-top: 30px; margin-top: 0px; margin-left: -{{420+ (120* ($index+ 1))}}px">
+								<ul class="dropdown-menu" style="background-color: rgba(255, 255, 255, 0.9); padding-top: 30px; margin-top: 0px;">
 									<li class="has-children hidden-sm" >
 										<h4 style="text-align: center;">{{hi_menu.MENU_KRN_NM}}</h4>
 									</li>

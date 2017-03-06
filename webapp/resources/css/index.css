@@ -787,13 +787,13 @@ td, th {
 }
 
 @media ( max-width : 768px) {
-	.searchArea{
+	.searchArea {
 		padding-bottom: 15px;
 		padding-top: 15px;
 		text-align: center;
 		display: inline-block;
 	}
 	.searchArea.search02 input[type=text] {
-    width: 50vw;
-}
+		width: 50vw;
+	}
 }
