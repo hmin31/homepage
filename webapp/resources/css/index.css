@@ -807,6 +807,7 @@ td, th {
 
 .navbar {
     border-radius: 0px !important;
+    border-bottom: 1px solid #d5d5d5;
 }
 
 .has-children > ul > a {
