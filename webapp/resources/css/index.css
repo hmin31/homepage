@@ -37,15 +37,21 @@
 	border-color: rgba(255, 255, 255, 0);
 	text-align: -webkit-center;
 }
-
+/*
 .navbar-hist .navbar-nav>.open>a, .navbar-hist .navbar-nav>.open>a:hover,
-	.navbar-hist .navbar-nav>.open>a:focus { */
+	.navbar-hist .navbar-nav>.open>a:focus {
 	color: #fff;
+	background-color: #70abc1;
+}
+*/
+.navbar-hist .navbar-nav>.open>a, .navbar-hist .navbar-nav>.open>a:hover,
+	.navbar-hist .navbar-nav>.open>a:focus {
+	color: #fff !important;
 	background-color: #70abc1;
 }
 
 .navbar-hist .navbar-nav>li>a {
-	color: #51849e;
+	color: #484848;
 }
 
 .navbar-hist .navbar-nav>li>a:hover, .navbar-hist .navbar-nav>li>a:focus
@@ -54,7 +60,6 @@
 
 	/*     background-color: transparent; */
 }
-
 
 @media ( min-width : 768px) {
 	.dropdown-menu {
@@ -102,7 +107,7 @@
 	}
 	.dropdown-menu>.has-children {
 		float: left;
-		border-right: 1px solid #93c2d3;
+		border-right: 1px solid #d5d5d5;
 		height: 200px;
 		margin-right: 0.5%;
 		width: 200px;
@@ -202,7 +207,6 @@
    about
    ========================================================================== */
 .about_img_class {
-	background: url("/resources/image/biz00.jpg") center center no-repeat;
 	width: 100vw;
 	background-size: cover;
 	height: 500px;
@@ -237,7 +241,7 @@
 }
 
 .carousel-inner {
-	background: #EEEEF2;
+	background: #78afc3;
 }
 
 /* ==========================================================================
@@ -251,7 +255,7 @@
 }
 
 .link {
-	background: #78afc3;
+	background: #568090;
 }
 
 .link .row {
@@ -752,8 +756,6 @@ td, th {
 	.inner {
 		padding-right: 15px;
 		padding-left: 15px;
-		margin-right: 200px;
-		margin-left: 200px;
 	}
 }
 
@@ -766,4 +768,51 @@ td, th {
 	padding: 0;
 	border: 0;
 	font: inherit;
+}
+
+.inner {
+	margin-top: 30px;
+}
+
+.sub-title>h2 {
+	background: url("../image/titlebar.png") no-repeat left center;
+	padding-left: 15px;
+	float: left;
+}
+
+.sub-title>p {
+	margin-top: 33px;
+	padding-left: 15px;
+	float: left;
+}
+
+.boardArea {
+	padding-top: 25px;
+}
+
+@media ( max-width : 768px) {
+	.searchArea {
+		padding-bottom: 15px;
+		padding-top: 15px;
+		text-align: center;
+		display: inline-block;
+	}
+	.searchArea.search02 input[type=text] {
+		width: 50vw;
+	}
+}
+
+@media ( min-width : 768px) {
+	.navbar-nav {
+		float: inherit;
+	}
+}
+
+.navbar {
+	border-radius: 0px !important;
+	border-bottom: 1px solid #d5d5d5;
+}
+
+.has-children>ul>a {
+	color: #7d7d7d;
 }

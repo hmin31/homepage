@@ -70,35 +70,21 @@
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#"><img src="/resources/image/ci1.png" width="120" height="20" style="margin-right: 15px;"></a>
+						<a class="navbar-brand" href="#"><img src="/resources/image/ci1.png" width="120" height="24 style="margin-right: 15px;"></a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li class="active">
-							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do">
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}"> {{hi_menu.MENU_KRN_NM}} </a>
-								<style scoped>
-								.test-margin {
-									
-								}
-								
-								@media ( max-width : 992px) {
-									.test-margin {
-										margin-left: 0px !important;
-										width: 100%;
-									}
-								}
-								</style>
-								<ul class="dropdown-menu test-margin" ng-attr-style="background-color: rgba(255, 255, 255, 0.9); 
-									padding-top: 30px; margin-top: 0px; margin-left: -{{100+ (120* ($index+ 1))}}px">
+							<li class="nav-item dropdown" ng-repeat="hi_menu in hi_menu_cd_do" style="position: static;">
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-target="#{{hi_menu.MENU_CD}}" style="padding-top: 17px;"> {{hi_menu.MENU_KRN_NM}} </a>
+								<ul class="dropdown-menu" style="background-color: rgba(255, 255, 255, 0.9); padding-top: 30px; padding-bottom: 30px; margin-top: 0px; border-top: 8px solid #70abc1;">
 									<li class="has-children hidden-sm" >
 										<h4 style="text-align: center;">{{hi_menu.MENU_KRN_NM}}</h4>
 									</li>
 									<li class="has-children">
-										<ul ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD} "
-											style="padding-left: 20px;">
+										<ul ng-repeat="menu in menu_cd_do | filter: {HI_MENU_CD: hi_menu.MENU_CD}" style="padding-left: 20px; padding-top: 10px;">
 											<a ng-href="{{menu.MENU_URL}}">{{menu.MENU_KRN_NM}}</a>
 										</ul>
 									</li>
@@ -128,7 +114,7 @@
 
 	<div ng-view></div>
 
-	<div class="bottom" style="background-color: #d8e5e9;">
+	<div class="bottom" style="background-color: #e6e6e6;">
 		<div class="section-title">
 			<a class="btn btn-bttm" href="#" role="button">책임의 한계 및 법적고지</a> <a class="btn btn-bttm" href="#" role="button">이메일주소 무단수집 거부</a> <a class="btn btn-bttm" href="#" role="button">개인정보취급방침</a> <a class="btn btn-bttm" href="#" role="button">그룹웨어</a> <a class="btn btn-bttm" href="#" role="button">전자사보</a>
 		</div>
